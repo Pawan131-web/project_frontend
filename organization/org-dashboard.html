@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- ===== 1. TOP NAVIGATION BAR (SAME HEADER) ===== -->
+    <!-- ===== 1. TOP NAVIGATION BAR ===== -->
     <header class="dashboard-header">
         <div class="header-container">
             <!-- Logo -->
@@ -30,7 +30,7 @@
                 </div>
             </a>
 
-            <!-- Search Bar -->
+            <!-- Search Bar (Search Students/Skills) -->
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" class="search-bar" placeholder="Search students, skills, portfolios...">
@@ -55,13 +55,13 @@
 
                 <!-- Profile Dropdown -->
                 <div class="profile-container" id="profileDropdown">
-                    <div class="profile-avatar" id="userAvatar">GC</div>
+                    <div class="profile-avatar" id="userAvatar">TC</div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- ===== 2. QUICK NAVIGATION TABS (ORG VERSION) ===== -->
+    <!-- ===== 2. QUICK NAVIGATION TABS ===== -->
     <nav class="quick-nav">
         <div class="nav-container">
             <a href="#" class="nav-tab active" data-tab="home">
@@ -72,25 +72,25 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>Post Internship</span>
             </a>
-            <a href="view-applicants.html" class="nav-tab" data-tab="applicants">
+            <a href="view-applications.html" class="nav-tab" data-tab="applications">
+                <i class="fas fa-file-alt"></i>
+                <span>Applications</span>
+            </a>
+            <a href="browse-students.html" class="nav-tab" data-tab="browse">
                 <i class="fas fa-users"></i>
-                <span>Applicants</span>
+                <span>Talent Pool</span>
             </a>
-            <a href="internships.html" class="nav-tab" data-tab="internships">
-                <i class="fas fa-briefcase"></i>
-                <span>Internships</span>
-            </a>
-            <a href="analytics.html" class="nav-tab" data-tab="analytics">
-                <i class="fas fa-chart-bar"></i>
+            <a href="org-analytics.html" class="nav-tab" data-tab="analytics">
+                <i class="fas fa-chart-line"></i>
                 <span>Analytics</span>
             </a>
-            <a href="messages.html" class="nav-tab" data-tab="messages">
+            <a href="org-messages.html" class="nav-tab" data-tab="messages">
                 <i class="fas fa-comments"></i>
                 <span>Messages</span>
             </a>
-            <a href="company.html" class="nav-tab" data-tab="company">
-                <i class="fas fa-building"></i>
-                <span>Company</span>
+            <a href="org-settings.html" class="nav-tab" data-tab="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
             </a>
         </div>
     </nav>
@@ -100,362 +100,350 @@
         <div class="main-container">
             <!-- LEFT COLUMN - Main Feed -->
             <div class="feed-column">
-                <!-- Create Post Card (ORG VERSION) -->
+                <!-- Create Post Card (Org Announcements) -->
                 <div class="card create-post-card">
-                    <div class="post-type-selector">
-                        <button class="post-type-btn active" data-type="update">
-                            <i class="fas fa-bullhorn"></i> Company Update
-                        </button>
-                        <button class="post-type-btn" data-type="hiring">
-                            <i class="fas fa-briefcase"></i> We're Hiring!
-                        </button>
-                        <button class="post-type-btn" data-type="article">
-                            <i class="fas fa-newspaper"></i> Article
-                        </button>
-                    </div>
                     <div class="create-post-header">
-                        <div class="post-avatar" id="postAvatar">GC</div>
-                        <input type="text" class="post-input" placeholder="Share company news, internship opportunities, or industry insights...">
+                        <div class="post-avatar" id="postAvatar">TC</div>
+                        <input type="text" class="post-input" placeholder="Share company updates, hiring news, or events...">
                     </div>
                     <div class="create-post-actions">
-                        <button class="post-action-btn" data-type="photo">
-                            <i class="fas fa-image"></i> Add Media
-                        </button>
-                        <button class="post-action-btn" data-type="poll">
-                            <i class="fas fa-poll"></i> Create Poll
+                        <button class="post-action-btn" data-type="internship">
+                            <i class="fas fa-briefcase"></i> Quick Internship
                         </button>
                         <button class="post-action-btn" data-type="event">
-                            <i class="fas fa-calendar"></i> Add Event
+                            <i class="fas fa-calendar"></i> Event
+                        </button>
+                        <button class="post-action-btn" data-type="article">
+                            <i class="fas fa-newspaper"></i> Article
                         </button>
                         <button class="post-submit-btn">Post</button>
                     </div>
                 </div>
 
-                <!-- Feed Posts (ORG VERSION) -->
+                <!-- Feed Posts -->
                 <div class="feed-posts">
-                    <!-- Post 1: Hiring Announcement -->
+                    <!-- Post 1: New Internship Post -->
                     <div class="card feed-post">
                         <div class="post-header">
                             <div class="company-logo">
-                                <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=100&h=100&fit=crop" alt="Google">
+                                <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=100&h=100&fit=crop" alt="TechCorp">
                             </div>
                             <div class="post-info">
-                                <h4>Google</h4>
-                                <p>Tech Company • Mountain View, CA</p>
-                                <small>Posted 2 hours ago • 1.2k views</small>
+                                <h4>TechCorp Inc.</h4>
+                                <p>Technology • San Francisco, CA</p>
+                                <small>Posted 2 hours ago • 89 applicants</small>
                             </div>
                         </div>
                         <div class="post-content">
-                            <div class="org-post-badge">🚀 HIRING ALERT</div>
-                            <h3>Summer 2025 Internship Applications Now Open!</h3>
-                            <p>We're excited to announce that applications for Google's Summer 2025 internship program are now open! We're looking for passionate students in software engineering, product management, UX design, and data science.</p>
-                            
-                            <div class="hiring-highlight">
-                                <h5><i class="fas fa-bolt"></i> Quick Apply Positions:</h5>
-                                <div class="skills-list" style="margin: 12px 0;">
-                                    <span class="skill-tag">Software Engineer Intern</span>
-                                    <span class="skill-tag">Product Manager Intern</span>
-                                    <span class="skill-tag">UX Designer Intern</span>
-                                    <span class="skill-tag">Data Science Intern</span>
-                                </div>
-                                <p style="margin: 0; font-size: 14px; color: #38a169;"><i class="fas fa-clock"></i> Deadline: March 15, 2025</p>
-                            </div>
-                            
+                            <div class="post-badge">🚀 Hiring Now</div>
+                            <h3>Full-Stack Developer Intern - Summer 2025</h3>
+                            <p>We're looking for talented interns to join our engineering team. Work on real projects with mentorship from senior developers. Remote-friendly with stipend.</p>
                             <div class="post-tags">
-                                <span class="tag">Paid Internship</span>
-                                <span class="tag">Remote Options</span>
-                                <span class="tag">Mentorship</span>
-                                <span class="tag">Return Offer</span>
-                                <span class="tag">Global Teams</span>
+                                <span class="tag">React.js</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">Remote</span>
+                                <span class="tag">$7k/month</span>
+                            </div>
+                            <div class="skills-list">
+                                <span class="skill-tag">Required: JavaScript, Git</span>
+                                <span class="skill-tag">Preferred: AWS, Docker</span>
+                            </div>
+                            <div class="project-preview">
+                                <div class="preview-image">
+                                    <i class="fas fa-code-branch"></i>
+                                </div>
+                                <div class="preview-info">
+                                    <h5>What We Offer</h5>
+                                    <p>Mentorship, real project experience, networking events, and potential full-time offer.</p>
+                                </div>
                             </div>
                         </div>
                         <div class="post-actions">
                             <button class="action-btn like-btn" data-post-id="1">
-                                <i class="far fa-heart"></i> <span>42</span>
+                                <i class="far fa-heart"></i> <span>Like</span>
                             </button>
                             <button class="action-btn comment-btn">
-                                <i class="far fa-comment"></i> <span>18</span>
+                                <i class="far fa-comment"></i> <span>Comments</span>
                             </button>
                             <button class="action-btn share-btn">
                                 <i class="fas fa-share"></i> <span>Share</span>
                             </button>
-                            <button class="apply-btn">
-                                <i class="fas fa-external-link-alt"></i> View Applicants
+                            <button class="action-btn stats-btn">
+                                <i class="fas fa-chart-bar"></i> <span>89 Applicants</span>
+                            </button>
+                            <button class="apply-btn" style="background: #4CAF50;">
+                                <i class="fas fa-edit"></i> Edit Post
                             </button>
                         </div>
                     </div>
 
-                    <!-- Post 2: Company Update -->
+                    <!-- Post 2: Student Portfolio (Recommended) -->
                     <div class="card feed-post">
                         <div class="post-header">
-                            <div class="company-logo">
-                                <span>MS</span>
+                            <div class="student-avatar">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Alex">
                             </div>
                             <div class="post-info">
-                                <h4>Microsoft</h4>
-                                <p>Technology • Redmond, WA</p>
-                                <small>Posted 1 day ago • Company Update</small>
+                                <h4>Alex Johnson</h4>
+                                <p>Computer Science • Stanford University</p>
+                                <small>95% skill match • Portfolio updated today</small>
                             </div>
                         </div>
                         <div class="post-content">
-                            <div class="org-post-badge">🏢 COMPANY UPDATE</div>
-                            <h3>New Office Opening & Campus Recruitment Drive</h3>
-                            <p>We're excited to announce the opening of our new innovation center in Austin, TX! This expansion means more internship opportunities for students in the region.</p>
-                            
-                            <div class="company-update">
-                                <h5><i class="fas fa-map-marker-alt"></i> Campus Recruitment Schedule:</h5>
-                                <p style="margin: 8px 0 0 0; font-size: 14px;">
-                                    <strong>UT Austin:</strong> Feb 10-12, 2025<br>
-                                    <strong>Texas A&M:</strong> Feb 15-17, 2025<br>
-                                    <strong>Rice University:</strong> Feb 20-22, 2025
-                                </p>
-                            </div>
-                            
-                            <p>We're particularly interested in candidates with skills in cloud computing, AI, and cybersecurity. Come meet our team at career fairs!</p>
-                        </div>
-                        <div class="post-actions">
-                            <button class="action-btn like-btn active" data-post-id="2">
-                                <i class="fas fa-heart"></i> <span>89</span>
-                            </button>
-                            <button class="action-btn comment-btn">
-                                <i class="far fa-comment"></i> <span>24</span>
-                            </button>
-                            <button class="action-btn share-btn">
-                                <i class="fas fa-share"></i> <span>Share</span>
-                            </button>
-                            <button class="connect-btn">
-                                <i class="fas fa-calendar"></i> Schedule Visit
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Post 3: Skill Demand Insights -->
-                    <div class="card feed-post">
-                        <div class="post-header">
-                            <div class="company-logo">
-                                <span>AM</span>
-                            </div>
-                            <div class="post-info">
-                                <h4>Amazon</h4>
-                                <p>E-commerce & Cloud • Seattle, WA</p>
-                                <small>Posted 3 days ago • Industry Insights</small>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <div class="org-post-badge">📊 HIRING TRENDS</div>
-                            <h3>Top Skills We're Looking for in 2025</h3>
-                            <p>Based on our hiring data and future projections, here are the skills that will be most valuable for tech roles in 2025:</p>
-                            
-                            <div class="skills-list">
-                                <span class="skill-tag">AWS Cloud Services</span>
-                                <span class="skill-tag">Machine Learning</span>
-                                <span class="skill-tag">React/Next.js</span>
-                                <span class="skill-tag">DevOps</span>
-                                <span class="skill-tag">Data Engineering</span>
-                            </div>
-                            
-                            <p>Students who develop these skills now will be highly competitive for our internship and new grad positions. We're offering free AWS certification vouchers for qualified applicants!</p>
-                            
+                            <h3>🚀 Just completed a full-stack e-commerce project!</h3>
+                            <p>Built with React, Node.js, and PostgreSQL. Features include user auth, payment integration, and admin dashboard.</p>
                             <div class="project-preview">
                                 <div class="preview-image">
-                                    <i class="fas fa-graduation-cap"></i>
+                                    <i class="fas fa-shopping-cart"></i>
                                 </div>
                                 <div class="preview-info">
-                                    <h5>Free Learning Resources</h5>
-                                    <p>Check out our AWS Educate program for free cloud computing courses and $100 in AWS credits for students.</p>
+                                    <h5>E-Commerce Platform</h5>
+                                    <p>Full-featured online store with React frontend and Node.js backend. Live demo available.</p>
                                 </div>
                             </div>
+                            <div class="skills-list">
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">PostgreSQL</span>
+                                <span class="skill-tag">Stripe API</span>
+                                <span class="skill-tag">TypeScript</span>
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">GPA: 3.8/4.0</span>
+                                <span class="tag">Available: Summer 2025</span>
+                                <span class="tag">Location: Remote or SF</span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn save-btn">
+                                <i class="far fa-bookmark"></i> <span>Save Profile</span>
+                            </button>
+                            <button class="action-btn message-btn">
+                                <i class="far fa-envelope"></i> <span>Message</span>
+                            </button>
+                            <button class="action-btn view-btn">
+                                <i class="fas fa-eye"></i> <span>View Portfolio</span>
+                            </button>
+                            <button class="connect-btn" style="background: #2196F3;">
+                                <i class="fas fa-user-plus"></i> Invite to Apply
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Post 3: Industry Trends -->
+                    <div class="card feed-post">
+                        <div class="post-header">
+                            <div class="company-logo">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="post-info">
+                                <h4>SkillLaunch Insights</h4>
+                                <p>Industry Report • AI/ML Trends</p>
+                                <small>Trending in your industry</small>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-badge">📈 Market Insight</div>
+                            <h3>Top 5 Skills Students Are Learning in 2025</h3>
+                            <p>Based on platform data from 50,000+ students:</p>
+                            <div class="skills-list">
+                                <span class="skill-tag">1. AI/ML Engineering (+42%)</span>
+                                <span class="skill-tag">2. Cloud Architecture (+38%)</span>
+                                <span class="skill-tag">3. Cybersecurity (+45%)</span>
+                                <span class="skill-tag">4. DevOps (+32%)</span>
+                                <span class="skill-tag">5. React Native (+28%)</span>
+                            </div>
+                            <p>Consider these trends when designing your internship programs and skill requirements.</p>
                         </div>
                         <div class="post-actions">
                             <button class="action-btn like-btn" data-post-id="3">
-                                <i class="far fa-heart"></i> <span>156</span>
-                            </button>
-                            <button class="action-btn comment-btn">
-                                <i class="far fa-comment"></i> <span>42</span>
+                                <i class="far fa-heart"></i> <span>Helpful</span>
                             </button>
                             <button class="action-btn share-btn">
-                                <i class="fas fa-share"></i> <span>Share</span>
+                                <i class="fas fa-share"></i> <span>Share Report</span>
                             </button>
-                            <button class="connect-btn">
-                                <i class="fas fa-bookmark"></i> Save
+                            <button class="action-btn download-btn">
+                                <i class="fas fa-download"></i> <span>Download PDF</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT SIDEBAR (ORG VERSION) -->
+            <!-- RIGHT SIDEBAR -->
             <div class="sidebar-column">
-                <!-- Quick Create Internship -->
+                <!-- Quick Stats -->
                 <div class="card sidebar-card">
                     <div class="card-header">
-                        <div class="card-icon" style="background: rgba(56, 161, 105, 0.1); color: #38a169;">
-                            <i class="fas fa-plus-circle"></i>
+                        <div class="card-icon" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">
+                            <i class="fas fa-chart-pie"></i>
                         </div>
-                        <h3>Create New Internship</h3>
+                        <h3>Quick Stats</h3>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-input" placeholder="Internship Title">
-                    </div>
-                    <div class="form-group">
-                        <select class="form-select">
-                            <option>Select Department</option>
-                            <option>Engineering</option>
-                            <option>Product</option>
-                            <option>Design</option>
-                            <option>Marketing</option>
-                            <option>Data Science</option>
-                        </select>
-                    </div>
-                    <button class="card-btn" style="background: #38a169; border-color: #38a169;">
-                        <i class="fas fa-bolt"></i> Quick Post
-                    </button>
-                </div>
-
-                <!-- Company Stats -->
-                <div class="card sidebar-card">
-                    <div class="card-header">
-                        <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>This Week's Stats</h3>
-                    </div>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <h4>New Applicants</h4>
-                            <div class="stat-number">24</div>
-                            <div class="stat-change">
-                                <i class="fas fa-arrow-up"></i> 12% from last week
+                    <div class="application-stats">
+                        <div class="stat-item">
+                            <div class="stat-badge" style="background: rgba(33, 150, 243, 0.1); color: #2196F3;">
+                                <span>3</span>
                             </div>
+                            <span>Active Posts</span>
                         </div>
-                        <div class="stat-card">
-                            <h4>Profile Views</h4>
-                            <div class="stat-number">156</div>
-                            <div class="stat-change">
-                                <i class="fas fa-arrow-up"></i> 8% from last week
+                        <div class="stat-item">
+                            <div class="stat-badge" style="background: rgba(255, 152, 0, 0.1); color: #FF9800;">
+                                <span>24</span>
                             </div>
+                            <span>New Apps</span>
                         </div>
-                        <div class="stat-card">
-                            <h4>Avg. Skill Match</h4>
-                            <div class="stat-number">78%</div>
-                            <div class="stat-change">
-                                <i class="fas fa-arrow-up"></i> 5% from last week
+                        <div class="stat-item">
+                            <div class="stat-badge" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">
+                                <span>156</span>
                             </div>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Response Rate</h4>
-                            <div class="stat-number">92%</div>
-                            <div class="stat-change negative">
-                                <i class="fas fa-arrow-down"></i> 3% from last week
-                            </div>
+                            <span>Total Views</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Active Internships -->
-                <div class="card sidebar-card">
-                    <div class="card-header">
-                        <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #d69e2e;">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                        <h3>Active Internships</h3>
-                    </div>
-                    <div class="active-internship">
-                        <div class="internship-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <div class="internship-details">
-                            <h5>Frontend Developer</h5>
-                            <p>Summer 2025 • Remote</p>
-                        </div>
-                        <div class="applicant-count">
-                            <div class="count">42</div>
-                            <div class="label">Applicants</div>
-                        </div>
-                    </div>
-                    <div class="active-internship">
-                        <div class="internship-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="internship-details">
-                            <h5>Data Analyst</h5>
-                            <p>Spring 2025 • Hybrid</p>
-                        </div>
-                        <div class="applicant-count">
-                            <div class="count">28</div>
-                            <div class="label">Applicants</div>
-                        </div>
-                    </div>
-                    <div class="active-internship">
-                        <div class="internship-icon">
-                            <i class="fas fa-cloud"></i>
-                        </div>
-                        <div class="internship-details">
-                            <h5>Cloud Engineer</h5>
-                            <p>Fall 2025 • On-site</p>
-                        </div>
-                        <div class="applicant-count">
-                            <div class="count">15</div>
-                            <div class="label">Applicants</div>
-                        </div>
-                    </div>
-                    <a href="internships.html" class="card-link">View all internships →</a>
+                    <a href="org-analytics.html" class="card-link">View detailed analytics →</a>
                 </div>
 
                 <!-- Top Applicants -->
                 <div class="card sidebar-card">
                     <div class="card-header">
-                        <div class="card-icon" style="background: rgba(236, 72, 153, 0.1); color: #ec4899;">
-                            <i class="fas fa-star"></i>
+                        <div class="card-icon" style="background: rgba(156, 39, 176, 0.1); color: #9C27B0;">
+                            <i class="fas fa-trophy"></i>
                         </div>
                         <h3>Top Applicants</h3>
                     </div>
-                    <div class="applicant-list">
-                        <div class="applicant-card">
-                            <div class="applicant-avatar">AS</div>
-                            <div class="applicant-info">
-                                <h4>Anup Shrestha</h4>
-                                <p>Carnegie Mellon • CS Senior</p>
-                                <div class="applicant-skills">
-                                    <span>React</span>
-                                    <span>Python</span>
-                                    <span>AWS</span>
-                                </div>
+                    <div class="recommended-list">
+                        <div class="recommended-item">
+                            <div class="company-avatar" style="background: linear-gradient(135deg, #2196F3, #21CBF3);">SJ</div>
+                            <div class="recommended-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Stanford • 98% Match</p>
                             </div>
-                            <div class="applicant-actions">
-                                <button class="applicant-btn btn-view">View</button>
+                            <div class="match-badge" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">98%</div>
+                        </div>
+                        <div class="recommended-item">
+                            <div class="company-avatar" style="background: linear-gradient(135deg, #FF9800, #FF5722);">MR</div>
+                            <div class="recommended-info">
+                                <h4>Michael Rodriguez</h4>
+                                <p>MIT • 95% Match</p>
+                            </div>
+                            <div class="match-badge" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">95%</div>
+                        </div>
+                        <div class="recommended-item">
+                            <div class="company-avatar" style="background: linear-gradient(135deg, #9C27B0, #673AB7);">EC</div>
+                            <div class="recommended-info">
+                                <h4>Emma Chen</h4>
+                                <p>UC Berkeley • 92% Match</p>
+                            </div>
+                            <div class="match-badge" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">92%</div>
+                        </div>
+                    </div>
+                    <a href="view-applications.html" class="card-link">View all applicants →</a>
+                </div>
+
+                <!-- Skill Demand in Your Area -->
+                <div class="card sidebar-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(244, 67, 54, 0.1); color: #F44336;">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3>Skill Demand (SF Bay)</h3>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-item">
+                            <span class="skill-name">React.js</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%; background: linear-gradient(135deg, #2196F3, #21CBF3);"></div>
+                            </div>
+                            <span class="skill-percent">92%</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Python</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 88%; background: linear-gradient(135deg, #4CAF50, #8BC34A);"></div>
+                            </div>
+                            <span class="skill-percent">88%</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">AWS</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%; background: linear-gradient(135deg, #FF9800, #FF5722);"></div>
+                            </div>
+                            <span class="skill-percent">85%</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">AI/ML</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%; background: linear-gradient(135deg, #9C27B0, #673AB7);"></div>
+                            </div>
+                            <span class="skill-percent">78%</span>
+                        </div>
+                    </div>
+                    <button class="card-btn" style="border-color: #2196F3; color: #2196F3;">
+                        <i class="fas fa-lightbulb"></i> Update Skill Requirements
+                    </button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card sidebar-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(33, 150, 243, 0.1); color: #2196F3;">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="trending-list">
+                        <div class="trending-item" onclick="window.location.href='post-internship.html'">
+                            <div class="trending-icon" style="background: #4CAF50;">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="trending-info">
+                                <h4>Post New Internship</h4>
+                                <p>Reach 50k+ students</p>
                             </div>
                         </div>
-                        <div class="applicant-card">
-                            <div class="applicant-avatar">SC</div>
-                            <div class="applicant-info">
-                                <h4>Sarah Chen</h4>
-                                <p>MIT • Data Science</p>
-                                <div class="applicant-skills">
-                                    <span>ML</span>
-                                    <span>Python</span>
-                                    <span>SQL</span>
-                                </div>
+                        <div class="trending-item" onclick="window.location.href='browse-students.html'">
+                            <div class="trending-icon" style="background: #2196F3;">
+                                <i class="fas fa-search"></i>
                             </div>
-                            <div class="applicant-actions">
-                                <button class="applicant-btn btn-view">View</button>
+                            <div class="trending-info">
+                                <h4>Browse Talent</h4>
+                                <p>Filter by skills</p>
+                            </div>
+                        </div>
+                        <div class="trending-item" onclick="window.location.href='org-messages.html'">
+                            <div class="trending-icon" style="background: #9C27B0;">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="trending-info">
+                                <h4>Message Candidates</h4>
+                                <p>3 unread messages</p>
+                            </div>
+                        </div>
+                        <div class="trending-item" onclick="window.location.href='org-settings.html'">
+                            <div class="trending-icon" style="background: #FF9800;">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="trending-info">
+                                <h4>Company Settings</h4>
+                                <p>Update profile</p>
                             </div>
                         </div>
                     </div>
-                    <a href="view-applicants.html" class="card-link">See all applicants →</a>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- ===== 4. FOOTER (SAME AS STUDENT) ===== -->
+    <!-- ===== ENHANCED FOOTER ===== -->
     <footer class="dashboard-footer">
+        <!-- Same footer as student dashboard -->
         <div class="footer-container">
             <div class="footer-grid">
                 <!-- Brand Column -->
                 <div class="footer-brand">
                     <h3>SkillLaunch</h3>
-                    <p>Connecting organizations with talented students. Find your next generation of innovators and leaders through our platform.</p>
+                    <p>Connecting organizations with talented students. Find the perfect interns and build your future team.</p>
                     <div class="footer-social">
                         <a href="#" class="social-link" title="LinkedIn">
                             <i class="fab fa-linkedin-in"></i>
@@ -479,10 +467,10 @@
                 <div class="footer-col">
                     <h4>For Organizations</h4>
                     <ul>
-                        <li><a href="#"><i class="fas fa-plus-circle"></i> Post Internships</a></li>
+                        <li><a href="#"><i class="fas fa-briefcase"></i> Post Internships</a></li>
                         <li><a href="#"><i class="fas fa-search"></i> Find Talent</a></li>
                         <li><a href="#"><i class="fas fa-chart-line"></i> Analytics Dashboard</a></li>
-                        <li><a href="#"><i class="fas fa-users"></i> Team Collaboration</a></li>
+                        <li><a href="#"><i class="fas fa-users"></i> Team Management</a></li>
                         <li><a href="#"><i class="fas fa-star"></i> Success Stories</a></li>
                     </ul>
                 </div>
@@ -513,7 +501,7 @@
 
                 <!-- About -->
                 <div class="footer-col">
-                    <h4>Company</h4>
+                    <h4>About</h4>
                     <ul>
                         <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
                         <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
@@ -543,17 +531,17 @@
         </div>
     </footer>
 
-    <!-- ===== DROPDOWN MENUS (ORG VERSION) ===== -->
+    <!-- ===== DROPDOWN MENUS ===== -->
     <!-- Notification Dropdown -->
     <div class="dropdown-menu notification-dropdown" id="notificationDropdown">
         <h3>Notifications</h3>
         <div class="notification-item">
             <div class="notification-icon">
-                <i class="fas fa-user-check"></i>
+                <i class="fas fa-user-plus"></i>
             </div>
             <div class="notification-content">
-                <p><strong>New Applicant</strong> - Anup applied to Frontend Intern</p>
-                <small>30 minutes ago</small>
+                <p><strong>New Applicant</strong> - Alex Johnson applied to Full-Stack Intern</p>
+                <small>10 minutes ago</small>
             </div>
         </div>
         <div class="notification-item">
@@ -561,17 +549,17 @@
                 <i class="fas fa-eye"></i>
             </div>
             <div class="notification-content">
-                <p><strong>Profile Viewed</strong> - Your company was viewed 24 times</p>
+                <p><strong>Profile Viewed</strong> - Your internship viewed 156 times</p>
                 <small>2 hours ago</small>
             </div>
         </div>
         <div class="notification-item">
             <div class="notification-icon">
-                <i class="fas fa-calendar-check"></i>
+                <i class="fas fa-star"></i>
             </div>
             <div class="notification-content">
-                <p><strong>Interview Scheduled</strong> - With Sarah at 3 PM</p>
-                <small>Yesterday</small>
+                <p><strong>High Match</strong> - 95% skill match student available</p>
+                <small>1 day ago</small>
             </div>
         </div>
         <a href="#" class="dropdown-item">See all notifications</a>
@@ -581,16 +569,16 @@
     <div class="dropdown-menu message-dropdown" id="messageDropdown">
         <h3>Messages</h3>
         <div class="message-item">
-            <div class="message-avatar">AS</div>
+            <div class="message-avatar">AJ</div>
             <div class="notification-content">
-                <p><strong>Anup Shrestha</strong> - Following up on my application...</p>
+                <p><strong>Alex Johnson</strong> - Interested in the internship role...</p>
                 <small>Yesterday</small>
             </div>
         </div>
         <div class="message-item">
             <div class="message-avatar">SC</div>
             <div class="notification-content">
-                <p><strong>Sarah Chen</strong> - Thank you for the interview opp...</p>
+                <p><strong>Sarah Chen</strong> - Can we schedule an interview?</p>
                 <small>2 days ago</small>
             </div>
         </div>
@@ -600,15 +588,15 @@
     <!-- Profile Dropdown -->
     <div class="dropdown-menu profile-dropdown" id="profileMenu">
         <div class="profile-info">
-            <div class="dropdown-avatar" id="dropdownAvatar">GC</div>
+            <div class="dropdown-avatar" id="dropdownAvatar">TC</div>
             <div class="profile-details">
-                <h4 id="userName">Google Careers</h4>
-                <p id="userEmail">careers@google.com</p>
+                <h4 id="userName">TechCorp Inc.</h4>
+                <p id="userEmail">hr@techcorp.com</p>
                 <small>Organization Account</small>
             </div>
         </div>
         
-        <a href="company-profile.html" class="dropdown-item">
+        <a href="org-profile.html" class="dropdown-item">
             <i class="fas fa-building"></i>
             <span>Company Profile</span>
         </a>
@@ -616,9 +604,13 @@
             <i class="fas fa-cog"></i>
             <span>Organization Settings</span>
         </a>
-        <a href="team.html" class="dropdown-item">
+        <a href="post-internship.html" class="dropdown-item">
+            <i class="fas fa-plus-circle"></i>
+            <span>Post New Internship</span>
+        </a>
+        <a href="team-management.html" class="dropdown-item">
             <i class="fas fa-users"></i>
-            <span>Team Members</span>
+            <span>Team Management</span>
         </a>
         <a href="billing.html" class="dropdown-item">
             <i class="fas fa-credit-card"></i>
@@ -628,12 +620,12 @@
         <hr>
         
         <a href="#" class="dropdown-item">
-            <i class="fas fa-chart-line"></i>
-            <span>Analytics</span>
+            <i class="fas fa-question-circle"></i>
+            <span>Help Center</span>
         </a>
         <a href="#" class="dropdown-item">
-            <i class="fas fa-download"></i>
-            <span>Export Data</span>
+            <i class="fas fa-moon"></i>
+            <span>Display</span>
         </a>
         
         <hr>

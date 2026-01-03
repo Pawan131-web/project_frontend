@@ -1,4 +1,6 @@
+/*student/std-dashboard.js*/
 /* ===== STUDENT DASHBOARD INTERACTIVITY ===== */
+
 
 // ===== AUTH CHECK =====
 function checkAuth() {

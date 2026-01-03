@@ -1,72 +1,91 @@
-/* ===== ORGANIZATION DASHBOARD INTERACTIVITY ===== */
+/*organization/org-dashboard.js*/
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🏢 Organization Dashboard Loading...');
-    
-    if (checkAuth()) {
-        initializeOrganizationDashboard();
-    }
-});
+/* ===== ORGANIZATION DASHBOARD INTERACTIVITY ===== */
+/* Mirror of student dashboard with org-specific logic */
 
 // ===== AUTH CHECK =====
-function checkAuth() {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+function checkOrgAuth() {
+    const org = JSON.parse(localStorage.getItem('org') || '{}');
+    const isOrgLoggedIn = localStorage.getItem('isOrgLoggedIn');
     
-    // Check if user is ORGANIZATION type
-    if (!user || !isLoggedIn || isLoggedIn !== 'true' || !user.isVerified) {
-        console.log('🚫 User not authenticated, redirecting...');
+    if (!org || isOrgLoggedIn !== 'true') {
+        console.log('🚫 Organization not authenticated, redirecting...');
         localStorage.setItem('redirectUrl', window.location.pathname);
-        window.location.href = '../index.html';
+        window.location.href = '../login-org.html';
         return false;
     }
     
-    // Check if user is actually an organization
-    if (user.userType !== 'organization') {
-        console.log('❌ This page is for organizations only');
-        alert('This dashboard is for organizations only. Redirecting to student dashboard...');
-        window.location.href = '../student/std-dashboard.html';
-        return false;
-    }
-    
-    console.log(`✅ Organization authenticated: ${user.fullName}`);
+    console.log(`✅ Organization authenticated: ${org.companyName} (${org.userType})`);
     return true;
 }
 
-function initializeOrganizationDashboard() {
-    console.log('🏢 Initializing Organization Dashboard...');
+// ===== LOGOUT FUNCTIONALITY =====
+function setupOrgLogout() {
+    const logoutBtn = document.querySelector('.logout-btn');
     
-    setupUserData();
-    setupDropdowns();
-    setupSearch();
-    setupNavigation();
-    setupQuickActions();
-    setupInteractions();
-    setupLogout();
+    if (!logoutBtn) return;
     
-    loadOrganizationData();
+    logoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (confirm('Are you sure you want to log out?')) {
+            localStorage.removeItem('org');
+            localStorage.removeItem('isOrgLoggedIn');
+            localStorage.removeItem('orgType');
+            
+            console.log('✅ Organization data cleared');
+            showNotification('Logged out successfully!', 'success');
+            closeAllDropdowns();
+            
+            setTimeout(() => {
+                window.location.href = '../../index.html';
+            }, 1000);
+        }
+    });
 }
 
-// ===== USER DATA =====
-function setupUserData() {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+// ===== INITIALIZATION =====
+function initializeOrgDashboard() {
+    console.log('🏢 Organization Dashboard Loaded');
+    
+    if (!checkOrgAuth()) return;
+    
+    setupOrgData();
+    setupDropdowns();
+    setupOrgSearch();
+    setupOrgNavigation();
+    setupOrgPostCreation();
+    setupOrgInteractions();
+    setupOrgNotifications();
+    setupOrgLogout();
+    setupSkillRequirements();
+}
+
+// ===== 1. ORG DATA INITIALIZATION =====
+function setupOrgData() {
+    const org = JSON.parse(localStorage.getItem('org') || '{}');
     const defaultOrg = {
-        fullName: 'TechCorp Solutions',
-        email: 'hr@techcorp.com',
-        avatar: 'TC'
+        companyName: 'Google Careers',
+        email: 'careers@google.com',
+        avatar: 'GC',
+        userType: 'organization'
     };
     
-    const orgData = Object.keys(user).length ? user : defaultOrg;
+    const orgData = Object.keys(org).length ? org : defaultOrg;
     
-    // Update organization info
     updateOrgInfo(orgData);
+    
+    if (!localStorage.getItem('org')) {
+        localStorage.setItem('org', JSON.stringify(orgData));
+    }
 }
 
 function updateOrgInfo(org) {
-    const initials = getInitials(org.fullName || org.companyName);
+    const initials = getOrgInitials(org.companyName);
     
-    // Update avatar elements
-    const avatarElements = ['userAvatar', 'dropdownAvatar'];
+    // Update all avatar elements
+    const avatarElements = ['userAvatar', 'dropdownAvatar', 'postAvatar'];
     avatarElements.forEach(id => {
         const element = document.getElementById(id);
         if (element) element.textContent = initials;
@@ -76,11 +95,11 @@ function updateOrgInfo(org) {
     const orgNameElement = document.getElementById('userName');
     const orgEmailElement = document.getElementById('userEmail');
     
-    if (orgNameElement) orgNameElement.textContent = org.fullName || org.companyName || 'Organization';
-    if (orgEmailElement) orgEmailElement.textContent = org.email || 'No email';
+    if (orgNameElement) orgNameElement.textContent = org.companyName;
+    if (orgEmailElement) orgEmailElement.textContent = org.email;
 }
 
-function getInitials(name) {
+function getOrgInitials(name) {
     if (!name) return 'OC';
     return name
         .split(' ')
@@ -90,255 +109,8 @@ function getInitials(name) {
         .substring(0, 2);
 }
 
-// ===== SEARCH FUNCTIONALITY =====
-function setupSearch() {
-    const searchBar = document.querySelector('.search-bar');
-    const searchSuggestions = document.getElementById('searchSuggestions');
-    
-    if (!searchBar || !searchSuggestions) return;
-    
-    // Show suggestions on focus
-    searchBar.addEventListener('focus', function() {
-        showDefaultSuggestions();
-    });
-    
-    // Live search for students
-    let debounceTimer;
-    searchBar.addEventListener('input', function() {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            const query = this.value.trim();
-            if (query && query.length >= 2) {
-                searchStudents(query);
-            } else {
-                showDefaultSuggestions();
-            }
-        }, 300);
-    });
-    
-    // Search on Enter
-    searchBar.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            const query = this.value.trim();
-            if (query) {
-                window.location.href = `candidates.html?search=${encodeURIComponent(query)}`;
-            }
-            searchSuggestions.style.display = 'none';
-        }
-    });
-    
-    // Close suggestions on outside click
-    document.addEventListener('click', function(event) {
-        if (!searchBar.contains(event.target) && !searchSuggestions.contains(event.target)) {
-            searchSuggestions.style.display = 'none';
-        }
-    });
-}
-
-function showDefaultSuggestions() {
-    const searchSuggestions = document.getElementById('searchSuggestions');
-    const suggestions = [
-        { icon: 'user-graduate', text: 'Search students by name' },
-        { icon: 'code', text: 'Find students by skills' },
-        { icon: 'university', text: 'Browse by university' },
-        { icon: 'map-marker-alt', text: 'Search by location' },
-        { icon: 'briefcase', text: 'View all candidates' }
-    ];
-    
-    const html = suggestions.map(item => `
-        <div class="suggestion-item">
-            <i class="fas fa-${item.icon}"></i>
-            <span>${item.text}</span>
-        </div>
-    `).join('');
-    
-    searchSuggestions.innerHTML = html;
-    searchSuggestions.style.display = 'block';
-}
-
-async function searchStudents(query) {
-    const searchSuggestions = document.getElementById('searchSuggestions');
-    
-    // Show loading
-    searchSuggestions.innerHTML = `
-        <div class="suggestion-item">
-            <i class="fas fa-spinner fa-spin"></i>
-            <span>Searching students for "${query}"...</span>
-        </div>
-    `;
-    searchSuggestions.style.display = 'block';
-    
-    try {
-        // In real app: fetch from /api/users/search?query=${query}&type=student
-        // For now, simulate search results
-        setTimeout(() => {
-            const mockResults = [
-                { name: 'John Doe', username: 'johndoe', skills: 'React, Node.js', type: 'student' },
-                { name: 'Sarah Chen', username: 'sarahc', skills: 'Python, Data Science', type: 'student' },
-                { name: 'Alex Kim', username: 'alexk', skills: 'UI/UX, Figma', type: 'student' }
-            ];
-            
-            displayStudentSearchResults(mockResults, query);
-        }, 500);
-        
-    } catch (error) {
-        console.error('Search error:', error);
-        searchSuggestions.innerHTML = `
-            <div class="suggestion-item">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>Search temporarily unavailable</span>
-            </div>
-        `;
-    }
-}
-
-function displayStudentSearchResults(students, query) {
-    const searchSuggestions = document.getElementById('searchSuggestions');
-    
-    let html = `
-        <div class="suggestion-header">
-            <i class="fas fa-user-graduate"></i>
-            <span>Found ${students.length} student${students.length === 1 ? '' : 's'}</span>
-        </div>
-    `;
-    
-    students.forEach(student => {
-        const initials = getInitials(student.name);
-        html += `
-            <div class="suggestion-item user-result" data-username="${student.username}">
-                <div class="user-avatar-small">${initials}</div>
-                <div class="user-info">
-                    <div class="user-name">${student.name}</div>
-                    <div class="user-details">
-                        <span class="username">@${student.username}</span>
-                        <span class="skills">${student.skills}</span>
-                    </div>
-                </div>
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        `;
-    });
-    
-    html += `
-        <div class="suggestion-footer">
-            <a href="candidates.html?search=${encodeURIComponent(query)}" class="view-all-link">
-                View all results for "${query}"
-            </a>
-        </div>
-    `;
-    
-    searchSuggestions.innerHTML = html;
-    searchSuggestions.style.display = 'block';
-    
-    // Add click handlers
-    searchSuggestions.querySelectorAll('.user-result').forEach(item => {
-        item.addEventListener('click', function() {
-            const username = this.getAttribute('data-username');
-            window.location.href = `student-profile.html?username=${username}`;
-        });
-    });
-}
-
-// ===== QUICK ACTIONS =====
-function setupQuickActions() {
-    // Post New Internship button
-    const postInternshipBtn = document.querySelector('.action-btn.primary');
-    if (postInternshipBtn) {
-        postInternshipBtn.addEventListener('click', function() {
-            window.location.href = 'post-internship.html';
-        });
-    }
-    
-    // Browse Students button
-    const browseStudentsBtn = document.querySelectorAll('.action-btn.secondary')[0];
-    if (browseStudentsBtn) {
-        browseStudentsBtn.addEventListener('click', function() {
-            window.location.href = 'candidates.html';
-        });
-    }
-    
-    // Message Candidates button
-    const messageBtn = document.querySelectorAll('.action-btn.secondary')[1];
-    if (messageBtn) {
-        messageBtn.addEventListener('click', function() {
-            window.location.href = 'messages.html';
-        });
-    }
-    
-    // Schedule Interview button
-    const scheduleBtn = document.querySelectorAll('.action-btn.secondary')[2];
-    if (scheduleBtn) {
-        scheduleBtn.addEventListener('click', function() {
-            // In real app: open calendar/scheduling modal
-            alert('Interview scheduling feature coming soon!');
-        });
-    }
-}
-
-// ===== APPLICATION INTERACTIONS =====
-function setupInteractions() {
-    // Application status clicks
-    document.querySelectorAll('.application-status').forEach(status => {
-        status.addEventListener('click', function() {
-            const currentStatus = this.textContent.trim();
-            const studentName = this.closest('.application-item').querySelector('h4').textContent;
-            
-            // Show status change options
-            const newStatus = prompt(`Change status for ${studentName} (Current: ${currentStatus})\n\nEnter: Pending, Review, Shortlisted, Rejected`);
-            
-            if (newStatus && ['Pending', 'Review', 'Shortlisted', 'Rejected'].includes(newStatus)) {
-                this.textContent = newStatus;
-                this.className = `application-status ${newStatus.toLowerCase()}`;
-                
-                showNotification(`Status updated to: ${newStatus}`, 'success');
-            }
-        });
-    });
-    
-    // Student avatar clicks
-    document.querySelectorAll('.student-avatar, .student-avatar-small').forEach(avatar => {
-        avatar.addEventListener('click', function() {
-            const studentName = this.textContent;
-            alert(`Viewing ${studentName}'s profile\n(In real app: redirect to student profile)`);
-        });
-    });
-}
-
-// ===== LOAD ORGANIZATION DATA =====
-async function loadOrganizationData() {
-    try {
-        // In real app: fetch organization data from backend
-        // For now, simulate loading
-        console.log('📊 Loading organization data...');
-        
-        // Update stats in real-time
-        updateDashboardStats();
-        
-    } catch (error) {
-        console.error('Error loading organization data:', error);
-    }
-}
-
-function updateDashboardStats() {
-    // In real app: fetch from backend API
-    // For now, use mock data
-    const stats = {
-        totalApplications: 25,
-        pendingReview: 8,
-        interviewsScheduled: 3,
-        hired: 2
-    };
-    
-    // Update pipeline stats
-    document.querySelectorAll('.stage-count')[0].textContent = stats.totalApplications;
-    document.querySelectorAll('.stage-count')[1].textContent = stats.pendingReview;
-    document.querySelectorAll('.stage-count')[2].textContent = stats.interviewsScheduled;
-    document.querySelectorAll('.stage-count')[3].textContent = stats.hired;
-}
-
-// ===== DROPDOWNS (reuse from student dashboard) =====
+// ===== 2. DROPDOWN FUNCTIONALITY (SAME AS STUDENT) =====
 function setupDropdowns() {
-    // Similar to student dashboard but with organization-specific content
     setupDropdownToggle('profileDropdown', 'profileMenu');
     setupDropdownToggle('notificationIcon', 'notificationDropdown');
     setupDropdownToggle('messageIcon', 'messageDropdown');
@@ -350,6 +122,12 @@ function setupDropdowns() {
             closeAllDropdowns();
         }
     });
+    
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') closeAllDropdowns();
+    });
+    
+    window.addEventListener('scroll', closeAllDropdowns);
 }
 
 function setupDropdownToggle(triggerId, dropdownId) {
@@ -369,6 +147,10 @@ function setupDropdownToggle(triggerId, dropdownId) {
         
         if (!isVisible) {
             positionDropdown(dropdown, trigger);
+        }
+        
+        if (dropdownId === 'notificationDropdown') {
+            clearNotificationCount();
         }
     });
 }
@@ -396,33 +178,489 @@ function closeAllDropdowns() {
     });
 }
 
-// ===== LOGOUT =====
-function setupLogout() {
-    const logoutBtn = document.querySelector('.logout-btn');
+// ===== 3. ORG SEARCH FUNCTIONALITY =====
+function setupOrgSearch() {
+    const searchBar = document.querySelector('.search-bar');
+    const searchSuggestions = document.getElementById('searchSuggestions');
     
-    if (!logoutBtn) return;
+    if (!searchBar || !searchSuggestions) return;
     
-    logoutBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        if (confirm('Are you sure you want to log out?')) {
-            // Clear organization data
-            localStorage.removeItem('user');
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userType');
-            
-            showNotification('Logged out successfully!', 'success');
-            
-            setTimeout(() => {
-                window.location.href = '../../index.html';
-            }, 1000);
+    // Show student-focused suggestions
+    searchBar.addEventListener('focus', function() {
+        showOrgDefaultSuggestions();
+    });
+    
+    let debounceTimer;
+    searchBar.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const query = this.value.trim();
+            if (query) {
+                searchStudents(query);
+            } else {
+                showOrgDefaultSuggestions();
+            }
+        }, 300);
+    });
+    
+    document.addEventListener('click', function(event) {
+        if (!searchBar.contains(event.target) && !searchSuggestions.contains(event.target)) {
+            searchSuggestions.style.display = 'none';
+        }
+    });
+    
+    searchBar.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            performOrgSearch(this.value);
+            searchSuggestions.style.display = 'none';
         }
     });
 }
 
-// ===== NOTIFICATION FUNCTION =====
+function showOrgDefaultSuggestions() {
+    const searchSuggestions = document.getElementById('searchSuggestions');
+    const suggestions = [
+        { icon: 'user-graduate', text: 'Search Students by Name' },
+        { icon: 'code', text: 'Find by Skill (React, Python, etc.)' },
+        { icon: 'university', text: 'Search by University' },
+        { icon: 'map-marker-alt', text: 'Find Students by Location' },
+        { icon: 'star', text: 'Top Rated Portfolios' }
+    ];
+    
+    const html = suggestions.map(item => `
+        <div class="suggestion-item">
+            <i class="fas fa-${item.icon}"></i>
+            <span>${item.text}</span>
+        </div>
+    `).join('');
+    
+    searchSuggestions.innerHTML = html;
+    searchSuggestions.style.display = 'block';
+    
+    searchSuggestions.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const searchBar = document.querySelector('.search-bar');
+            searchBar.value = this.querySelector('span').textContent;
+            performOrgSearch(searchBar.value);
+            searchSuggestions.style.display = 'none';
+        });
+    });
+}
+
+function searchStudents(query) {
+    const searchSuggestions = document.getElementById('searchSuggestions');
+    
+    if (query.length < 2) {
+        searchSuggestions.style.display = 'none';
+        return;
+    }
+    
+    searchSuggestions.innerHTML = `
+        <div class="suggestion-item">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Searching students for "${query}"...</span>
+        </div>
+    `;
+    searchSuggestions.style.display = 'block';
+    
+    // Simulate API call
+    setTimeout(() => {
+        const mockStudents = [
+            { fullName: 'Anup Shrestha', username: 'anup_s', skills: ['React', 'Python', 'AWS'], university: 'Carnegie Mellon' },
+            { fullName: 'Sarah Chen', username: 'sarah_c', skills: ['ML', 'Python', 'SQL'], university: 'MIT' },
+            { fullName: 'Alex Johnson', username: 'alex_j', skills: ['JavaScript', 'Node.js', 'MongoDB'], university: 'Stanford' }
+        ];
+        
+        displayStudentSuggestions(mockStudents, query);
+    }, 500);
+}
+
+function displayStudentSuggestions(students, query) {
+    const searchSuggestions = document.getElementById('searchSuggestions');
+    
+    let html = `
+        <div class="suggestion-header">
+            <i class="fas fa-user-graduate"></i>
+            <span>Found ${students.length} student${students.length === 1 ? '' : 's'}</span>
+        </div>
+    `;
+    
+    students.forEach(student => {
+        html += `
+            <div class="suggestion-item user-result" data-username="${student.username}">
+                <div class="user-avatar-small">${getInitials(student.fullName)}</div>
+                <div class="user-info">
+                    <div class="user-name">${student.fullName}</div>
+                    <div class="user-details">
+                        <span class="username">@${student.username}</span>
+                        <span style="color: #666; font-size: 12px;">${student.university}</span>
+                    </div>
+                    <div class="applicant-skills" style="margin-top: 4px;">
+                        ${student.skills.map(skill => `<span>${skill}</span>`).join('')}
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        `;
+    });
+    
+    html += `
+        <div class="suggestion-footer">
+            <a href="browse-students.html?search=${encodeURIComponent(query)}" class="view-all-link">
+                View all students for "${query}"
+            </a>
+        </div>
+    `;
+    
+    searchSuggestions.innerHTML = html;
+    searchSuggestions.style.display = 'block';
+    
+    searchSuggestions.querySelectorAll('.user-result').forEach(item => {
+        item.addEventListener('click', function() {
+            const username = this.getAttribute('data-username');
+            viewStudentProfile(username);
+        });
+    });
+}
+
+function getInitials(name) {
+    if (!name) return 'SU';
+    return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
+}
+
+function performOrgSearch(query) {
+    if (!query.trim()) return;
+    
+    console.log(`Organization searching: ${query}`);
+    showNotification(`Searching students for "${query}"...`, 'info');
+}
+
+// ===== 4. ORG POST CREATION =====
+function setupOrgPostCreation() {
+    const postInput = document.querySelector('.post-input');
+    const postButton = document.querySelector('.post-submit-btn');
+    const postTypeButtons = document.querySelectorAll('.post-type-btn');
+    const actionButtons = document.querySelectorAll('.post-action-btn');
+    
+    if (!postInput || !postButton) return;
+    
+    // Post type selection
+    postTypeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            postTypeButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            const type = this.getAttribute('data-type');
+            updateOrgPostPlaceholder(type, postInput);
+        });
+    });
+    
+    // Action buttons
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const type = this.getAttribute('data-type');
+            handleOrgPostAction(type);
+        });
+    });
+    
+    // Post submission
+    postButton.addEventListener('click', () => createOrgPost(postInput, postButton));
+    
+    // Submit on Ctrl+Enter
+    postInput.addEventListener('keydown', function(event) {
+        if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+            createOrgPost(postInput, postButton);
+        }
+    });
+}
+
+function updateOrgPostPlaceholder(type, postInput) {
+    const placeholders = {
+        update: 'Share company news, achievements, or announcements...',
+        hiring: 'Announce new openings, describe roles, list requirements...',
+        article: 'Write industry insights, career advice, or tech trends...'
+    };
+    
+    postInput.placeholder = placeholders[type] || 'Share company updates...';
+}
+
+function handleOrgPostAction(type) {
+    if (type === 'photo') {
+        showNotification('Upload company photos, office pics, or event images', 'info');
+    } else if (type === 'poll') {
+        showNotification('Create a poll for students (e.g., "Which skill is most important?")', 'info');
+    } else if (type === 'event') {
+        showNotification('Add career fair, webinar, or recruitment event details', 'info');
+    }
+}
+
+function createOrgPost(postInput, postButton) {
+    const content = postInput.value.trim();
+    
+    if (!content) {
+        showNotification('Please enter some content', 'error');
+        postInput.focus();
+        return;
+    }
+    
+    const originalText = postButton.textContent;
+    postButton.textContent = 'Posting...';
+    postButton.disabled = true;
+    
+    // Get active post type
+    const activeType = document.querySelector('.post-type-btn.active').getAttribute('data-type');
+    const badgeType = {
+        update: '🏢 COMPANY UPDATE',
+        hiring: '🚀 HIRING ALERT',
+        article: '📊 INDUSTRY INSIGHTS'
+    }[activeType] || '📝 POST';
+    
+    setTimeout(() => {
+        postButton.textContent = originalText;
+        postButton.disabled = false;
+        postInput.value = '';
+        postInput.placeholder = 'Share company news, internship opportunities, or industry insights...';
+        
+        showNotification('Company post published successfully!', 'success');
+        addOrgPostToFeed(content, badgeType);
+    }, 1000);
+}
+
+function addOrgPostToFeed(content, badge) {
+    const feed = document.querySelector('.feed-posts');
+    if (!feed) return;
+    
+    const org = JSON.parse(localStorage.getItem('org') || '{}');
+    const initials = getOrgInitials(org.companyName || 'Company');
+    
+    const post = document.createElement('div');
+    post.className = 'card feed-post';
+    post.innerHTML = `
+        <div class="post-header">
+            <div class="company-logo">${initials}</div>
+            <div class="post-info">
+                <h4>${org.companyName || 'Your Company'}</h4>
+                <p>Just now • Company Post</p>
+            </div>
+        </div>
+        <div class="post-content">
+            <div class="org-post-badge">${badge}</div>
+            <p>${content}</p>
+        </div>
+        <div class="post-actions">
+            <button class="action-btn like-btn" data-post-id="new">
+                <i class="far fa-heart"></i> <span>Like</span>
+            </button>
+            <button class="action-btn comment-btn">
+                <i class="far fa-comment"></i> <span>Comment</span>
+            </button>
+            <button class="action-btn share-btn">
+                <i class="fas fa-share"></i> <span>Share</span>
+            </button>
+        </div>
+    `;
+    
+    feed.insertBefore(post, feed.firstChild);
+    setupPostInteractions(post);
+}
+
+// ===== 5. ORG INTERACTIONS =====
+function setupOrgInteractions() {
+    setupPostInteractions();
+    setupApplicantButtons();
+    setupCardButtons();
+    setupQuickInternship();
+}
+
+function setupPostInteractions(container = document) {
+    container.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            const isLiked = icon.classList.contains('fas');
+            
+            if (isLiked) {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                this.classList.remove('active');
+            } else {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                this.classList.add('active');
+                
+                icon.style.animation = 'heartBeat 0.3s ease';
+                setTimeout(() => {
+                    icon.style.animation = '';
+                }, 300);
+            }
+        });
+    });
+    
+    container.querySelectorAll('.comment-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            showNotification('Commenting feature coming soon!', 'info');
+        });
+    });
+    
+    container.querySelectorAll('.share-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            showNotification('Share this post with other organizations or students', 'info');
+        });
+    });
+}
+
+function setupApplicantButtons() {
+    // View Applicant buttons
+    document.querySelectorAll('.btn-view').forEach(button => {
+        button.addEventListener('click', function() {
+            const applicantCard = this.closest('.applicant-card');
+            const applicantName = applicantCard.querySelector('h4').textContent;
+            showNotification(`Viewing ${applicantName}'s profile...`, 'info');
+        });
+    });
+    
+    // Accept/Reject buttons
+    document.querySelectorAll('.btn-accept').forEach(button => {
+        button.addEventListener('click', function() {
+            const applicantCard = this.closest('.applicant-card');
+            const applicantName = applicantCard.querySelector('h4').textContent;
+            showNotification(`Interview invitation sent to ${applicantName}!`, 'success');
+            this.textContent = 'Invited ✓';
+            this.disabled = true;
+        });
+    });
+    
+    document.querySelectorAll('.btn-reject').forEach(button => {
+        button.addEventListener('click', function() {
+            const applicantCard = this.closest('.applicant-card');
+            const applicantName = applicantCard.querySelector('h4').textContent;
+            if (confirm(`Reject ${applicantName}'s application?`)) {
+                showNotification(`Application from ${applicantName} rejected`, 'info');
+                applicantCard.remove();
+            }
+        });
+    });
+}
+
+function setupCardButtons() {
+    document.querySelectorAll('.card-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            if (this.textContent.includes('Quick Post')) {
+                window.location.href = 'post-internship.html';
+            } else if (this.textContent.includes('View Applicants')) {
+                const count = this.closest('.active-internship').querySelector('.count').textContent;
+                showNotification(`Showing ${count} applicants for this internship`, 'info');
+            }
+        });
+    });
+}
+
+function setupQuickInternship() {
+    const quickPostBtn = document.querySelector('.card-btn[style*="background: #38a169"]');
+    if (quickPostBtn) {
+        quickPostBtn.addEventListener('click', function() {
+            const titleInput = this.closest('.sidebar-card').querySelector('.form-input');
+            const deptSelect = this.closest('.sidebar-card').querySelector('.form-select');
+            
+            if (!titleInput.value.trim()) {
+                showNotification('Please enter an internship title', 'error');
+                titleInput.focus();
+                return;
+            }
+            
+            showNotification(`Quick internship posted: ${titleInput.value}`, 'success');
+            titleInput.value = '';
+            deptSelect.selectedIndex = 0;
+        });
+    }
+}
+
+// ===== 6. SKILL REQUIREMENTS =====
+function setupSkillRequirements() {
+    const addSkillBtn = document.querySelector('.add-skill-btn');
+    if (addSkillBtn) {
+        addSkillBtn.addEventListener('click', function() {
+            const skillInput = this.previousElementSibling;
+            const skillValue = skillInput.value.trim();
+            
+            if (!skillValue) {
+                showNotification('Please enter a skill', 'error');
+                return;
+            }
+            
+            addSkillTag(skillValue);
+            skillInput.value = '';
+            skillInput.focus();
+        });
+    }
+    
+    // Allow Enter key to add skill
+    const skillInput = document.querySelector('.skill-tag-input input');
+    if (skillInput) {
+        skillInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const addBtn = this.nextElementSibling;
+                if (addBtn) addBtn.click();
+            }
+        });
+    }
+}
+
+function addSkillTag(skill) {
+    const skillsContainer = document.querySelector('.required-skills');
+    if (!skillsContainer) return;
+    
+    const skillTag = document.createElement('div');
+    skillTag.className = 'skill-tag';
+    skillTag.innerHTML = `
+        ${skill}
+        <span class="remove-skill" onclick="this.parentElement.remove()">×</span>
+    `;
+    
+    skillsContainer.appendChild(skillTag);
+}
+
+// ===== 7. NOTIFICATIONS =====
+function setupOrgNotifications() {
+    setInterval(() => {
+        if (Math.random() > 0.8) {
+            addOrgNotification();
+        }
+    }, 45000);
+}
+
+function clearNotificationCount() {
+    const notificationCount = document.querySelector('#notificationIcon .notification-count');
+    if (notificationCount) {
+        notificationCount.style.display = 'none';
+    }
+}
+
+function addOrgNotification() {
+    const notifications = [
+        {
+            icon: 'user-plus',
+            title: 'New Applicant',
+            message: 'Student applied to your Frontend Developer internship',
+            time: 'Just now'
+        },
+        {
+            icon: 'star',
+            title: 'Top Match',
+            message: 'A student with 95% skill match viewed your profile',
+            time: '10 min ago'
+        }
+    ];
+    
+    const randomNotification = notifications[Math.floor(Math.random() * notifications.length)];
+    showNotification(`${randomNotification.title}: ${randomNotification.message}`, 'info');
+}
+
+// ===== 8. UTILITY FUNCTIONS =====
 function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    document.querySelectorAll('.notification-toast').forEach(n => n.remove());
+    
     const notification = document.createElement('div');
     notification.className = 'notification-toast';
     
@@ -472,6 +710,19 @@ function showNotification(message, type = 'info') {
     
     document.body.appendChild(notification);
     
+    // Add CSS animation if not exists
+    if (!document.querySelector('#notification-animation')) {
+        const style = document.createElement('style');
+        style.id = 'notification-animation';
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
     setTimeout(() => {
         if (notification.parentNode) {
             notification.remove();
@@ -479,24 +730,18 @@ function showNotification(message, type = 'info') {
     }, 4000);
 }
 
-// ===== NAVIGATION =====
-function setupNavigation() {
-    const tabs = document.querySelectorAll('.nav-tab');
+function viewStudentProfile(username) {
+    console.log(`Viewing student profile: ${username}`);
+    showNotification(`Loading student profile: @${username}`, 'info');
     
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function(event) {
-            if (this.getAttribute('href') === '#') {
-                event.preventDefault();
-                
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                const tabName = this.getAttribute('data-tab');
-                console.log(`Switched to ${tabName} tab`);
-                
-                // In real app: load tab content dynamically
-                showNotification(`Loading ${tabName}...`, 'info');
-            }
-        });
-    });
+    // In real app, fetch student profile
+    setTimeout(() => {
+        showNotification(`Profile loaded! Would redirect to student page in real app.`, 'success');
+    }, 800);
 }
+
+// ===== START DASHBOARD =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🏢 Organization Dashboard Loading...');
+    initializeOrgDashboard();
+});

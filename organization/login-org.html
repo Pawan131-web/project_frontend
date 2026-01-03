@@ -3,474 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillLaunch | Organization Dashboard</title>
-    
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="../css/master-styles.css">
-    <link rel="stylesheet" href="org-dashboard.css">
-    
-    <!-- Font Awesome Icons -->
+    <title>SkillLaunch | Student Login</title>
+    <link rel="stylesheet" href="../css/login-org.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+    /* Message Styles */
+    .message-container {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .info-message {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+    
+    .message-icon {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 </head>
 <body>
-    <!-- ===== 1. TOP NAVIGATION BAR ===== -->
-    <header class="dashboard-header">
+    <!-- Header Navigation Bar -->
+    <header class="login-header-bar">
         <div class="header-container">
-            <!-- Logo -->
-            <a href="../index.html" class="header-logo">
+            <a href="index.html" class="header-logo">
                 <div class="logo-icon">
                     <i class="fas fa-rocket"></i>
                 </div>
                 <div class="logo-text">
-                    <span class="logo-main">Skill</span><span class="logo-accent">Launch</span>
+                    <span class="logo-main">Skill</span>
+                    <span class="logo-accent">Launch</span>
+                    
                 </div>
             </a>
-
-            <!-- Search Bar -->
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-bar" placeholder="Search students, skills, universities...">
-                <div class="search-suggestions" id="searchSuggestions"></div>
-            </div>
-
-            <!-- Right Side Icons -->
-            <div class="header-right">
-                <!-- Notification Bell -->
-                <div class="icon-container" id="notificationIcon">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-dot"></span>
-                    <span class="notification-count">5</span>
-                </div>
-
-                <!-- Messages Icon -->
-                <div class="icon-container" id="messageIcon">
-                    <i class="fas fa-comment"></i>
-                    <span class="notification-dot"></span>
-                    <span class="notification-count">3</span>
-                </div>
-
-                <!-- Profile Dropdown -->
-                <div class="profile-container" id="profileDropdown">
-                    <div class="profile-avatar" id="userAvatar">TC</div>
-                </div>
+            
+            <div class="header-info">
+                <a href="auth.html" class="header-back">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Sign Up</span>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- ===== 2. QUICK NAVIGATION TABS ===== -->
-    <nav class="quick-nav">
-        <div class="nav-container">
-            <a href="#" class="nav-tab active" data-tab="dashboard">
-                <i class="fas fa-chart-line"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="post-internship.html" class="nav-tab" data-tab="internships">
-                <i class="fas fa-briefcase"></i>
-                <span>Internships</span>
-            </a>
-            <a href="candidates.html" class="nav-tab" data-tab="candidates">
-                <i class="fas fa-users"></i>
-                <span>Candidates</span>
-            </a>
-            <a href="applications.html" class="nav-tab" data-tab="applications">
-                <i class="fas fa-file-alt"></i>
-                <span>Applications</span>
-            </a>
-            <a href="analytics.html" class="nav-tab" data-tab="analytics">
-                <i class="fas fa-chart-bar"></i>
-                <span>Analytics</span>
-            </a>
-            <a href="company-profile.html" class="nav-tab" data-tab="profile">
-                <i class="fas fa-building"></i>
-                <span>Company Profile</span>
-            </a>
-        </div>
-    </nav>
-
-    <!-- ===== 3. MAIN LAYOUT ===== -->
-    <main class="dashboard-main">
-        <div class="main-container">
-            <!-- LEFT COLUMN - Main Content -->
-            <div class="feed-column">
-                <!-- Quick Action Card -->
-                <div class="card quick-action-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h3>Quick Actions</h3>
-                    </div>
-                    <div class="quick-actions">
-                        <button class="action-btn primary">
-                            <i class="fas fa-plus-circle"></i>
-                            Post New Internship
-                        </button>
-                        <button class="action-btn secondary">
-                            <i class="fas fa-search"></i>
-                            Browse Students
-                        </button>
-                        <button class="action-btn secondary">
-                            <i class="fas fa-envelope"></i>
-                            Message Candidates
-                        </button>
-                        <button class="action-btn secondary">
-                            <i class="fas fa-calendar-check"></i>
-                            Schedule Interview
-                        </button>
-                    </div>
+    <!-- Main Login Content -->
+    <div class="login-container">
+        <!-- Login Card -->
+        <div class="login-card">
+            <!-- Left Side - Login Form -->
+            <div class="login-form-side">
+                <div class="login-header">
+                    <h1 class="login-title">Welcome Back, Organization</h1>
+                    <p class="login-subtitle">Sign in to continue your career journey</p>
                 </div>
-
-                <!-- Recent Applications -->
-                <div class="card recent-applications-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-user-clock"></i>
-                        </div>
-                        <h3>Recent Applications</h3>
-                        <a href="applications.html" class="view-all">View All</a>
-                    </div>
-                    <div class="applications-list">
-                        <div class="application-item">
-                            <div class="student-avatar">JD</div>
-                            <div class="application-info">
-                                <h4>John Doe</h4>
-                                <p>Applied for: Frontend Developer Intern</p>
-                                <small>Just now • Computer Science Senior</small>
-                            </div>
-                            <div class="application-status pending">
-                                <span>Pending</span>
-                            </div>
-                        </div>
-                        <div class="application-item">
-                            <div class="student-avatar">SC</div>
-                            <div class="application-info">
-                                <h4>Sarah Chen</h4>
-                                <p>Applied for: Data Science Intern</p>
-                                <small>2 hours ago • MIT Graduate</small>
-                            </div>
-                            <div class="application-status review">
-                                <span>In Review</span>
-                            </div>
-                        </div>
-                        <div class="application-item">
-                            <div class="student-avatar">AK</div>
-                            <div class="application-info">
-                                <h4>Alex Kim</h4>
-                                <p>Applied for: UI/UX Designer</p>
-                                <small>Yesterday • Parsons School</small>
-                            </div>
-                            <div class="application-status shortlisted">
-                                <span>Shortlisted</span>
-                            </div>
-                        </div>
-                    </div>
+                
+                <!-- Google Login Button -->
+                <button class="google-login-btn">
+                    <img src="https://www.google.com/favicon.ico" alt="Google" class="google-icon">
+                    <span>Continue with Google</span>
+                </button>
+                
+                <!-- Divider -->
+                <div class="divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-text">or</span>
+                    <span class="divider-line"></span>
                 </div>
-
-                <!-- Student Activity Feed -->
-                <div class="card activity-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-rss"></i>
-                        </div>
-                        <h3>Student Activity</h3>
+                <!-- Message Container -->
+<div id="messageContainer" class="message-container">
+    <div id="messageContent">
+        <i class="fas fa-info-circle message-icon"></i>
+        <span id="messageText">Message will appear here</span>
+    </div>
+</div>
+                <!-- Email Form -->
+                <form class="email-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="comapany@example.com" required>
                     </div>
-                    <div class="activity-feed">
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p><strong>Michael Brown</strong> viewed your company profile</p>
-                                <small>30 minutes ago</small>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-portrait"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p><strong>Emma Wilson</strong> updated her portfolio</p>
-                                <small>2 hours ago</small>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-share-alt"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p>Your internship post was shared by <strong>3 students</strong></p>
-                                <small>5 hours ago</small>
-                            </div>
-                        </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                        <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        <span class="btn-text">Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                
+                <!-- Sign Up Link -->
+                <div class="signup-link">
+                    <p>Don't have an account? <a href="signup-org.html">Sign up as organization</a></p>
+                </div>
+                
+                <!-- Trust Indicators -->
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure Login</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-lock"></i>
+                        <span>Privacy Protected</span>
                     </div>
                 </div>
             </div>
-
-            <!-- RIGHT SIDEBAR -->
-            <div class="sidebar-column">
-                <!-- Recommended Students -->
-                <div class="card sidebar-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-star"></i>
+            
+            <!-- Right Side - Image -->
+            <div class="login-image-side">
+                <img src="../assets/login-org.jpg" alt="Student accessing SkillLaunch" class="login-image">
+                <div class="image-overlay">
+                    <h3 class="overlay-title">Continue Your Journey</h3>
+                    <p class="overlay-text">Access your portfolio, track progress, and find new opportunities</p>
+                    <div class="overlay-stats">
+                        <div class="stat">
+                            <span class="stat-number">50,000+</span>
+                            <span class="stat-label">Students</span>
                         </div>
-                        <h3>Recommended Students</h3>
-                    </div>
-                    <div class="recommended-list">
-                        <div class="recommended-item">
-                            <div class="student-avatar-small">JD</div>
-                            <div class="recommended-info">
-                                <h4>John Doe</h4>
-                                <p>Frontend Developer</p>
-                            </div>
-                            <div class="match-badge">92%</div>
-                        </div>
-                        <div class="recommended-item">
-                            <div class="student-avatar-small">SC</div>
-                            <div class="recommended-info">
-                                <h4>Sarah Chen</h4>
-                                <p>Data Scientist</p>
-                            </div>
-                            <div class="match-badge">88%</div>
-                        </div>
-                        <div class="recommended-item">
-                            <div class="student-avatar-small">AK</div>
-                            <div class="recommended-info">
-                                <h4>Alex Kim</h4>
-                                <p>UI/UX Designer</p>
-                            </div>
-                            <div class="match-badge">85%</div>
-                        </div>
-                    </div>
-                    <a href="candidates.html" class="card-link">View all matches →</a>
-                </div>
-
-                <!-- Hiring Pipeline -->
-                <div class="card sidebar-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-filter"></i>
-                        </div>
-                        <h3>Hiring Pipeline</h3>
-                    </div>
-                    <div class="pipeline-stats">
-                        <div class="pipeline-stage">
-                            <div class="stage-label">Applications</div>
-                            <div class="stage-count">25</div>
-                        </div>
-                        <div class="pipeline-stage">
-                            <div class="stage-label">In Review</div>
-                            <div class="stage-count">8</div>
-                        </div>
-                        <div class="pipeline-stage">
-                            <div class="stage-label">Interview</div>
-                            <div class="stage-count">3</div>
-                        </div>
-                        <div class="pipeline-stage">
-                            <div class="stage-label">Hired</div>
-                            <div class="stage-count">2</div>
-                        </div>
-                    </div>
-                    <div class="pipeline-visual">
-                        <div class="pipeline-bar">
-                            <div class="bar-segment applications" style="width: 65%"></div>
-                            <div class="bar-segment review" style="width: 21%"></div>
-                            <div class="bar-segment interview" style="width: 8%"></div>
-                            <div class="bar-segment hired" style="width: 5%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- In-Demand Skills -->
-                <div class="card sidebar-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-fire"></i>
-                        </div>
-                        <h3>In-Demand Skills</h3>
-                    </div>
-                    <div class="skills-demand">
-                        <div class="demand-item">
-                            <div class="skill-name">AI/ML Engineering</div>
-                            <div class="demand-bar">
-                                <div class="demand-fill" style="width: 85%"></div>
-                            </div>
-                            <div class="demand-stats">
-                                <span class="growth">↑42%</span>
-                                <span class="openings">2.5k openings</span>
-                            </div>
-                        </div>
-                        <div class="demand-item">
-                            <div class="skill-name">Cloud Architecture</div>
-                            <div class="demand-bar">
-                                <div class="demand-fill" style="width: 75%"></div>
-                            </div>
-                            <div class="demand-stats">
-                                <span class="growth">↑38%</span>
-                                <span class="openings">1.8k openings</span>
-                            </div>
-                        </div>
-                        <div class="demand-item">
-                            <div class="skill-name">Cybersecurity</div>
-                            <div class="demand-bar">
-                                <div class="demand-fill" style="width: 80%"></div>
-                            </div>
-                            <div class="demand-stats">
-                                <span class="growth">↑45%</span>
-                                <span class="openings">1.2k openings</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Shortlisted Candidates -->
-                <div class="card sidebar-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-bookmark"></i>
-                        </div>
-                        <h3>Shortlisted Candidates</h3>
-                    </div>
-                    <div class="shortlist-list">
-                        <div class="shortlist-item">
-                            <div class="student-avatar-small">EW</div>
-                            <div class="shortlist-info">
-                                <h4>Emma Wilson</h4>
-                                <p>Full Stack Developer</p>
-                            </div>
-                            <div class="shortlist-tag">Top Pick</div>
-                        </div>
-                        <div class="shortlist-item">
-                            <div class="student-avatar-small">MB</div>
-                            <div class="shortlist-info">
-                                <h4>Michael Brown</h4>
-                                <p>DevOps Engineer</p>
-                            </div>
-                            <div class="shortlist-tag">Strong Fit</div>
-                        </div>
-                        <div class="shortlist-item">
-                            <div class="student-avatar-small">LT</div>
-                            <div class="shortlist-info">
-                                <h4>Lisa Taylor</h4>
-                                <p>Product Designer</p>
-                            </div>
-                            <div class="shortlist-tag">Backup</div>
+                        <div class="stat">
+                            <span class="stat-number">94%</span>
+                            <span class="stat-label">Success Rate</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-
-    <!-- ===== DROPDOWN MENUS ===== -->
-    <!-- Notification Dropdown -->
-    <div class="dropdown-menu notification-dropdown" id="notificationDropdown">
-        <h3>Notifications</h3>
-        <div class="notification-item">
-            <div class="notification-icon">
-                <i class="fas fa-user-plus"></i>
-            </div>
-            <div class="notification-content">
-                <p><strong>New Application</strong> - John Doe applied for Frontend Developer</p>
-                <small>5 minutes ago</small>
-            </div>
-        </div>
-        <div class="notification-item">
-            <div class="notification-icon">
-                <i class="fas fa-eye"></i>
-            </div>
-            <div class="notification-content">
-                <p><strong>Profile Viewed</strong> - 15 students viewed your company</p>
-                <small>1 hour ago</small>
-            </div>
-        </div>
-        <div class="notification-item">
-            <div class="notification-icon">
-                <i class="fas fa-calendar-alt"></i>
-            </div>
-            <div class="notification-content">
-                <p><strong>Interview Reminder</strong> - Sarah Chen at 3:00 PM today</p>
-                <small>2 hours ago</small>
-            </div>
-        </div>
-        <a href="#" class="dropdown-item">See all notifications</a>
     </div>
 
-    <!-- Messages Dropdown -->
-    <div class="dropdown-menu message-dropdown" id="messageDropdown">
-        <h3>Messages</h3>
-        <div class="message-item">
-            <div class="message-avatar">JD</div>
-            <div class="notification-content">
-                <p><strong>John Doe</strong> - Thank you for considering my application...</p>
-                <small>Yesterday</small>
+    <!-- Footer -->
+    <footer class="login-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="terms.html">Terms</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="help.html">Help</a>
+                </div>
+                <p class="copyright">© 2025 SkillLaunch. Empowering student careers.</p>
             </div>
         </div>
-        <div class="message-item">
-            <div class="message-avatar">SC</div>
-            <div class="notification-content">
-                <p><strong>Sarah Chen</strong> - I'm available for interview next week...</p>
-                <small>2 days ago</small>
+    </footer>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.email-form');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const messageContainer = document.getElementById('messageContainer');
+    const messageText = document.getElementById('messageText');
+    const messageIcon = document.querySelector('#messageContent .message-icon');
+    
+    if (!form) return;
+    
+    // Function to show messages
+    function showMessage(type, text, icon = null) {
+        messageContainer.className = 'message-container ' + type + '-message';
+        messageText.textContent = text;
+        
+        // Set icon
+        if (icon) {
+            messageIcon.className = 'fas message-icon ' + icon;
+        } else {
+            if (type === 'success') messageIcon.className = 'fas message-icon fa-check-circle';
+            else if (type === 'error') messageIcon.className = 'fas message-icon fa-exclamation-circle';
+            else messageIcon.className = 'fas message-icon fa-info-circle';
+        }
+        
+        messageContainer.style.display = 'block';
+        
+        // Auto hide after 5 seconds for success messages
+        if (type === 'success') {
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 5000);
+        }
+    }
+    
+    // Function to hide message
+    function hideMessage() {
+        messageContainer.style.display = 'none';
+    }
+    
+    // Function to show verification prompt
+    function showVerificationPrompt(email) {
+        // Create custom prompt
+        const promptHTML = `
+            <div id="verificationPrompt" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 9999;">
+                <div style="background: white; padding: 25px; border-radius: 12px; max-width: 400px; width: 90%;">
+                    <h3 style="margin-bottom: 10px;">Email Verification Required</h3>
+                    <p style="margin-bottom: 20px; color: #666;">Please verify your email first. Check your inbox for verification code.</p>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button id="cancelVerify" style="padding: 10px 20px; background: #f5f5f5; border: none; border-radius: 6px; cursor: pointer;">Cancel</button>
+                        <button id="goToVerify" style="padding: 10px 20px; background: #D32F2F; color: white; border: none; border-radius: 6px; cursor: pointer;">Go to Verification</button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <a href="#" class="dropdown-item">View all messages</a>
-    </div>
-
-    <!-- Profile Dropdown -->
-    <div class="dropdown-menu profile-dropdown" id="profileMenu">
-        <div class="profile-info">
-            <div class="dropdown-avatar" id="dropdownAvatar">TC</div>
-            <div class="profile-details">
-                <h4 id="userName">TechCorp Solutions</h4>
-                <p id="userEmail">hr@techcorp.com</p>
-                <small>View Company Profile</small>
-            </div>
-        </div>
+        `;
         
-        <a href="company-profile.html" class="dropdown-item">
-            <i class="fas fa-building"></i>
-            <span>Company Profile</span>
-        </a>
-        <a href="settings.html" class="dropdown-item">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </a>
-        <a href="team.html" class="dropdown-item">
-            <i class="fas fa-users"></i>
-            <span>Team Management</span>
-        </a>
-        <a href="internships.html" class="dropdown-item">
-            <i class="fas fa-briefcase"></i>
-            <span>Posted Internships</span>
-        </a>
-        <a href="billing.html" class="dropdown-item">
-            <i class="fas fa-credit-card"></i>
-            <span>Billing & Plans</span>
-        </a>
+        document.body.insertAdjacentHTML('beforeend', promptHTML);
         
-        <hr>
+        document.getElementById('goToVerify').addEventListener('click', function() {
+            localStorage.setItem('pendingVerificationEmail', email);
+            window.location.href = '../pages/verify-email.html?email=' + encodeURIComponent(email);
+        });
         
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-question-circle"></i>
-            <span>Help Center</span>
-        </a>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-moon"></i>
-            <span>Display</span>
-        </a>
+        document.getElementById('cancelVerify').addEventListener('click', function() {
+            document.getElementById('verificationPrompt').remove();
+        });
+    }
+    
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
         
-        <hr>
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const submitBtn = form.querySelector('.login-btn');
         
-        <a href="#" class="dropdown-item logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Sign Out</span>
-        </a>
-    </div>
-
-    <!-- JavaScript -->
-    <script src="org-dashboard.js"></script>
+        // Validation
+        if (!email || !password) {
+            showMessage('error', 'Please enter email and password', 'fa-exclamation-triangle');
+            return;
+        }
+        
+        // Hide any previous messages
+        hideMessage();
+        
+        // Show loading
+        const originalText = submitBtn.querySelector('.btn-text').textContent;
+        submitBtn.querySelector('.btn-text').textContent = 'Signing In...';
+        submitBtn.disabled = true;
+        
+        try {
+            // Send login request
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // ✅ LOGIN SUCCESS
+                console.log('Login successful:', result.data);
+                
+                // Check if user is actually an ORGANIZATION
+                if (result.data.userType === 'organization') {
+                    // ✅ CORRECT: User is an organization
+                    
+                    // Save user data
+                    localStorage.setItem('user', JSON.stringify(result.data));
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userType', result.data.userType);
+                    
+                    // Show success message
+                    showMessage('success', `Welcome back, ${result.data.fullName}! Redirecting...`, 'fa-check-circle');
+                    
+                    // Redirect to organization dashboard
+                    setTimeout(() => {
+                        window.location.href = 'org-dashboard.html';
+                    }, 1500);
+                    
+                } else {
+                    // ❌ WRONG: User is a student
+                    showMessage('error', 'This is the ORGANIZATION login page. Students please use student login.', 'fa-graduation-cap');
+                    
+                    // Reset button
+                    submitBtn.querySelector('.btn-text').textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Redirect to student login after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '../student/login-std.html';
+                    }, 2000);
+                }
+                
+            } else {
+                // ❌ LOGIN FAILED
+                if (result.needsVerification) {
+                    showMessage('info', 'Please verify your email first. Check your inbox for verification code.', 'fa-envelope');
+                    
+                    // Show verification prompt after 1 second
+                    setTimeout(() => {
+                        showVerificationPrompt(email);
+                    }, 1000);
+                    
+                } else if (result.message.includes('deactivated')) {
+                    showMessage('error', 'Account is deactivated. Please contact support.', 'fa-user-slash');
+                } else {
+                    showMessage('error', result.message, 'fa-exclamation-triangle');
+                }
+                
+                submitBtn.querySelector('.btn-text').textContent = originalText;
+                submitBtn.disabled = false;
+            }
+            
+        } catch (error) {
+            showMessage('error', 'Network error. Please check if backend is running.', 'fa-wifi');
+            console.error('Login error:', error);
+            submitBtn.querySelector('.btn-text').textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    // Hide message when user starts typing
+    emailInput.addEventListener('input', hideMessage);
+    passwordInput.addEventListener('input', hideMessage);
+});
+</script>
 </body>
 </html>
+
+

@@ -1,0 +1,526 @@
+/* ===== AUTH PAGE STYLES ===== */
+/* Updated to match index.html design */
+
+/* Base Reset */ 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); /* Match index.html */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Navigation Bar */
+.auth-header-bar {
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.header-logo:hover {
+    transform: translateY(-2px); /* Match index.html hover */
+}
+
+/* UPDATED LOGO - Match index.html */
+.logo-icon {
+    width: 40px; /* Changed from 36px to 40px */
+    height: 40px; /* Changed from 36px to 40px */
+    background: linear-gradient(135deg, #D32F2F, #EF5350); /* Match index.html gradient */
+    border-radius: 10px; /* Changed from 8px to 10px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem; /* Slightly larger */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add shine effect like index.html */
+.logo-icon::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
+    animation: logo-shine 3s infinite;
+}
+
+@keyframes logo-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    position: relative;
+}
+
+.logo-main {
+    font-size: 1.5rem; /* Changed from 1.25rem to 1.5rem */
+    font-weight: 800; /* Changed from 700 to 800 */
+    color: #1A1A2E;
+    letter-spacing: -0.5px; /* Match index.html */
+}
+
+.logo-accent {
+    font-size: 1.5rem; /* Changed from 1.25rem to 1.5rem */
+    font-weight: 800; /* Changed from 700 to 800 */
+    background: linear-gradient(135deg, #D32F2F, #EF5350); /* Match index.html */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    letter-spacing: -0.5px; /* Match index.html */
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-login {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #4A5568;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    transition: color 0.2s ease;
+}
+
+.header-login:hover {
+    color: #D32F2F;
+}
+
+.header-more {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #D32F2F;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: rgba(211, 47, 47, 0.1);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.header-more:hover {
+    background: rgba(211, 47, 47, 0.15);
+}
+
+/* Auth Container */
+.auth-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    flex: 1;
+}
+
+/* Hero Section */
+.auth-hero {
+    text-align: center;
+    margin-bottom: 60px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1A1A2E;
+    margin-bottom: 12px;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.125rem;
+    color: #4A5568;
+    line-height: 1.6;
+}
+
+/* Role Selection */
+.role-selection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 80px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Role Cards - UPDATED SHADOWS */
+.role-card {
+    background: white;
+    border-radius: 16px; /* Changed from 20px to 16px */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07); /* Match index.html var(--shadow-md) */
+    position: relative;
+}
+
+.role-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Card Badge */
+.card-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 2;
+}
+
+.badge-text {
+    display: inline-block;
+    padding: 6px 12px;
+    background: white;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.student-card .badge-text {
+    color: #4299e1;
+    border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+.organization-card .badge-text {
+    color: #38a169;
+    border: 1px solid rgba(72, 187, 120, 0.2);
+}
+
+/* Image Container */
+.card-image-container {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Card Content */
+.card-content {
+    padding: 32px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1A1A2E;
+    margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    color: #4A5568;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.card-description {
+    color: #2D3748;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    font-size: 1rem;
+}
+
+/* Card Actions */
+.card-actions {
+    margin-top: 24px;
+}
+
+.org-card-actions {
+    margin-top: 58px;
+}
+
+/* UPDATED BUTTON HOVER EFFECTS - Match index.html */
+.action-button {
+    width: 100%;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 12px; /* Changed from 10px to 12px */
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.student-button {
+    background: #4299e1;
+    color: white;
+}
+
+.student-button:hover {
+    background: #3182ce;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(66, 153, 225, 0.25);
+}
+
+.organization-button {
+    background: #38a169;
+    color: white;
+}
+
+.organization-button:hover {
+    background: #2f855a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(72, 187, 120, 0.25);
+}
+
+.action-button i {
+    transition: transform 0.3s ease;
+}
+
+.action-button:hover i {
+    transform: translateX(4px);
+}
+
+/* Info Section */
+.info-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* UPDATED INFO BOX - Match index.html cards */
+.info-box {
+    text-align: center;
+    padding: 32px 24px; /* More balanced padding */
+    background: white;
+    border-radius: 16px; /* Changed from 12px to 16px */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07); /* Match index.html */
+}
+
+.info-box:hover {
+    transform: translateY(-5px); /* Changed from -4px to -5px */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Match index.html hover */
+}
+
+.info-box i {
+    font-size: 2rem;
+    color: #D32F2F;
+    margin-bottom: 16px;
+}
+
+.info-box h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1A1A2E;
+    margin-bottom: 8px;
+}
+
+.info-box p {
+    color: #4A5568;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Login Section */
+.login-section {
+    text-align: center;
+    padding-top: 40px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.login-text {
+    color: #4A5568;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.login-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: white;
+    color: #D32F2F;
+    border: 2px solid #D32F2F; /* Changed from 1px to 2px */
+    border-radius: 8px;
+    font-weight: 600; /* Changed from 500 to 600 */
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.login-button:hover {
+    background: #D32F2F;
+    color: white;
+    transform: translateY(-2px); /* Add hover lift */
+}
+
+/* UPDATED FOOTER - Match index.html */
+.auth-footer {
+    background: #1A1A2E; /* Changed from gradient to solid color */
+    padding: 60px 0 30px; /* Match index.html padding */
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 32px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+.copyright {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .role-selection {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+    
+    .info-section {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 40px 20px;
+    }
+    
+    .auth-hero {
+        margin-bottom: 40px;
+    }
+    
+    .card-content {
+        padding: 24px;
+    }
+    
+    .card-title {
+        font-size: 1.375rem;
+    }
+    
+    .action-button {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 32px 16px;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .card-image-container {
+        height: 150px;
+    }
+    
+    .info-box {
+        padding: 24px 16px; /* Adjusted for mobile */
+    }
+    
+    .info-box i {
+        font-size: 1.75rem;
+        margin-bottom: 12px;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+    }
+}

@@ -1,0 +1,11 @@
+project_frontend/
+├── index.html              (Main homepage)
+├── css/
+│   ├── base.css           # Colors, fonts, buttons
+│   ├── layout.css         # Header, sections, footer
+│   └── components.css     # Cards, forms, progress
+└── js/
+|   ├── main.js           # Mobile menu, navigation
+|   └── interactive.js    # Animations, interactions
+|
+|

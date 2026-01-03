@@ -1,0 +1,327 @@
+<!--student/login-std.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillLaunch | Student Login</title>
+    <link rel="stylesheet" href="../css/login-std.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+    /* Message Styles */
+    .message-container {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .info-message {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+    
+    .message-icon {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+    <!-- Header Navigation Bar -->
+    <header class="login-header-bar">
+        <div class="header-container">
+            <a href="index.html" class="header-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-main">Skill</span>
+                    <span class="logo-accent">Launch</span>
+                </div>
+            </a>
+            
+            <div class="header-info">
+                <a href="../pages/auth-choice.html" class="header-back">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Sign Up</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Login Content -->
+    <div class="login-container">
+        <!-- Login Card -->
+        <div class="login-card">
+            <!-- Left Side - Login Form -->
+            <div class="login-form-side">
+                <div class="login-header">
+                    <h1 class="login-title">Welcome Back, Student</h1>
+                    <p class="login-subtitle">Sign in to continue your career journey</p>
+                </div>
+                
+                <!-- Google Login Button -->
+                <button class="google-login-btn">
+                    <img src="https://www.google.com/favicon.ico" alt="Google" class="google-icon">
+                    <span>Continue with Google</span>
+                </button>
+                
+                <!-- Divider -->
+                <div class="divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-text">or</span>
+                    <span class="divider-line"></span>
+                </div>
+                <!-- Message Container -->
+<div id="messageContainer" class="message-container">
+    <div id="messageContent">
+        <i class="fas fa-info-circle message-icon"></i>
+        <span id="messageText">Message will appear here</span>
+    </div>
+</div>
+                <!-- Email Form -->
+                <form class="email-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                        <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        <span class="btn-text">Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                
+                <!-- Sign Up Link -->
+                <div class="signup-link">
+                    <p>Don't have an account? <a href="auth.html">Sign up as student</a></p>
+                </div>
+                
+                <!-- Trust Indicators -->
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure Login</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-lock"></i>
+                        <span>Privacy Protected</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side - Image -->
+            <div class="login-image-side">
+                <img src="../assets/login-std.jpg" alt="Student accessing SkillLaunch" class="login-image">
+                <div class="image-overlay">
+                    <h3 class="overlay-title">Continue Your Journey</h3>
+                    <p class="overlay-text">Access your portfolio, track progress, and find new opportunities</p>
+                    <div class="overlay-stats">
+                        <div class="stat">
+                            <span class="stat-number">50,000+</span>
+                            <span class="stat-label">Students</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">94%</span>
+                            <span class="stat-label">Success Rate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="login-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="terms.html">Terms</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="help.html">Help</a>
+                </div>
+                <p class="copyright">© 2025 SkillLaunch. Empowering student careers.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.email-form');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const messageContainer = document.getElementById('messageContainer');
+    const messageText = document.getElementById('messageText');
+    const messageIcon = document.querySelector('#messageContent .message-icon');
+    
+    if (!form) return;
+    
+    // Function to show messages
+    function showMessage(type, text, icon = null) {
+        messageContainer.className = 'message-container ' + type + '-message';
+        messageText.textContent = text;
+        
+        // Set icon
+        if (icon) {
+            messageIcon.className = 'fas message-icon ' + icon;
+        } else {
+            if (type === 'success') messageIcon.className = 'fas message-icon fa-check-circle';
+            else if (type === 'error') messageIcon.className = 'fas message-icon fa-exclamation-circle';
+            else messageIcon.className = 'fas message-icon fa-info-circle';
+        }
+        
+        messageContainer.style.display = 'block';
+        
+        // Auto hide after 5 seconds for success messages
+        if (type === 'success') {
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 5000);
+        }
+    }
+    
+    // Function to hide message
+    function hideMessage() {
+        messageContainer.style.display = 'none';
+    }
+    
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const submitBtn = form.querySelector('.login-btn');
+        
+        // Validation
+        if (!email || !password) {
+            showMessage('error', 'Please enter email and password', 'fa-exclamation-triangle');
+            return;
+        }
+        
+        // Hide any previous messages
+        hideMessage();
+        
+        // Show loading
+        const originalText = submitBtn.querySelector('.btn-text').textContent;
+        submitBtn.querySelector('.btn-text').textContent = 'Signing In...';
+        submitBtn.disabled = true;
+        
+        try {
+            // Send login request
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // ✅ LOGIN SUCCESS
+                
+                // Check if user is actually a STUDENT
+                if (result.data.userType === 'student') {
+                    // ✅ CORRECT: User is a student
+                    
+                    // Save user data
+                    localStorage.setItem('user', JSON.stringify(result.data));
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userType', result.data.userType);
+                    
+                    // Show success message
+                    showMessage('success', `Welcome back, ${result.data.fullName}! Redirecting...`, 'fa-check-circle');
+                    
+                    
+                    // Redirect to student DASHBOARD 
+setTimeout(() => {
+    window.location.href = '../student/std-dashboard.html';
+}, 1500);
+                    
+                } else {
+                    // ❌ WRONG: User is an organization
+                    showMessage('error', 'This is the STUDENT login page. Organizations please use organization login.', 'fa-users');
+                    
+                    // Reset button
+                    submitBtn.querySelector('.btn-text').textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Redirect to organization login after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '../organization/login-org.html';
+                    }, 2000);
+                }
+                
+            } else {
+                // ❌ LOGIN FAILED
+                if (result.needsVerification) {
+                    showMessage('info', 'Please verify your email first. Check your inbox for verification code.', 'fa-envelope');
+                    
+                    // Add button to go to verification
+                    setTimeout(() => {
+                        if (confirm('Go to verification page?')) {
+                            localStorage.setItem('pendingVerificationEmail', email);
+                            window.location.href = '../pages/verify-email.html?email=' + encodeURIComponent(email);
+                        }
+                    }, 1000);
+                    
+                } else if (result.message.includes('deactivated')) {
+                    showMessage('error', 'Account is deactivated. Please contact support.', 'fa-user-slash');
+                } else {
+                    showMessage('error', result.message, 'fa-exclamation-triangle');
+                }
+                
+                // Reset button
+                submitBtn.querySelector('.btn-text').textContent = originalText;
+                submitBtn.disabled = false;
+            }
+            
+        } catch (error) {
+            showMessage('error', 'Network error. Please check if backend is running.', 'fa-wifi');
+            console.error('Login error:', error);
+            submitBtn.querySelector('.btn-text').textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    // Hide message when user starts typing
+    emailInput.addEventListener('input', hideMessage);
+    passwordInput.addEventListener('input', hideMessage);
+});
+// Google button click handler
+document.querySelector('.google-login-btn').addEventListener('click', function() {
+    showMessage('info', 'Google login coming soon! For now, please use email login.', 'fa-google');
+});
+</script>
+</body>
+</html>

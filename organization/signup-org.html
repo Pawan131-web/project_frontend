@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillLaunch | Organization Sign Up</title>
+    <link rel="stylesheet" href="../css/signup-org.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<style>
+    /* Message Styles */
+    .message-container {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .info-message {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+    
+    .message-icon {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="signup-container">
+        <!-- Left Side - Signup Form -->
+        <div class="signup-form-side">
+            <!-- Logo -->
+            <div class="form-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <span>Skill</span>
+                    <span>Launch</span>
+                </div>
+            </div>
+
+            <!-- Form Header -->
+            <div class="form-header">
+                <h1>Create Organization Account</h1>
+                <p>Start finding skilled interns for your team.</p>
+            </div>
+            <!-- Message Container -->
+<div id="messageContainer" class="message-container">
+    <div id="messageContent">
+        <i class="fas fa-info-circle message-icon"></i>
+        <span id="messageText">Message will appear here</span>
+    </div>
+</div>
+            <!-- Signup Form -->
+            <form id="organizationSignupForm" class="signup-form">
+                <!-- Company Name -->
+                <div class="form-group">
+                    <label for="companyName" class="form-label">Company Name</label>
+                    <input type="text" id="companyName" class="form-input" placeholder="Enter company name" required>
+                </div>
+                
+                <!-- Representative Name -->
+                <div class="form-group">
+                    <label for="repName" class="form-label">Representative Name</label>
+                    <input type="text" id="repName" class="form-input" placeholder="Your full name" required>
+                </div>
+                
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Work Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="company@example.com" required>
+                </div>
+                
+                <!-- Company Size -->
+                <div class="select-group">
+                    <label for="companySize" class="select-label">Company Size</label>
+                    <select id="companySize" class="company-select" required>
+                        <option value="" disabled selected>Select company size</option>
+                        <option value="1-10">1-10 employees</option>
+                        <option value="11-50">11-50 employees</option>
+                        <option value="51-200">51-200 employees</option>
+                        <option value="201-500">201-500 employees</option>
+                        <option value="501+">501+ employees</option>
+                    </select>
+                </div>
+                
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Create a password" required>
+                </div>
+                
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                </div>
+                
+                <!-- Terms Agreement -->
+                <div class="terms-group">
+                    <input type="checkbox" id="terms" class="terms-checkbox" required>
+                    <label for="terms" class="terms-label">
+                        I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="signup-btn" id="submitBtn">
+                    Create Account
+                </button>
+            </form>
+            
+            <!-- Login Link -->
+            <div class="login-link">
+                <p>Already have an account? <a href="login-org.html">Log in</a></p>
+            </div>
+        </div>
+        
+        <!-- Right Side - Image Only -->
+        <div class="signup-image-side">
+            <img src="../assets/signup-org.jpg" alt="Company team collaboration" class="signup-image">
+            
+            <!-- Simple Overlay -->
+            <div class="image-overlay">
+                <!-- No text content, just the image -->
+            </div>
+            
+            <!-- Footer -->
+            <div class="page-footer">
+                <div class="footer-links">
+                    <a href="terms.html">Terms</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="help.html">Help</a>
+                </div>
+                <p class="copyright">© 2025 SkillLaunch</p>
+            </div>
+        </div>
+    </div>
+
+<script src="../js/signup-org-validation.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('organizationSignupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageContainer = document.getElementById('messageContainer');
+    const messageText = document.getElementById('messageText');
+    const messageIcon = document.querySelector('#messageContent .message-icon');
+    
+    if (!form) return;
+    
+    // Function to show messages
+    function showMessage(type, text, icon = null) {
+        messageContainer.className = 'message-container ' + type + '-message';
+        messageText.textContent = text;
+        
+        if (icon) {
+            messageIcon.className = 'fas message-icon ' + icon;
+        } else {
+            if (type === 'success') messageIcon.className = 'fas message-icon fa-check-circle';
+            else if (type === 'error') messageIcon.className = 'fas message-icon fa-exclamation-circle';
+            else messageIcon.className = 'fas message-icon fa-info-circle';
+        }
+        
+        messageContainer.style.display = 'block';
+        
+        // Auto hide after 5 seconds
+        if (type === 'success') {
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 5000);
+        }
+    }
+    
+    function hideMessage() {
+        messageContainer.style.display = 'none';
+    }
+    
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const companyName = document.getElementById('companyName').value.trim();
+        const repName = document.getElementById('repName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const companySize = document.getElementById('companySize').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Validation
+        if (!companyName || !repName || !email || !companySize || !password || !confirmPassword) {
+            showMessage('error', 'Please fill in all fields', 'fa-exclamation-triangle');
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            showMessage('error', 'Passwords do not match', 'fa-key');
+            return;
+        }
+        
+        if (!document.getElementById('terms').checked) {
+            showMessage('error', 'Please agree to the Terms of Service', 'fa-file-contract');
+            return;
+        }
+        
+        // Hide previous messages
+        hideMessage();
+        
+        // Show loading
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Creating Account...';
+        submitBtn.disabled = true;
+        
+        try {
+            // Send to backend
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName: repName,
+                    email: email,
+                    password: password,
+                    userType: 'organization'
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // ✅ SUCCESS
+                showMessage('success', 'Organization account created! Check email for verification code.', 'fa-building');
+                
+                // Store data
+                localStorage.setItem('pendingVerificationEmail', email);
+                localStorage.setItem('signupEmail', email);
+                localStorage.setItem('companyName', companyName);
+                localStorage.setItem('companySize', companySize);
+                
+                // Redirect to verification page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = '../pages/verify-email.html?email=' + encodeURIComponent(email);
+                }, 2000);
+                
+            } else {
+                // ❌ Error
+                showMessage('error', result.message, 'fa-exclamation-circle');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+            
+        } catch (error) {
+            showMessage('error', 'Network error. Please check if backend is running.', 'fa-wifi');
+            console.error('Signup error:', error);
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    // Hide messages when user starts typing
+    const inputs = form.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        input.addEventListener('input', hideMessage);
+        input.addEventListener('change', hideMessage);
+    });
+});
+</script>
+</body>
+</html>

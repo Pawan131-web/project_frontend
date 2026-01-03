@@ -1,0 +1,531 @@
+<!--index.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillLaunch | Professional Portfolios & Verified Internships</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main">Skill</span>
+                        <span class="logo-accent">Launch</span>
+                    </div>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="main-nav">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                        <li><a href="#internships" class="nav-link">Internships</a></li>
+                        <li><a href="#skills-fit" class="nav-link">Skill Match</a></li>
+                        <li><a href="#process" class="nav-link">Process</a></li>
+                    </ul>
+                </nav>
+                
+                <!-- Auth Buttons -->
+                <div class="header-buttons">
+                    <a href="pages/auth-choice.html" target="_blank" class="btn btn-login">Log In</a>
+                    <a href="pages/auth-choice.html" target="_blank" class="btn btn-primary">Get Started</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <div class="mobile-nav-content">
+            <button class="close-mobile-menu">
+                <i class="fas fa-times"></i>
+            </button>
+            <ul class="mobile-nav-list">
+                <li><a href="#home" class="mobile-nav-link">Home</a></li>
+                <li><a href="#portfolio" class="mobile-nav-link">Portfolio</a></li>
+                <li><a href="#internships" class="mobile-nav-link">Internships</a></li>
+                <li><a href="#skills-fit" class="mobile-nav-link">Skill Match</a></li>
+                <li><a href="#process" class="mobile-nav-link">Process</a></li>
+                <li><a href="login.html" class="mobile-nav-link">Log In</a></li>
+                <li><a href="signup.html" class="mobile-nav-link btn-primary">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            Build Your Career<br>
+                            <span class="text-gradient">Not Just a Portfolio</span>
+                        </h1>
+                        
+                        <p class="hero-subtitle">
+                            SkillLaunch connects talented students with verified internships through professional portfolios that showcase real skills, not just grades.
+                        </p>
+                        
+                        <!-- Hero Stats -->
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <div class="stat-number">10,000+</div>
+                                <div class="stat-label">Portfolios Built</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">5,000+</div>
+                                <div class="stat-label">Internship Matches</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">94%</div>
+                                <div class="stat-label">Success Rate</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hero CTA -->
+                        <div class="hero-cta">
+                            <a href="pages/auth-choice.html" target="_blank" class="btn btn-primary btn-large">
+                                <i class="fas fa-rocket"></i> Start Building
+                            </a>
+                            <a href="#process" class="btn btn-outline btn-large">
+                                <i class="fas fa-play-circle"></i> How It Works
+                            </a>
+                        </div>
+                        
+                        <!-- Trust Indicators -->
+                        <div class="trust-indicators">
+                            <div class="trust-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Verified Internships</span>
+                            </div>
+                            <div class="trust-item">
+                                <i class="fas fa-user-check"></i>
+                                <span>Professional Mentors</span>
+                            </div>
+                            <div class="trust-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Skill Growth Tracking</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Visual -->
+                    <div class="hero-visual">
+                        <!-- Professional Dashboard Preview -->
+                        <div class="dashboard-preview">
+                            <div class="dashboard-header">
+                                <div class="profile-display">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Student Profile" class="profile-image">
+                                    <div class="profile-info">
+                                        <h4>Ram Syame</h4>
+                                        <p>Computer Science Senior</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="dashboard-content">
+                                <!-- Skill Progress Card -->
+                                <div class="skill-card">
+                                    <h5>Skill Progress</h5>
+                                    <div class="skill-progress">
+                                        <div class="skill-item">
+                                            <span>React.js</span>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 85%"></div>
+                                            </div>
+                                            <span>85%</span>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span>Node.js</span>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 70%"></div>
+                                            </div>
+                                            <span>70%</span>
+                                        </div>
+                                        <div class="skill-item">
+                                            <span>UI/UX Design</span>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 60%"></div>
+                                            </div>
+                                            <span>60%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Internship Matches Card -->
+                                <div class="matches-card">
+                                    <h5>Recent Matches</h5>
+                                    <div class="company-logos">
+                                        <img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80" alt="Google">
+                                        <img src="https://images.unsplash.com/photo-1611944212129-29977ae1398c?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80" alt="Microsoft">
+                                        <img src="https://images.unsplash.com/photo-1560250056-07ba64664864?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80" alt="Amazon">
+                                    </div>
+                                    <p class="match-notice">3 new internship matches this week</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="portfolio-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Professional Portfolio Builder</h2>
+                    <p class="section-subtitle">Showcase your real skills with industry-approved portfolios that get noticed</p>
+                </div>
+                
+                <div class="portfolio-features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3>Industry Templates</h3>
+                        <p>Choose from 50+ templates designed by hiring managers in tech, design, business, and more.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Impact Metrics</h3>
+                        <p>Show results, not just responsibilities. We help you quantify your project impact.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Recruiter Preview</h3>
+                        <p>See how recruiters view your portfolio with our 6-second scan simulator.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Internships Section -->
+        <section id="internships" class="internships-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Verified Internship Network</h2>
+                    <p class="section-subtitle">Connect with companies that value skills over pedigree</p>
+                </div>
+                
+                <div class="internship-benefits">
+                    <div class="benefit">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Team Collaboration">
+                        <h3>Real Projects</h3>
+                        <p>Work on meaningful projects that build your portfolio while you learn.</p>
+                    </div>
+                    
+                    <div class="benefit">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Mentorship">
+                        <h3>Mentorship Included</h3>
+                        <p>Every internship comes with professional guidance and feedback.</p>
+                    </div>
+                    
+                    <div class="benefit">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Career Growth">
+                        <h3>Career Pathways</h3>
+                        <p>Successful internships often lead to full-time job offers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Internship Fit Section -->
+        <section id="skills-fit" class="skills-fit-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Skills-to-Internship Matching</h2>
+                    <p class="section-subtitle">See how your skills align with real internship requirements</p>
+                </div>
+                
+                <div class="skills-match-container">
+                    <!-- Student Skills Profile -->
+                    <div class="student-profile">
+                        <div class="profile-header">
+                            <h3>Your Skill Profile</h3>
+                            <div class="match-score">
+                                <span class="score">85%</span>
+                                <span class="score-label">Match</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skills-list">
+                            <div class="skill-item">
+                                <span class="skill-name">React.js</span>
+                                <div class="skill-level">
+                                    <div class="level-bar" style="width: 85%"></div>
+                                    <span class="level-text">Advanced</span>
+                                </div>
+                                <span class="skill-match">✓</span>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <span class="skill-name">Node.js</span>
+                                <div class="skill-level">
+                                    <div class="level-bar" style="width: 70%"></div>
+                                    <span class="level-text">Intermediate</span>
+                                </div>
+                                <span class="skill-match">✓</span>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <span class="skill-name">UI/UX Design</span>
+                                <div class="skill-level">
+                                    <div class="level-bar" style="width: 60%"></div>
+                                    <span class="level-text">Intermediate</span>
+                                </div>
+                                <span class="skill-match">✓</span>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <span class="skill-name">Python</span>
+                                <div class="skill-level">
+                                    <div class="level-bar" style="width: 40%"></div>
+                                    <span class="level-text">Basic</span>
+                                </div>
+                                <span class="skill-match pending">+</span>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-summary">
+                            <h4>Recommended Focus:</h4>
+                            <p>Improve Python skills for better matches with data science internships</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Matching Arrow -->
+                    <div class="match-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                        <div class="match-text">Matches With</div>
+                    </div>
+                    
+                    <!-- Internship Requirements -->
+                    <div class="internship-card">
+                        <div class="internship-header">
+                            <div class="company-logo">
+                                <img src="https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&q=80" alt="Tech Company">
+                            </div>
+                            <div class="internship-info">
+                                <h3>Frontend Developer Intern</h3>
+                                <p class="company-name">TechCorp Solutions</p>
+                                <div class="internship-tags">
+                                    <span class="tag">Remote</span>
+                                    <span class="tag">Paid</span>
+                                    <span class="tag">3 Months</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="requirements">
+                            <h4>Required Skills:</h4>
+                            <div class="required-skills">
+                                <span class="skill-tag matched">React.js</span>
+                                <span class="skill-tag matched">JavaScript</span>
+                                <span class="skill-tag matched">HTML/CSS</span>
+                                <span class="skill-tag partial">Node.js</span>
+                                <span class="skill-tag missing">Python</span>
+                            </div>
+                        </div>
+                        
+                        <div class="match-details">
+                            <div class="match-percentage">
+                                <div class="percentage-circle">
+                                    <span>85%</span>
+                                </div>
+                                <p>Skill Match</p>
+                            </div>
+                            
+                            <div class="match-action">
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Apply Now
+                                </button>
+                                <p class="match-hint">You match 5 of 6 required skills</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Organization Benefits -->
+                <div class="organization-benefits">
+                    <h3>For Organizations: Why Use SkillLaunch?</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h4>Skill-Based Filtering</h4>
+                            <p>Find interns with verified skills, not just resumes</p>
+                        </div>
+                        
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4>Progress Tracking</h4>
+                            <p>Monitor intern skill growth and project contributions</p>
+                        </div>
+                        
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4>Quality Candidates</h4>
+                            <p>Access pre-vetted students with proven portfolios</p>
+                        </div>
+                        
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h4>Time Saving</h4>
+                            <p>Reduce hiring time by 60% with our matching system</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="process" class="process-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>How SkillLaunch Works</h2>
+                    <p class="section-subtitle">A simple 4-step process to launch your career</p>
+                </div>
+                
+                <div class="process-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Build Your Profile</h3>
+                        <p>Create a professional portfolio showcasing your skills and projects.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Skill Assessment</h3>
+                        <p>Complete skill assessments to validate your capabilities.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Smart Matching</h3>
+                        <p>Our algorithm matches you with relevant internship opportunities.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Start Your Journey</h3>
+                        <p>Begin your internship with mentor support and skill tracking.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="final-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to Launch Your Career?</h2>
+                    <p>Join thousands of students who have transformed their career prospects with SkillLaunch.</p>
+                    
+                    <div class="cta-actions">
+                        <a href="signup.html" class="btn btn-primary btn-large">
+                            <i class="fas fa-rocket"></i> Start Free
+                        </a>
+                        <a href="#portfolio" class="btn btn-outline btn-large">
+                            <i class="fas fa-eye"></i> See Examples
+                        </a>
+                    </div>
+                    
+                    <p class="cta-note">No credit card required • Full access to portfolio builder</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <i class="fas fa-rocket"></i>
+                        SkillLaunch
+                    </a>
+                    <p class="footer-description">
+                        Helping students build careers through professional portfolios and verified internships.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Platform</h3>
+                    <ul>
+                        <li><a href="#portfolio">Portfolio Builder</a></li>
+                        <li><a href="#internships">Internship Finder</a></li>
+                        <li><a href="#skills-fit">Skill Match</a></li>
+                        <li><a href="#process">How It Works</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Career Guide</a></li>
+                        <li><a href="#">Portfolio Templates</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p>help@skilllaunch.com</p>
+                    <p>Available for students worldwide</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 SkillLaunch. Empowering student careers.</p>
+                <div class="developer-credits">
+                    <p>Developed for students by <span>Pawan Rimal & Anup Shrestha</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/interactive.js"></script>
+</body>
+</html>

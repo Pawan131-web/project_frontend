@@ -1,0 +1,13 @@
+main.js (CORE)
+Mobile menu toggle: Lines 10-35
+Smooth scrolling: Lines 37-55
+Active navigation: Lines 57-70
+Works automatically - no config needed
+
+-----------------------------------------------------------------------------------------------
+interactive.js (ENHANCEMENTS)
+Scroll animations: Lines 8-25 (fade-in effects)
+Skill bar animations: Lines 27-45 (progress bars)
+Hover effects: Lines 47-60 (card lifting)
+Apply button: Lines 62-85 (interactive feedback)
+Edit apply button text/timing: Lines 71-85

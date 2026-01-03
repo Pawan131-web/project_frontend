@@ -1,0 +1,12 @@
+ COLOR SCHEME (Edit in base.css lines 4-40)
+ 
+PRIMARY (Red):
+- Main: #D32F2F (buttons, highlights)
+- Dark: #B71C1C (hover)
+- Light: #EF5350 (gradients)
+
+NEUTRALS:
+- Dark Navy: #1A1A2E (headers)
+- Charcoal: #2D3748 (text)
+- Gray: #4A5568 (paragraphs)
+- Light: #F7FAFC (backgrounds)

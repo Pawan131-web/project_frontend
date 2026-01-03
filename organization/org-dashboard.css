@@ -1,0 +1,405 @@
+/* ===== ORGANIZATION DASHBOARD ===== */
+/* Reuses styles from std-dashboard.css with organization-specific tweaks */
+
+/* Quick Actions */
+.quick-action-card {
+    padding: 24px;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn.primary {
+    background: var(--gradient-red);
+    color: white;
+    grid-column: span 2;
+}
+
+.action-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
+}
+
+.action-btn.secondary {
+    background: #f8f9fa;
+    color: var(--dark-navy);
+    border: 1px solid #e9ecef;
+}
+
+.action-btn.secondary:hover {
+    background: #e9ecef;
+    border-color: #dee2e6;
+}
+
+/* Recent Applications */
+.recent-applications-card {
+    padding: 24px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--dark-navy);
+    font-weight: 600;
+}
+
+.view-all {
+    color: var(--primary-red);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.view-all:hover {
+    text-decoration: underline;
+}
+
+.applications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.application-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.application-item:hover {
+    background: white;
+    border-color: var(--primary-red);
+    transform: translateX(4px);
+}
+
+.student-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.application-info {
+    flex: 1;
+}
+
+.application-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    color: var(--dark-navy);
+    font-weight: 600;
+}
+
+.application-info p {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: var(--gray-medium);
+}
+
+.application-info small {
+    color: var(--gray-light);
+    font-size: 12px;
+}
+
+.application-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.application-status.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d69e2e;
+}
+
+.application-status.review {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.application-status.shortlisted {
+    background: rgba(56, 161, 105, 0.1);
+    color: #38a169;
+}
+
+/* Activity Feed */
+.activity-card {
+    padding: 24px;
+}
+
+.activity-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.activity-item:hover {
+    background: #f8f9fa;
+}
+
+.activity-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(211, 47, 47, 0.1);
+    color: var(--primary-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.activity-content p {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: var(--dark-navy);
+}
+
+.activity-content small {
+    color: var(--gray-light);
+    font-size: 12px;
+}
+
+/* Right Sidebar Organization Specific */
+.student-avatar-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* Hiring Pipeline */
+.pipeline-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.pipeline-stage {
+    text-align: center;
+    padding: 12px 8px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.stage-label {
+    font-size: 11px;
+    color: var(--gray-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.stage-count {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark-navy);
+}
+
+.pipeline-visual {
+    margin-top: 20px;
+}
+
+.pipeline-bar {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+}
+
+.bar-segment {
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.bar-segment.applications {
+    background: #f59e0b;
+}
+
+.bar-segment.review {
+    background: #3b82f6;
+}
+
+.bar-segment.interview {
+    background: #8b5cf6;
+}
+
+.bar-segment.hired {
+    background: #10b981;
+}
+
+/* In-Demand Skills */
+.skills-demand {
+    padding: 4px 0;
+}
+
+.demand-item {
+    margin-bottom: 20px;
+}
+
+.skill-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: 8px;
+}
+
+.demand-bar {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.demand-fill {
+    height: 100%;
+    background: var(--gradient-red);
+    border-radius: 3px;
+}
+
+.demand-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.growth {
+    color: #38a169;
+    font-weight: 600;
+}
+
+.openings {
+    color: var(--gray-medium);
+}
+
+/* Shortlisted Candidates */
+.shortlist-list {
+    padding: 4px 0;
+}
+
+.shortlist-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    transition: all 0.2s ease;
+}
+
+.shortlist-item:hover {
+    background: #e9ecef;
+    transform: translateX(4px);
+}
+
+.shortlist-info h4 {
+    margin: 0 0 2px 0;
+    font-size: 14px;
+    color: var(--dark-navy);
+    font-weight: 600;
+}
+
+.shortlist-info p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--gray-medium);
+}
+
+.shortlist-tag {
+    margin-left: auto;
+    padding: 4px 8px;
+    background: rgba(211, 47, 47, 0.1);
+    color: var(--primary-red);
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-btn.primary {
+        grid-column: span 1;
+    }
+    
+    .pipeline-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .application-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .application-status {
+        align-self: stretch;
+        text-align: center;
+    }
+}

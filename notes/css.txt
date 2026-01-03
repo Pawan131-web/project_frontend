@@ -1,0 +1,27 @@
+base.css (FOUNDATION)
+
+Lines 4-40: COLOR VARIABLES - Change all colors here
+Lines 54-80: TYPOGRAPHY - Font sizes, weights
+Lines 92-124: BUTTONS - Button styles
+Lines 127-144: LOGO - Animated logo effects
+
+--------------------------------------------------------------------------------------
+layout.css (STRUCTURE)
+Each section has its own class:
+- .hero-section (Lines 72-165)
+- .portfolio-section (Lines 167-210)
+- .internships-section (Lines 212-255)
+- .skills-fit-section (Lines 257-450) - NEW
+- .process-section (Lines 452-495)
+- .main-footer (Lines 497-570)
+
+Responsive design: Lines 572-640
+
+--------------------------------------------------------------------------------------
+components.css (REUSABLE)
+Small components:
+- .card: Box containers
+- .form-input: Input fields
+- .progress-track: Skill bars
+- .alert: Notifications
+- .badge: Small tags

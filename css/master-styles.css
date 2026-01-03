@@ -1,0 +1,641 @@
+/* ===== SKILLLAUNCH MASTER STYLES ===== */
+/* Consistent across ALL pages - DO NOT EDIT individual page styles here */
+
+/* ===== 1. COLOR PALETTE & VARIABLES ===== */
+/* Use these variables everywhere for consistency */
+:root {
+    /* Primary Brand Colors */
+    --primary-red: #D32F2F;           /* Main brand red - used for buttons, links, accents */
+    --primary-dark: #B71C1C;          /* Darker red - used for hover states */
+    --primary-light: #EF5350;         /* Lighter red - used for gradients */
+    
+    /* Neutral Colors */
+    --dark-navy: #1A1A2E;             /* Headers, footer background, dark elements */
+    --gray-dark: #2D3748;             /* Dark gray - subtitles, important text */
+    --gray-medium: #4A5568;           /* Medium gray - body text, descriptions */
+    --gray-light: #A0AEC0;            /* Light gray - placeholders, disabled states */
+    --gray-very-light: #E2E8F0;       /* Very light gray - borders, dividers */
+    --bg-light: #F8FAFC;              /* Page background light color */
+    --white: #FFFFFF;                 /* Pure white - cards, backgrounds */
+    
+    /* Gradients */
+    --gradient-red: linear-gradient(135deg, var(--primary-red), var(--primary-light));
+    --gradient-dark: linear-gradient(135deg, var(--dark-navy), #0F1419);
+    --gradient-light: linear-gradient(135deg, var(--bg-light), var(--white));
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);      /* Small elevation */
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);     /* Medium elevation (cards) */
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.1);     /* Large elevation (modals) */
+    
+    /* Border Radius */
+    --radius-sm: 8px;                 /* Small elements, tags */
+    --radius-md: 12px;                /* Buttons, form inputs */
+    --radius-lg: 16px;                /* Cards, containers */
+    --radius-xl: 24px;                /* Large containers, hero sections */
+    
+    /* Spacing */
+    --space-xs: 8px;                  /* Small gaps, padding */
+    --space-sm: 16px;                 /* Regular gaps */
+    --space-md: 24px;                 /* Section gaps */
+    --space-lg: 32px;                 /* Large gaps */
+    --space-xl: 40px;                 /* Extra large gaps */
+    
+    /* Breakpoints - USE THESE FOR ALL RESPONSIVE DESIGN */
+    --breakpoint-mobile: 480px;       /* Mobile phones */
+    --breakpoint-tablet: 768px;       /* Tablets */
+    --breakpoint-desktop: 1024px;     /* Small desktops */
+    --breakpoint-large: 1200px;       /* Large desktops */
+}
+
+/* ===== 2. BASE RESET & TYPOGRAPHY ===== */
+/* Consistent text styles across all pages */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-navy);
+    background: var(--gradient-light); /* Consistent page background */
+    min-height: 100vh;
+}
+
+/* Headers - Consistent across all pages */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: var(--space-sm);
+}
+
+h1 {
+    font-size: 2.5rem;      /* 40px - Main page titles */
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: 2rem;        /* 32px - Section titles */
+}
+
+h3 {
+    font-size: 1.5rem;      /* 24px - Card titles, subsection */
+}
+
+h4 {
+    font-size: 1.25rem;     /* 20px - Small headers */
+}
+
+/* Paragraphs & Text */
+p {
+    font-size: 1.125rem;    /* 18px - Body text */
+    color: var(--gray-medium);
+    margin-bottom: var(--space-sm);
+    line-height: 1.6;
+}
+
+/* Small text */
+small, .text-small {
+    font-size: 0.875rem;    /* 14px - Captions, helper text */
+    color: var(--gray-light);
+}
+
+/* Links - Consistent red color */
+a {
+    color: var(--primary-red);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-weight: 500;
+}
+
+a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* ===== 3. LOGO STYLES ===== */
+/* Logo must look identical on EVERY page */
+
+/* Logo container */
+.logo,
+.header-logo,
+.form-logo,
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover,
+.header-logo:hover {
+    transform: translateY(-2px);
+}
+
+/* Logo icon (rocket) */
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-red);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+/* Shine animation effect */
+.logo-icon::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg, 
+        transparent 40%, 
+        rgba(255, 255, 255, 0.3) 50%, 
+        transparent 60%
+    );
+    animation: logo-shine 3s infinite;
+}
+
+@keyframes logo-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Logo text */
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    
+}
+
+.logo-main {
+    font-size: 1.5rem;      /* 24px */
+    font-weight: 800;
+    color: var(--dark-navy);
+    letter-spacing: -0.5px;
+    
+}
+
+.logo-accent {
+    font-size: 1.5rem;      /* 24px */
+    font-weight: 800;
+    background: var(--gradient-red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+}
+
+/* ===== 4. BUTTONS ===== */
+/* Primary buttons - Red gradient everywhere (except choice page) */
+
+.btn,
+.login-btn,
+.signup-btn,
+.primary-btn,
+.apply-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--gradient-red);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Button hover effect */
+.btn:hover,
+.login-btn:hover,
+.signup-btn:hover,
+.primary-btn:hover,
+.apply-btn:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-red));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+}
+
+/* Button icons */
+.btn i,
+.login-btn i,
+.signup-btn i {
+    transition: transform 0.3s ease;
+}
+
+.btn:hover i,
+.login-btn:hover i,
+.signup-btn:hover i {
+    transform: translateX(4px);
+}
+
+/* Outline button (secondary) */
+.btn-outline {
+    background: transparent;
+    color: var(--primary-red);
+    border: 2px solid var(--primary-red);
+}
+
+.btn-outline:hover {
+    background: var(--primary-red);
+    color: var(--white);
+}
+
+/* ===== 5. FORM ELEMENTS ===== */
+/* Consistent forms across login, signup, dashboard */
+
+.form-group {
+    margin-bottom: var(--space-lg);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-weight: 500;
+    color: var(--gray-dark);
+    font-size: 0.95rem;
+}
+
+/* Text inputs */
+.form-input,
+.search-box,
+.chatbot-input input,
+.company-select {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--gray-very-light);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--dark-navy);
+    background: var(--white);
+    transition: all 0.2s ease;
+}
+
+/* Input focus state */
+.form-input:focus,
+.search-box:focus,
+.chatbot-input input:focus,
+.company-select:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
+/* Placeholder text */
+.form-input::placeholder,
+.search-box::placeholder {
+    color: var(--gray-light);
+}
+
+/* Checkboxes & Radio buttons */
+.terms-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-red);
+}
+
+/* ===== 6. CARDS & CONTAINERS ===== */
+/* Consistent card design for content blocks */
+
+.card,
+.role-card,
+.stat-card,
+.action-card,
+.internship-card,
+.info-box {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+/* Card hover effect */
+.card:hover,
+.role-card:hover,
+.stat-card:hover,
+.action-card:hover,
+.internship-card:hover,
+.info-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ===== 7. FOOTER ===== */
+/* Professional footer for ALL pages */
+
+.main-footer,
+.login-footer,
+.auth-footer,
+.page-footer {
+    background: var(--dark-navy);
+    color: var(--white);
+    padding: var(--space-xl) 0 var(--space-lg);
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Footer container */
+.footer-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+/* Footer content - 4 column layout */
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-lg);
+}
+
+/* Footer branding */
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: var(--space-sm);
+}
+
+.footer-logo i {
+    color: var(--primary-red);
+    animation: rocket-pulse 2s ease-in-out infinite;
+}
+
+@keyframes rocket-pulse {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.footer-description {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Footer links */
+.footer-links h3,
+.footer-contact h3 {
+    color: var(--white);
+    font-size: 1.125rem;
+    margin-bottom: var(--space-md);
+}
+
+.footer-links ul {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: var(--space-xs);
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+    color: var(--white);
+}
+
+/* Footer bottom */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: var(--space-md);
+    text-align: center;
+}
+
+.copyright {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-xs);
+}
+
+.developer-credits {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+}
+
+.developer-credits span {
+    color: var(--primary-red);
+}
+
+/* ===== 8. RESPONSIVE DESIGN ===== */
+/* Consistent responsive behavior across ALL pages */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+    html {
+        font-size: 15px; /* Slightly smaller base font */
+    }
+    
+    h1 {
+        font-size: 2.25rem; /* 36px */
+    }
+    
+    h2 {
+        font-size: 1.75rem; /* 28px */
+    }
+    
+    /* Footer becomes 2 columns */
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-lg);
+    }
+    
+    /* Cards stack vertically */
+    .stats-cards,
+    .quick-actions,
+    .portfolio-features,
+    .internship-benefits {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile (480px - 767px) */
+@media (max-width: 767px) {
+    html {
+        font-size: 14px; /* Smaller base font for mobile */
+    }
+    
+    h1 {
+        font-size: 2rem; /* 32px */
+    }
+    
+    h2 {
+        font-size: 1.5rem; /* 24px */
+    }
+    
+    h3 {
+        font-size: 1.25rem; /* 20px */
+    }
+    
+    /* Single column layout */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    /* Reduce padding on mobile */
+    .dashboard-container,
+    .auth-container,
+    .login-container {
+        padding: var(--space-md);
+    }
+    
+    /* Stack grid layouts */
+    .lower-grid,
+    .skills-match-container {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Make buttons full width on mobile */
+    .btn,
+    .action-button {
+        width: 100%;
+    }
+}
+
+/* Small Mobile (under 480px) */
+@media (max-width: 480px) {
+    /* Even smaller text for very small screens */
+    h1 {
+        font-size: 1.75rem; /* 28px */
+    }
+    
+    /* Reduce all padding */
+    .card,
+    .stat-card,
+    .action-card {
+        padding: var(--space-md);
+    }
+    
+    /* Hide non-essential elements */
+    .header-back span,
+    .search-box {
+        display: none;
+    }
+    
+    /* Make sure tap targets are at least 44px */
+    button,
+    .btn,
+    a[role="button"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* ===== 9. UTILITY CLASSES ===== */
+/* Reusable utility classes for quick styling */
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-gradient {
+    background: var(--gradient-red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+
+.hidden { display: none; }
+.hidden-mobile { display: block; }
+.hidden-desktop { display: none; }
+
+@media (max-width: 767px) {
+    .hidden-mobile { display: none; }
+    .hidden-desktop { display: block; }
+}
+
+/* ===== 10. ANIMATIONS & TRANSITIONS ===== */
+/* Consistent animation timing across site */
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Loading spinner */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

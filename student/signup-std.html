@@ -1,0 +1,365 @@
+<!--student/signup-std.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillLaunch | Student Sign Up</title>
+    <link rel="stylesheet" href="../css/signup-std.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<style>
+    /* Message Styles */
+    .message-container {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .info-message {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+    
+    .message-icon {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+    
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="signup-container">
+        <!-- Left Side - Signup Form -->
+        <div class="signup-form-side">
+            <!-- Logo -->
+            <div class="form-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <span>Skill</span>
+                    <span>Launch</span>
+                </div>
+            </div>
+
+            <!-- Form Header -->
+            <div class="form-header">
+                <h1>Create student account</h1>
+                <p>Start building your professional portfolio today.</p>
+            </div>
+            <!-- Message Container -->
+<div id="messageContainer" class="message-container">
+    <div id="messageContent">
+        <i class="fas fa-info-circle message-icon"></i>
+        <span id="messageText">Message will appear here</span>
+    </div>
+</div>
+            <!-- Signup Form -->
+            <form id="studentSignupForm" class="signup-form">
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="fullName" class="form-label">Full Name</label>
+                    <input type="text" id="fullName" class="form-input" placeholder="Enter your full name" required>
+                </div>
+<div class="form-group">
+    <label for="username" class="form-label">
+        Username
+        <span class="form-hint" style="font-size: 0.85em; color: #666; font-weight: normal;">
+            (for mentions and profile URL)
+        </span>
+    </label>
+    <input type="text" id="username" class="form-input" 
+           placeholder="e.g., john_doe" 
+           pattern="[a-zA-Z0-9_]{3,30}"
+           title="3-30 characters, letters, numbers, underscores only"
+           required>
+    <div class="input-hint" id="usernameHint" style="font-size: 0.8rem; margin-top: 4px; color: #666;">
+        No spaces or special characters. This will be your unique identifier.
+    </div>
+    <div class="availability-check" id="usernameCheck" style="font-size: 0.8rem; margin-top: 4px;"></div>
+</div>                
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="student@example.com" required>
+                </div>
+                
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Create a password" required>
+                </div>
+                
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                </div>
+                
+                <!-- Terms Agreement -->
+                <div class="terms-group">
+                    <input type="checkbox" id="terms" class="terms-checkbox" required>
+                    <label for="terms" class="terms-label">
+                        I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="signup-btn" id="submitBtn">
+                                Create Account
+                </button>
+            </form>
+            
+            <!-- Login Link -->
+            <div class="login-link">
+                <p>Already have an account? <a href="login-std.html">Log in</a></p>
+            </div>
+        </div>
+        
+        <!-- Right Side - Image Only -->
+        <div class="signup-image-side">
+            <img src="../assets/signup-std.avif" alt="Student building portfolio" class="signup-image">
+            
+            <!-- Simple Overlay -->
+            <div class="image-overlay">
+                <!-- No text content, just the image -->
+            </div>
+            
+            <!-- Footer -->
+            <div class="page-footer">
+                <div class="footer-links">
+                    <a href="terms.html">Terms</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="help.html">Help</a>
+                </div>
+                <p class="copyright">© 2025 SkillLaunch</p>
+            </div>
+        </div>
+    </div>
+    <script src="../js/signup-validation.js"></script>
+   <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('studentSignupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageContainer = document.getElementById('messageContainer');
+    const messageText = document.getElementById('messageText');
+    const messageIcon = document.querySelector('#messageContent .message-icon');
+    
+    if (!form) return;
+    
+    // Function to show messages
+    function showMessage(type, text, icon = null) {
+        messageContainer.className = 'message-container ' + type + '-message';
+        messageText.textContent = text;
+        
+        if (icon) {
+            messageIcon.className = 'fas message-icon ' + icon;
+        } else {
+            if (type === 'success') messageIcon.className = 'fas message-icon fa-check-circle';
+            else if (type === 'error') messageIcon.className = 'fas message-icon fa-exclamation-circle';
+            else messageIcon.className = 'fas message-icon fa-info-circle';
+        }
+        
+        messageContainer.style.display = 'block';
+        
+        // Auto hide after 5 seconds
+        if (type === 'success') {
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 5000);
+        }
+    }
+    
+    function hideMessage() {
+        messageContainer.style.display = 'none';
+    }
+    
+    // ===== USERNAME AVAILABILITY CHECK =====
+    async function checkUsernameAvailability(username) {
+        const checkElement = document.getElementById('usernameCheck');
+        
+        // Clear previous messages
+        checkElement.innerHTML = '';
+        
+        if (username.length < 1) {
+            return; // Don't show anything for empty field
+        }
+        
+        if (username.length < 3) {
+            checkElement.innerHTML = '<span style="color: #d69e2e;"><i class="fas fa-info-circle"></i> Must be at least 3 characters</span>';
+            return;
+        }
+        
+        // Check format first (client-side)
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+            checkElement.innerHTML = '<span style="color: #e53e3e;"><i class="fas fa-times-circle"></i> Only letters, numbers, underscores</span>';
+            return;
+        }
+        
+        if (username.length > 30) {
+            checkElement.innerHTML = '<span style="color: #e53e3e;"><i class="fas fa-times-circle"></i> Max 30 characters</span>';
+            return;
+        }
+        
+        // Show checking
+        checkElement.innerHTML = '<span style="color: #666;"><i class="fas fa-spinner fa-spin"></i> Checking...</span>';
+        
+        try {
+            const response = await fetch(`http://localhost:5000/api/auth/check-username?username=${encodeURIComponent(username)}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            
+            console.log('Username check result:', result);
+            
+            if (result.success) {
+                if (result.available) {
+                    checkElement.innerHTML = '<span style="color: #38a169;"><i class="fas fa-check-circle"></i> Available</span>';
+                } else {
+                    checkElement.innerHTML = `<span style="color: #e53e3e;"><i class="fas fa-times-circle"></i> ${result.message || 'Already taken'}</span>`;
+                }
+            } else {
+                checkElement.innerHTML = '<span style="color: #d69e2e;"><i class="fas fa-exclamation-triangle"></i> Could not verify</span>';
+            }
+            
+        } catch (error) {
+            console.error('Username check error:', error);
+            checkElement.innerHTML = '<span style="color: #d69e2e;"><i class="fas fa-exclamation-triangle"></i> Could not check availability</span>';
+        }
+    }
+    
+    // Add event listener for username input
+    const usernameInput = document.getElementById('username');
+    if (usernameInput) {
+        usernameInput.addEventListener('input', function() {
+            const username = this.value.trim().toLowerCase();
+            checkUsernameAvailability(username);
+        });
+    }
+    
+    // ===== FORM SUBMISSION =====
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const fullName = document.getElementById('fullName').value.trim();
+        const username = document.getElementById('username').value.trim().toLowerCase();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Validation
+        if (!fullName || !username || !email || !password || !confirmPassword) {
+            showMessage('error', 'Please fill in all fields', 'fa-exclamation-triangle');
+            return;
+        }
+        
+        // Username format validation
+        if (username.length < 3 || username.length > 30) {
+            showMessage('error', 'Username must be 3-30 characters', 'fa-user');
+            return;
+        }
+        
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+            showMessage('error', 'Username can only contain letters, numbers, and underscores', 'fa-user');
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            showMessage('error', 'Passwords do not match', 'fa-key');
+            return;
+        }
+        
+        if (!document.getElementById('terms').checked) {
+            showMessage('error', 'Please agree to the Terms of Service', 'fa-file-contract');
+            return;
+        }
+        
+        // Hide previous messages
+        hideMessage();
+        
+        // Show loading
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Creating Account...';
+        submitBtn.disabled = true;
+        
+        try {
+            // Send to backend
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName: fullName,
+                    username: username,
+                    email: email,
+                    password: password,
+                    userType: 'student'
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // ✅ SUCCESS
+                showMessage('success', 'Account created! Check email for verification code.', 'fa-envelope');
+                
+                // Store email and redirect
+                localStorage.setItem('pendingVerificationEmail', email);
+                localStorage.setItem('signupEmail', email);
+                localStorage.setItem('signupUsername', username);
+                
+                // Redirect to verification page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = '../pages/verify-email.html?email=' + encodeURIComponent(email);
+                }, 2000);
+                
+            } else {
+                // ❌ Error
+                showMessage('error', result.message, 'fa-exclamation-circle');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+            
+        } catch (error) {
+            showMessage('error', 'Network error. Please check if backend is running.', 'fa-wifi');
+            console.error('Signup error:', error);
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    // Hide messages when user starts typing
+    const inputs = form.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('input', hideMessage);
+    });
+});
+</script>
+</body>
+</html>

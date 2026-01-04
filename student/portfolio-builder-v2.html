@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillLaunch | Portfolio Builder</title>
+
+  <!-- Styles -->
+   <link rel="stylesheet" href="../css/master-styles.css">
+  <link rel="stylesheet" href="../css/portfolio-builder-v2.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="sl-navbar">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon"><i class="fas fa-rocket"></i></div>
+      <div class="logo-text"><span class="logo-main">Skill</span><span class="logo-accent">Launch</span></div>
+    </a>
+
+    <h1 class="page-title">Portfolio Builder</h1>
+
+    <div class="nav-actions">
+      <div class="autosave" id="autosaveStatus">
+        <span class="dot"></span>
+        <span class="text">Saved</span>
+      </div>
+      <button class="btn ghost" id="btnPreview" type="button"><i class="far fa-eye"></i> Preview</button>
+      <div class="dropdown">
+        <button class="btn" id="btnDownload" type="button"><i class="fas fa-download"></i> Download</button>
+        <div class="dropdown-menu" id="downloadMenu" aria-label="Download options">
+          <button type="button" class="menu-item"><i class="far fa-file-pdf"></i> Download as PDF</button>
+          <button type="button" class="menu-item"><i class="fas fa-globe"></i> Download as Web Portfolio</button>
+          <button type="button" class="menu-item"><i class="fas fa-share-nodes"></i> Share Portfolio Link</button>
+        </div>
+      </div>
+      <button class="btn primary" id="btnSaveDraft" type="button"><i class="fas fa-save"></i> Save Draft</button>
+      <div class="avatar" title="Profile"><span>PR</span></div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <main class="builder-layout">
+    <!-- Left Sidebar: Sections -->
+    <aside class="sections">
+      <nav class="section-nav" aria-label="Portfolio sections">
+        <button class="section-link active" data-target="sec-personal"><i class="fas fa-id-card"></i> Personal Information</button>
+        <button class="section-link" data-target="sec-about"><i class="fas fa-user-pen"></i> About Me</button>
+        <button class="section-link" data-target="sec-education"><i class="fas fa-graduation-cap"></i> Education</button>
+        <button class="section-link" data-target="sec-skills"><i class="fas fa-code"></i> Skills</button>
+        <button class="section-link" data-target="sec-projects"><i class="fas fa-diagram-project"></i> Projects</button>
+        <button class="section-link" data-target="sec-experience"><i class="fas fa-briefcase"></i> Experience / Internships</button>
+        <button class="section-link" data-target="sec-certifications"><i class="fas fa-certificate"></i> Certifications</button>
+        <button class="section-link" data-target="sec-achievements"><i class="fas fa-trophy"></i> Achievements</button>
+        <button class="section-link" data-target="sec-contact"><i class="fas fa-link"></i> Contact & Social Links</button>
+      </nav>
+    </aside>
+
+    <!-- Center: Form Builder -->
+    <section class="form-builder">
+      <!-- Personal Info -->
+      <div class="card section-card active" id="sec-personal">
+        <div class="card-header">
+          <h2>Personal Information</h2>
+          <span class="hint" title="Tell us who you are">What to write?</span>
+        </div>
+        <div class="grid two">
+          <div class="field">
+            <label for="fullName">Full Name *</label>
+            <input id="fullName" type="text" placeholder="John Doe" data-bind="name" required />
+            <small class="hint">Use your real full name</small>
+          </div>
+          <div class="field">
+            <label for="title">Professional Title *</label>
+            <input id="title" type="text" placeholder="Computer Science Student" data-bind="title" required />
+          </div>
+          <div class="field">
+            <label for="email">Email *</label>
+            <input id="email" type="email" placeholder="john@example.com" data-bind="email" required />
+          </div>
+          <div class="field">
+            <label for="location">Location</label>
+            <input id="location" type="text" placeholder="City, Country" data-bind="location" />
+          </div>
+          <div class="field full">
+            <label for="linkedin">LinkedIn</label>
+            <input id="linkedin" type="url" placeholder="https://linkedin.com/in/johndoe" data-bind="linkedin" />
+          </div>
+          <div class="field full">
+            <label for="github">GitHub</label>
+            <input id="github" type="url" placeholder="https://github.com/johndoe" data-bind="github" />
+          </div>
+        </div>
+      </div>
+
+      <!-- About Me -->
+      <div class="card section-card" id="sec-about">
+        <div class="card-header">
+          <h2>About Me</h2>
+          <span class="hint" title="2-3 lines on skills and goals">What to write?</span>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="about">Professional Summary *</label>
+            <span class="counter"><span id="aboutCount">0</span>/300</span>
+          </div>
+          <textarea id="about" rows="4" maxlength="300" placeholder="A passionate Computer Science student with experience in web development. Skilled in React, Node.js, and building scalable applications." data-bind="about"></textarea>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="card section-card" id="sec-education">
+        <div class="card-header">
+          <h2>Education</h2>
+        </div>
+        <div class="grid two">
+          <div class="field full">
+            <label for="eduSchool">Institution *</label>
+            <input id="eduSchool" type="text" placeholder="University Name" data-bind="eduSchool" />
+          </div>
+          <div class="field">
+            <label for="eduDegree">Degree *</label>
+            <input id="eduDegree" type="text" placeholder="B.Sc. in Computer Science" data-bind="eduDegree" />
+          </div>
+          <div class="field">
+            <label for="eduYears">Years</label>
+            <input id="eduYears" type="text" placeholder="2021 – 2025" data-bind="eduYears" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="card section-card" id="sec-skills">
+        <div class="card-header">
+          <h2>Skills</h2>
+        </div>
+        <div class="skill-inputs">
+          <div class="field">
+            <label for="skillInput">Add Skill</label>
+            <div class="add-row">
+              <input id="skillInput" type="text" placeholder="e.g., JavaScript" />
+              <select id="skillLevel">
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate" selected>Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+              <button class="btn" id="addSkill" type="button"><i class="fas fa-plus"></i> Add</button>
+            </div>
+            <small class="hint">Include both technical and soft skills</small>
+          </div>
+          <div class="chips" id="skillsChips"></div>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div class="card section-card" id="sec-projects">
+        <div class="card-header">
+          <h2>Projects</h2>
+        </div>
+        <div class="repeatable" id="projectsList">
+          <div class="repeat-item">
+            <div class="handle" title="Drag to reorder"><i class="fas fa-grip-lines"></i></div>
+            <div class="grid two">
+              <div class="field">
+                <label>Project Title *</label>
+                <input type="text" placeholder="E-commerce Website" data-bind="proj_title" />
+              </div>
+              <div class="field">
+                <label>Tech Stack</label>
+                <input type="text" placeholder="React, Node, MongoDB" data-bind="proj_stack" />
+              </div>
+              <div class="field full">
+                <label>Description *</label>
+                <textarea rows="2" placeholder="Brief description of your project..." data-bind="proj_desc"></textarea>
+              </div>
+              <div class="field">
+                <label>GitHub</label>
+                <input type="url" placeholder="https://github.com/username/project" data-bind="proj_github" />
+              </div>
+              <div class="field">
+                <label>Live Demo</label>
+                <input type="url" placeholder="https://project-demo.com" data-bind="proj_live" />
+              </div>
+            </div>
+            <button class="icon-btn danger remove-item" type="button" title="Remove project"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+        <button class="btn ghost" id="addProject" type="button"><i class="fas fa-plus-circle"></i> Add another project</button>
+      </div>
+
+      <!-- Experience -->
+      <div class="card section-card" id="sec-experience">
+        <div class="card-header">
+          <h2>Experience / Internships</h2>
+        </div>
+        <div class="empty-state">
+          <i class="far fa-briefcase"></i>
+          <p>Add your internships or work experience</p>
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div class="card section-card" id="sec-certifications">
+        <div class="card-header">
+          <h2>Certifications</h2>
+        </div>
+        <div class="empty-state">
+          <i class="far fa-certificate"></i>
+          <p>Add professional certifications</p>
+        </div>
+      </div>
+
+      <!-- Achievements -->
+      <div class="card section-card" id="sec-achievements">
+        <div class="card-header">
+          <h2>Achievements</h2>
+        </div>
+        <div class="empty-state">
+          <i class="far fa-star"></i>
+          <p>List your awards and recognitions</p>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="card section-card" id="sec-contact">
+        <div class="card-header">
+          <h2>Contact & Social Links</h2>
+        </div>
+        <div class="grid two">
+          <div class="field full">
+            <label for="portfolioWebsite">Portfolio Website</label>
+            <input id="portfolioWebsite" type="url" placeholder="https://your-portfolio.com" data-bind="website" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Live Preview -->
+    <aside class="live-preview">
+      <div class="preview-header">
+        <div class="template-switcher">
+          <label for="templateSelect"><i class="far fa-layer-group"></i> Template</label>
+          <select id="templateSelect">
+            <option value="minimal" selected>Minimal</option>
+            <option value="modern">Modern</option>
+            <option value="creative">Creative</option>
+          </select>
+        </div>
+      </div>
+      <div class="preview-canvas">
+        <div id="portfolio" class="portfolio template-minimal">
+          <div class="p-header">
+            <div class="p-avatar">PR</div>
+            <div>
+              <h2 id="p_name">John Doe</h2>
+              <p id="p_title">Computer Science Student</p>
+              <p class="muted"><span id="p_email">john@example.com</span> • <span id="p_location">City, Country</span></p>
+              <p class="muted"><span id="p_links">
+                <a href="#" id="p_linkedin" target="_blank" rel="noopener">LinkedIn</a>
+                <span class="sep">•</span>
+                <a href="#" id="p_github" target="_blank" rel="noopener">GitHub</a>
+              </span></p>
+            </div>
+          </div>
+
+          <section class="p-section" id="p_about_section">
+            <h3>About Me</h3>
+            <p id="p_about">A passionate Computer Science student with experience in web development. Skilled in React, Node.js, and building scalable applications.</p>
+          </section>
+
+          <section class="p-section" id="p_edu_section">
+            <h3>Education</h3>
+            <div id="p_edu">
+              <strong id="p_eduSchool">University Name</strong> — <span id="p_eduDegree">B.Sc. in Computer Science</span>
+              <div class="muted" id="p_eduYears">2021 – 2025</div>
+            </div>
+          </section>
+
+          <section class="p-section" id="p_skills_section">
+            <h3>Skills</h3>
+            <ul id="p_skills" class="tags"></ul>
+          </section>
+
+          <section class="p-section" id="p_projects_section">
+            <h3>Projects</h3>
+            <div id="p_projects"></div>
+          </section>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Scripts -->
+  <script src="../js/portfolio-builder-v2.js"></script>
+</body>
+</html>

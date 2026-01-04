@@ -1,0 +1,442 @@
+<!--admin/login-admin.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillLaunch | Admin Login</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/master-styles.css">
+    <link rel="stylesheet" href="admin-dashboard.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Additional login-specific styles */
+        .admin-login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            padding: 20px;
+        }
+        
+        .admin-login-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1a237e, #283593);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .admin-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 5px;
+        }
+        
+        .admin-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #1a237e;
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+        }
+        
+        .admin-login-btn {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+        
+        .admin-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 35, 126, 0.3);
+        }
+        
+        .security-notice {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #d32f2f;
+            text-align: left;
+        }
+        
+        .security-notice i {
+            color: #d32f2f;
+            margin-right: 8px;
+        }
+        
+        .security-notice p {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+        
+        .back-link:hover {
+            color: #1a237e;
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Key validation styles */
+        .key-validation {
+            display: none;
+        }
+        
+        .key-validation.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-login-card">
+            <!-- Admin Logo -->
+            <div class="admin-logo">
+                <div class="admin-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                    <div class="admin-title">SkillLaunch</div>
+                    <div class="admin-subtitle">Admin Control Panel</div>
+                </div>
+            </div>
+            
+            <!-- Access Key Validation -->
+            <div class="key-validation" id="keyValidation">
+                <div class="security-notice">
+                    <i class="fas fa-key"></i>
+                    <p>Please enter your admin access key to continue</p>
+                </div>
+                <div class="form-group">
+                    <input type="password" 
+                           class="form-input" 
+                           id="adminKey" 
+                           placeholder="Enter admin access key">
+                    <div class="error-message" id="keyError">
+                        Invalid access key. Please check and try again.
+                    </div>
+                </div>
+                <button class="admin-login-btn" id="validateKeyBtn">
+                    <i class="fas fa-unlock"></i> Validate Key
+                </button>
+                <div style="margin-top: 15px;">
+                    <a href="../index.html" class="back-link">
+                        <i class="fas fa-arrow-left"></i> Back to Homepage
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Admin Login Form (Hidden by default) -->
+            <form class="admin-login-form" id="adminLoginForm" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">Admin Email</label>
+                    <input type="email" 
+                           class="form-input" 
+                           id="adminEmail" 
+                           placeholder="admin@skilllaunch.com"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" 
+                           class="form-input" 
+                           id="adminPassword" 
+                           placeholder="••••••••"
+                           required>
+                    <div class="error-message" id="loginError">
+                        Invalid credentials. Please try again.
+                    </div>
+                </div>
+                
+                <button type="submit" class="admin-login-btn" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login to Admin Panel
+                </button>
+                
+                <div class="security-notice">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p><strong>Security Notice:</strong> This area is restricted to authorized personnel only. All activities are logged and monitored.</p>
+                </div>
+            </form>
+            
+            <!-- Developer Credits -->
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                <p style="font-size: 12px; color: #888; margin: 0;">
+                    <i class="fas fa-code"></i> Built by <strong>Pawan Rimal & Anup Shrestha</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin Login JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize
+            console.log('🔐 Admin Login Loaded');
+            
+            // Show key validation first
+            document.getElementById('keyValidation').classList.add('show');
+            
+            // Valid admin keys (in production, store securely on server)
+            const validAccessKeys = [
+                "SKILLLAUNCH_ADMIN_2025",
+                "PAWAN_ANUP_ADMIN",
+                "SKILLLAUNCH_DEV"
+            ];
+            
+            // Validate Key Button
+            document.getElementById('validateKeyBtn').addEventListener('click', function() {
+                const keyInput = document.getElementById('adminKey').value.trim();
+                const keyError = document.getElementById('keyError');
+                
+                if (!keyInput) {
+                    keyError.textContent = "Please enter an access key";
+                    keyError.style.display = 'block';
+                    return;
+                }
+                
+                // Check if key is valid
+                if (validAccessKeys.includes(keyInput)) {
+                    // Hide key validation, show login form
+                    document.getElementById('keyValidation').classList.remove('show');
+                    document.getElementById('adminLoginForm').style.display = 'block';
+                    keyError.style.display = 'none';
+                    
+                    // Store valid key in session
+                    sessionStorage.setItem('adminAccessKey', keyInput);
+                    console.log('✅ Access key validated');
+                } else {
+                    keyError.textContent = "Invalid access key. Please check and try again.";
+                    keyError.style.display = 'block';
+                    
+                    // Shake animation for error
+                    const keyInputEl = document.getElementById('adminKey');
+                    keyInputEl.style.animation = 'shake 0.5s ease';
+                    setTimeout(() => {
+                        keyInputEl.style.animation = '';
+                    }, 500);
+                }
+            });
+            
+            // Allow Enter key in key validation
+            document.getElementById('adminKey').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('validateKeyBtn').click();
+                }
+            });
+            
+            // Admin Login Form Submission
+            document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('adminEmail').value.trim();
+                const password = document.getElementById('adminPassword').value.trim();
+                const loginError = document.getElementById('loginError');
+                const loginBtn = document.getElementById('loginBtn');
+                
+                // Reset error
+                loginError.style.display = 'none';
+                
+                // Basic validation
+                if (!email || !password) {
+                    loginError.textContent = "Please fill in all fields";
+                    loginError.style.display = 'block';
+                    return;
+                }
+                
+                // Show loading
+                const originalText = loginBtn.innerHTML;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+                loginBtn.disabled = true;
+                
+                // Simulate API call (in production, this would call your backend)
+                setTimeout(() => {
+                    // For demo purposes - hardcoded admin credentials
+                    // In production, validate against database
+                    const validAdmins = [
+                        { email: "admin@skilllaunch.com", password: "Admin@2025" },
+                        { email: "pawan@skilllaunch.com", password: "PawanAdmin123" },
+                        { email: "anup@skilllaunch.com", password: "AnupAdmin456" }
+                    ];
+                    
+                    const isValid = validAdmins.some(admin => 
+                        admin.email === email && admin.password === password
+                    );
+                    
+                    if (isValid) {
+                        // Login successful
+                        console.log('✅ Admin login successful');
+                        
+                        // Store admin session
+                        const adminData = {
+                            email: email,
+                            name: email.split('@')[0].replace('.', ' '),
+                            role: 'super_admin',
+                            loginTime: new Date().toISOString()
+                        };
+                        
+                        localStorage.setItem('adminUser', JSON.stringify(adminData));
+                        localStorage.setItem('isAdminLoggedIn', 'true');
+                        
+                        // Show success message
+                        loginBtn.innerHTML = '<i class="fas fa-check"></i> Login Successful!';
+                        loginBtn.style.background = '#4CAF50';
+                        
+                        // Redirect to admin dashboard
+                        setTimeout(() => {
+                            window.location.href = 'admin-dashboard.html';
+                        }, 1000);
+                        
+                    } else {
+                        // Login failed
+                        console.log('❌ Admin login failed');
+                        loginError.textContent = "Invalid email or password. Please try again.";
+                        loginError.style.display = 'block';
+                        
+                        // Reset button
+                        loginBtn.innerHTML = originalText;
+                        loginBtn.disabled = false;
+                        
+                        // Shake animation
+                        const form = document.getElementById('adminLoginForm');
+                        form.style.animation = 'shake 0.5s ease';
+                        setTimeout(() => {
+                            form.style.animation = '';
+                        }, 500);
+                    }
+                }, 1500); // Simulate network delay
+            });
+            
+            // Allow Enter key in login form
+            document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('adminLoginForm').dispatchEvent(new Event('submit'));
+                }
+            });
+            
+            // Check if already logged in
+            if (localStorage.getItem('isAdminLoggedIn') === 'true') {
+                // If already logged in, check session age
+                const adminData = JSON.parse(localStorage.getItem('adminUser') || '{}');
+                const loginTime = new Date(adminData.loginTime);
+                const now = new Date();
+                const hoursSinceLogin = (now - loginTime) / (1000 * 60 * 60);
+                
+                if (hoursSinceLogin < 2) { // 2 hour session
+                    // Auto-redirect to dashboard
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    // Session expired
+                    localStorage.removeItem('adminUser');
+                    localStorage.removeItem('isAdminLoggedIn');
+                }
+            }
+        });
+        
+        // Animation for shake effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

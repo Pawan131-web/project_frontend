@@ -284,7 +284,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // ✅ CORRECT: User is an organization
                     
                     // Save user data
-                    localStorage.setItem('user', JSON.stringify(result.data));
+                    const userData = { ...result.data, _id: result.data._id || result.data.id };
+                    localStorage.setItem('user', JSON.stringify(userData));
+                    if (result.token) localStorage.setItem('token', result.token);
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('userType', result.data.userType);
                     

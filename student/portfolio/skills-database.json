@@ -1,0 +1,282 @@
+[
+  {
+    "name": "Python",
+    "category": "Programming Languages",
+    "description": "High-level programming language"
+  },
+  {
+    "name": "JavaScript",
+    "category": "Programming Languages",
+    "description": "Scripting language for web development"
+  },
+  {
+    "name": "Java",
+    "category": "Programming Languages",
+    "description": "Object-oriented programming language"
+  },
+  {
+    "name": "C++",
+    "category": "Programming Languages",
+    "description": "General-purpose programming language"
+  },
+  {
+    "name": "TypeScript",
+    "category": "Programming Languages",
+    "description": "Typed superset of JavaScript"
+  },
+  {
+    "name": "React",
+    "category": "Web Development",
+    "description": "JavaScript library for building user interfaces"
+  },
+  {
+    "name": "Node.js",
+    "category": "Web Development",
+    "description": "JavaScript runtime environment"
+  },
+  {
+    "name": "Angular",
+    "category": "Web Development",
+    "description": "TypeScript-based web application framework"
+  },
+  {
+    "name": "Vue.js",
+    "category": "Web Development",
+    "description": "Progressive JavaScript framework"
+  },
+  {
+    "name": "Django",
+    "category": "Web Development",
+    "description": "Python web framework"
+  },
+  {
+    "name": "Flask",
+    "category": "Web Development",
+    "description": "Micro web framework for Python"
+  },
+  {
+    "name": "Spring Boot",
+    "category": "Web Development",
+    "description": "Java-based framework"
+  },
+  {
+    "name": "MySQL",
+    "category": "Databases",
+    "description": "Relational database management system"
+  },
+  {
+    "name": "PostgreSQL",
+    "category": "Databases",
+    "description": "Open-source relational database"
+  },
+  {
+    "name": "MongoDB",
+    "category": "Databases",
+    "description": "NoSQL document database"
+  },
+  {
+    "name": "AWS",
+    "category": "Cloud & DevOps",
+    "description": "Amazon Web Services cloud platform"
+  },
+  {
+    "name": "Azure",
+    "category": "Cloud & DevOps",
+    "description": "Microsoft cloud computing services"
+  },
+  {
+    "name": "Google Cloud",
+    "category": "Cloud & DevOps",
+    "description": "Google's cloud platform"
+  },
+  {
+    "name": "Docker",
+    "category": "Cloud & DevOps",
+    "description": "Containerization platform"
+  },
+  {
+    "name": "Kubernetes",
+    "category": "Cloud & DevOps",
+    "description": "Container orchestration system"
+  },
+  {
+    "name": "Git",
+    "category": "Cloud & DevOps",
+    "description": "Version control system"
+  },
+  {
+    "name": "Machine Learning",
+    "category": "Data Science & AI",
+    "description": "AI algorithms that learn from data"
+  },
+  {
+    "name": "Data Analysis",
+    "category": "Data Science & AI",
+    "description": "Process of inspecting and modeling data"
+  },
+  {
+    "name": "TensorFlow",
+    "category": "Data Science & AI",
+    "description": "Machine learning framework"
+  },
+  {
+    "name": "PyTorch",
+    "category": "Data Science & AI",
+    "description": "Machine learning library"
+  },
+  {
+    "name": "Pandas",
+    "category": "Data Science & AI",
+    "description": "Python data analysis library"
+  },
+  {
+    "name": "UI/UX Design",
+    "category": "Design & UX",
+    "description": "User interface and experience design"
+  },
+  {
+    "name": "Figma",
+    "category": "Design & UX",
+    "description": "Collaborative interface design tool"
+  },
+  {
+    "name": "Adobe XD",
+    "category": "Design & UX",
+    "description": "UX/UI design and prototyping tool"
+  },
+  {
+    "name": "Communication",
+    "category": "Soft Skills",
+    "description": "Effective verbal and written communication"
+  },
+  {
+    "name": "Teamwork",
+    "category": "Soft Skills",
+    "description": "Collaborating effectively with others"
+  },
+  {
+    "name": "Leadership",
+    "category": "Soft Skills",
+    "description": "Guiding and motivating teams"
+  },
+  {
+    "name": "Problem Solving",
+    "category": "Soft Skills",
+    "description": "Analytical thinking and solution finding"
+  },
+  {
+    "name": "Project Management",
+    "category": "Soft Skills",
+    "description": "Planning and executing projects"
+  },
+  {
+    "name": "Agile/Scrum",
+    "category": "Soft Skills",
+    "description": "Iterative project management methodology"
+  },
+  {
+    "name": "React Native",
+    "category": "Mobile Development",
+    "description": "Framework for building native mobile apps"
+  },
+  {
+    "name": "Flutter",
+    "category": "Mobile Development",
+    "description": "UI toolkit for natively compiled applications"
+  },
+  {
+    "name": "Android Development",
+    "category": "Mobile Development",
+    "description": "Creating applications for Android"
+  },
+  {
+    "name": "iOS Development",
+    "category": "Mobile Development",
+    "description": "Creating applications for iOS"
+  },
+  {
+    "name": "REST APIs",
+    "category": "Other Technical Skills",
+    "description": "Architectural style for web services"
+  },
+  {
+    "name": "GraphQL",
+    "category": "Other Technical Skills",
+    "description": "Query language for APIs"
+  },
+  {
+    "name": "Microservices",
+    "category": "Other Technical Skills",
+    "description": "Architectural style structuring an application"
+  },
+  {
+    "name": "Cybersecurity",
+    "category": "Other Technical Skills",
+    "description": "Protecting systems from digital attacks"
+  },
+  {
+    "name": "English",
+    "category": "Languages",
+    "description": "Most widely spoken language globally"
+  },
+  {
+    "name": "Spanish",
+    "category": "Languages",
+    "description": "Romance language"
+  },
+  {
+    "name": "French",
+    "category": "Languages",
+    "description": "Romance language"
+  },
+  {
+    "name": "German",
+    "category": "Languages",
+    "description": "West Germanic language"
+  },
+  {
+    "name": "Chinese",
+    "category": "Languages",
+    "description": "Group of language varieties"
+  },
+  {
+    "name": "Japanese",
+    "category": "Languages",
+    "description": "East Asian language"
+  },
+  {
+    "name": "SEO",
+    "category": "Business & Management",
+    "description": "Search engine optimization"
+  },
+  {
+    "name": "Digital Marketing",
+    "category": "Business & Management",
+    "description": "Marketing via digital channels"
+  },
+  {
+    "name": "Product Management",
+    "category": "Business & Management",
+    "description": "Overseeing product development"
+  },
+  {
+    "name": "Content Writing",
+    "category": "Creative Skills",
+    "description": "Creating written content"
+  },
+  {
+    "name": "Public Speaking",
+    "category": "Creative Skills",
+    "description": "Speaking to a live audience"
+  },
+  {
+    "name": "Photography",
+    "category": "Creative Skills",
+    "description": "Art of creating durable images"
+  },
+  {
+    "name": "Video Editing",
+    "category": "Creative Skills",
+    "description": "Manipulating and arranging video shots"
+  }
+]

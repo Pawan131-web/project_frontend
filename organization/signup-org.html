@@ -88,7 +88,24 @@
                     <label for="repName" class="form-label">Representative Name</label>
                     <input type="text" id="repName" class="form-input" placeholder="Your full name" required>
                 </div>
-                
+                <!-- Username Field - Add this after the "Representative Name" field -->
+<div class="form-group">
+    <label for="username" class="form-label">
+        Organization Username
+        <span class="form-hint" style="font-size: 0.85em; color: #666; font-weight: normal;">
+            (for profile URL and mentions)
+        </span>
+    </label>
+    <input type="text" id="username" class="form-input" 
+           placeholder="e.g., techcorp" 
+           pattern="[a-zA-Z0-9_]{3,30}"
+           title="3-30 characters, letters, numbers, underscores only"
+           required>
+    <div class="input-hint" id="usernameHint" style="font-size: 0.8rem; margin-top: 4px; color: #666;">
+        No spaces or special characters. This will be your unique identifier.
+    </div>
+    <div class="availability-check" id="usernameCheck" style="font-size: 0.8rem; margin-top: 4px;"></div>
+</div>
                 <!-- Email -->
                 <div class="form-group">
                     <label for="email" class="form-label">Work Email</label>
@@ -200,85 +217,97 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     form.addEventListener('submit', async function(event) {
-        event.preventDefault();
+    event.preventDefault();
+    
+    const companyName = document.getElementById('companyName').value.trim();
+    const repName = document.getElementById('repName').value.trim();
+    const username = document.getElementById('username').value.trim().toLowerCase();  // NEW
+    const email = document.getElementById('email').value.trim();
+    const companySize = document.getElementById('companySize').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    // Validation
+    if (!companyName || !repName || !username || !email || !companySize || !password || !confirmPassword) {
+        showMessage('error', 'Please fill in all fields', 'fa-exclamation-triangle');
+        return;
+    }
+    
+    // Username format validation
+    if (username.length < 3 || username.length > 30) {
+        showMessage('error', 'Username must be 3-30 characters', 'fa-user');
+        return;
+    }
+    
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        showMessage('error', 'Username can only contain letters, numbers, and underscores', 'fa-user');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        showMessage('error', 'Passwords do not match', 'fa-key');
+        return;
+    }
+    
+    if (!document.getElementById('terms').checked) {
+        showMessage('error', 'Please agree to the Terms of Service', 'fa-file-contract');
+        return;
+    }
+    
+    // Hide previous messages
+    hideMessage();
+    
+    // Show loading
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Creating Account...';
+    submitBtn.disabled = true;
+    
+    try {
+        // Send to backend
+        const response = await fetch('http://localhost:5000/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fullName: repName,
+                username: username,  // NEW
+                email: email,
+                password: password,
+                userType: 'organization'
+            })
+        });
         
-        const companyName = document.getElementById('companyName').value.trim();
-        const repName = document.getElementById('repName').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const companySize = document.getElementById('companySize').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
+        const result = await response.json();
         
-        // Validation
-        if (!companyName || !repName || !email || !companySize || !password || !confirmPassword) {
-            showMessage('error', 'Please fill in all fields', 'fa-exclamation-triangle');
-            return;
-        }
-        
-        if (password !== confirmPassword) {
-            showMessage('error', 'Passwords do not match', 'fa-key');
-            return;
-        }
-        
-        if (!document.getElementById('terms').checked) {
-            showMessage('error', 'Please agree to the Terms of Service', 'fa-file-contract');
-            return;
-        }
-        
-        // Hide previous messages
-        hideMessage();
-        
-        // Show loading
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Creating Account...';
-        submitBtn.disabled = true;
-        
-        try {
-            // Send to backend
-            const response = await fetch('http://localhost:5000/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    fullName: repName,
-                    email: email,
-                    password: password,
-                    userType: 'organization'
-                })
-            });
-            
-            const result = await response.json();
-            
+        if (result.success) {
             if (result.success) {
-                // ✅ SUCCESS
-                showMessage('success', 'Organization account created! Check email for verification code.', 'fa-building');
+                showMessage('success', 'Organization registered! Redirecting to login...', 'fa-check-circle');
                 
-                // Store data
-                localStorage.setItem('pendingVerificationEmail', email);
-                localStorage.setItem('signupEmail', email);
-                localStorage.setItem('companyName', companyName);
-                localStorage.setItem('companySize', companySize);
+                // Clear any existing session data
+                localStorage.removeItem('user');
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userType');
                 
-                // Redirect to verification page after 2 seconds
+                // Redirect to login page
                 setTimeout(() => {
-                    window.location.href = '../pages/verify-email.html?email=' + encodeURIComponent(email);
+                    window.location.href = 'login-org.html?registered=true&email=' + encodeURIComponent(email);
                 }, 2000);
-                
-            } else {
-                // ❌ Error
-                showMessage('error', result.message, 'fa-exclamation-circle');
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
             }
-            
-        } catch (error) {
-            showMessage('error', 'Network error. Please check if backend is running.', 'fa-wifi');
-            console.error('Signup error:', error);
+        } else {
+            // ❌ Error
+            showMessage('error', result.message, 'fa-exclamation-circle');
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         }
-    });
+        
+    } catch (error) {
+        showMessage('error', 'Network error. Please check if backend is running.', 'fa-wifi');
+        console.error('Signup error:', error);
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+});
     
     // Hide messages when user starts typing
     const inputs = form.querySelectorAll('input, select');

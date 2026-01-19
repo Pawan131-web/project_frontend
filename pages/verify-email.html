@@ -597,7 +597,8 @@
         // Student goes to DASHBOARD after verification
         window.location.href = '../student/std-dashboard.html';
     } else if (userType === 'organization') {
-        window.location.href = '../organization/org-dashboard.html';
+        // Organization goes to business verification page first
+        window.location.href = '../organization/org-verify.html';
     } else {
         // Default to student dashboard
         window.location.href = '../student/std-dashboard.html';
@@ -605,7 +606,7 @@
 }, 2000);
                         
                     } else {
-                        // ❌ Error
+                        // Error
                         showError(result.message || 'Invalid verification code');
                         verifyBtn.disabled = false;
                         verifyBtn.textContent = 'Verify Email';

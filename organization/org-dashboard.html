@@ -1,21 +1,25 @@
 <!--organization/org-dashboard.html-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkillLaunch | Organization Dashboard</title>
-    
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="../css/master-styles.css">
     <link rel="stylesheet" href="org-dashboard.css">
-    
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <!-- ===== 1. TOP NAVIGATION BAR ===== -->
     <header class="dashboard-header">
@@ -42,15 +46,15 @@
                 <!-- Notification Bell -->
                 <div class="icon-container" id="notificationIcon">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-dot"></span>
-                    <span class="notification-count">5</span>
+                    <span class="notification-dot" style="display: none;"></span>
+                    <span class="notification-count" id="notificationBadge" style="display: none;">0</span>
                 </div>
 
                 <!-- Messages Icon -->
                 <div class="icon-container" id="messageIcon">
                     <i class="fas fa-comment"></i>
-                    <span class="notification-dot"></span>
-                    <span class="notification-count">3</span>
+                    <span class="notification-dot" style="display: none;"></span>
+                    <span class="notification-count" id="messageBadge" style="display: none;">0</span>
                 </div>
 
                 <!-- Profile Dropdown -->
@@ -68,7 +72,7 @@
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
-            <a href="post-internship.html" class="nav-tab" data-tab="post">
+            <a href="#" class="nav-tab" data-tab="post">
                 <i class="fas fa-plus-circle"></i>
                 <span>Post Internship</span>
             </a>
@@ -97,16 +101,28 @@
 
     <!-- ===== 3. MAIN LAYOUT ===== -->
     <main class="dashboard-main">
-        <div class="main-container">
+        <div id="orgVerificationBanner" class="verification-banner" style="display: none;">
+            <div class="verification-text">
+                <strong>Complete your organization verification</strong> to unlock all internship features.
+            </div>
+            <a href="org-verify.html" class="verification-link">Verify now</a>
+        </div>
+
+        <div class="main-container" id="homeContainer">
             <!-- LEFT COLUMN - Main Feed -->
             <div class="feed-column">
                 <!-- Create Post Card (Org Announcements) -->
                 <div class="card create-post-card">
                     <div class="create-post-header">
                         <div class="post-avatar" id="postAvatar">TC</div>
-                        <input type="text" class="post-input" placeholder="Share company updates, hiring news, or events...">
+                        <input type="text" class="post-input"
+                            placeholder="Share company updates, hiring news, or events...">
                     </div>
                     <div class="create-post-actions">
+                        <button class="post-action-btn" data-type="photo" id="orgPhotoUploadBtn">
+                            <i class="fas fa-image"></i> Photo
+                        </button>
+                        <input type="file" id="orgPhotoInput" accept="image/*" style="display: none;">
                         <button class="post-action-btn" data-type="internship">
                             <i class="fas fa-briefcase"></i> Quick Internship
                         </button>
@@ -118,156 +134,20 @@
                         </button>
                         <button class="post-submit-btn">Post</button>
                     </div>
+                    <!-- Image Preview Container -->
+                    <div id="orgPostImagePreviewContainer"
+                        style="display: none; padding: 16px; border-top: 1px solid #eee;">
+                        <div style="position: relative; display: inline-block;">
+                            <img id="orgPostImagePreview"
+                                style="max-width: 100%; max-height: 200px; border-radius: 8px;">
+                            <button id="removeOrgPostImage"
+                                style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;">&times;</button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Feed Posts -->
                 <div class="feed-posts">
-                    <!-- Post 1: New Internship Post -->
-                    <div class="card feed-post">
-                        <div class="post-header">
-                            <div class="company-logo">
-                                <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=100&h=100&fit=crop" alt="TechCorp">
-                            </div>
-                            <div class="post-info">
-                                <h4>TechCorp Inc.</h4>
-                                <p>Technology • San Francisco, CA</p>
-                                <small>Posted 2 hours ago • 89 applicants</small>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <div class="post-badge">🚀 Hiring Now</div>
-                            <h3>Full-Stack Developer Intern - Summer 2025</h3>
-                            <p>We're looking for talented interns to join our engineering team. Work on real projects with mentorship from senior developers. Remote-friendly with stipend.</p>
-                            <div class="post-tags">
-                                <span class="tag">React.js</span>
-                                <span class="tag">Node.js</span>
-                                <span class="tag">MongoDB</span>
-                                <span class="tag">Remote</span>
-                                <span class="tag">$7k/month</span>
-                            </div>
-                            <div class="skills-list">
-                                <span class="skill-tag">Required: JavaScript, Git</span>
-                                <span class="skill-tag">Preferred: AWS, Docker</span>
-                            </div>
-                            <div class="project-preview">
-                                <div class="preview-image">
-                                    <i class="fas fa-code-branch"></i>
-                                </div>
-                                <div class="preview-info">
-                                    <h5>What We Offer</h5>
-                                    <p>Mentorship, real project experience, networking events, and potential full-time offer.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-actions">
-                            <button class="action-btn like-btn" data-post-id="1">
-                                <i class="far fa-heart"></i> <span>Like</span>
-                            </button>
-                            <button class="action-btn comment-btn">
-                                <i class="far fa-comment"></i> <span>Comments</span>
-                            </button>
-                            <button class="action-btn share-btn">
-                                <i class="fas fa-share"></i> <span>Share</span>
-                            </button>
-                            <button class="action-btn stats-btn">
-                                <i class="fas fa-chart-bar"></i> <span>89 Applicants</span>
-                            </button>
-                            <button class="apply-btn" style="background: #4CAF50;">
-                                <i class="fas fa-edit"></i> Edit Post
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Post 2: Student Portfolio (Recommended) -->
-                    <div class="card feed-post">
-                        <div class="post-header">
-                            <div class="student-avatar">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Alex">
-                            </div>
-                            <div class="post-info">
-                                <h4>Alex Johnson</h4>
-                                <p>Computer Science • Stanford University</p>
-                                <small>95% skill match • Portfolio updated today</small>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <h3>🚀 Just completed a full-stack e-commerce project!</h3>
-                            <p>Built with React, Node.js, and PostgreSQL. Features include user auth, payment integration, and admin dashboard.</p>
-                            <div class="project-preview">
-                                <div class="preview-image">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </div>
-                                <div class="preview-info">
-                                    <h5>E-Commerce Platform</h5>
-                                    <p>Full-featured online store with React frontend and Node.js backend. Live demo available.</p>
-                                </div>
-                            </div>
-                            <div class="skills-list">
-                                <span class="skill-tag">React</span>
-                                <span class="skill-tag">Node.js</span>
-                                <span class="skill-tag">PostgreSQL</span>
-                                <span class="skill-tag">Stripe API</span>
-                                <span class="skill-tag">TypeScript</span>
-                            </div>
-                            <div class="post-tags">
-                                <span class="tag">GPA: 3.8/4.0</span>
-                                <span class="tag">Available: Summer 2025</span>
-                                <span class="tag">Location: Remote or SF</span>
-                            </div>
-                        </div>
-                        <div class="post-actions">
-                            <button class="action-btn save-btn">
-                                <i class="far fa-bookmark"></i> <span>Save Profile</span>
-                            </button>
-                            <button class="action-btn message-btn">
-                                <i class="far fa-envelope"></i> <span>Message</span>
-                            </button>
-                            <button class="action-btn view-btn">
-                                <i class="fas fa-eye"></i> <span>View Portfolio</span>
-                            </button>
-                            <button class="connect-btn" style="background: #2196F3;">
-                                <i class="fas fa-user-plus"></i> Invite to Apply
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Post 3: Industry Trends -->
-                    <div class="card feed-post">
-                        <div class="post-header">
-                            <div class="company-logo">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="post-info">
-                                <h4>SkillLaunch Insights</h4>
-                                <p>Industry Report • AI/ML Trends</p>
-                                <small>Trending in your industry</small>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <div class="post-badge">📈 Market Insight</div>
-                            <h3>Top 5 Skills Students Are Learning in 2025</h3>
-                            <p>Based on platform data from 50,000+ students:</p>
-                            <div class="skills-list">
-                                <span class="skill-tag">1. AI/ML Engineering (+42%)</span>
-                                <span class="skill-tag">2. Cloud Architecture (+38%)</span>
-                                <span class="skill-tag">3. Cybersecurity (+45%)</span>
-                                <span class="skill-tag">4. DevOps (+32%)</span>
-                                <span class="skill-tag">5. React Native (+28%)</span>
-                            </div>
-                            <p>Consider these trends when designing your internship programs and skill requirements.</p>
-                        </div>
-                        <div class="post-actions">
-                            <button class="action-btn like-btn" data-post-id="3">
-                                <i class="far fa-heart"></i> <span>Helpful</span>
-                            </button>
-                            <button class="action-btn share-btn">
-                                <i class="fas fa-share"></i> <span>Share Report</span>
-                            </button>
-                            <button class="action-btn download-btn">
-                                <i class="fas fa-download"></i> <span>Download PDF</span>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -313,30 +193,6 @@
                         <h3>Top Applicants</h3>
                     </div>
                     <div class="recommended-list">
-                        <div class="recommended-item">
-                            <div class="company-avatar" style="background: linear-gradient(135deg, #2196F3, #21CBF3);">SJ</div>
-                            <div class="recommended-info">
-                                <h4>Sarah Johnson</h4>
-                                <p>Stanford • 98% Match</p>
-                            </div>
-                            <div class="match-badge" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">98%</div>
-                        </div>
-                        <div class="recommended-item">
-                            <div class="company-avatar" style="background: linear-gradient(135deg, #FF9800, #FF5722);">MR</div>
-                            <div class="recommended-info">
-                                <h4>Michael Rodriguez</h4>
-                                <p>MIT • 95% Match</p>
-                            </div>
-                            <div class="match-badge" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">95%</div>
-                        </div>
-                        <div class="recommended-item">
-                            <div class="company-avatar" style="background: linear-gradient(135deg, #9C27B0, #673AB7);">EC</div>
-                            <div class="recommended-info">
-                                <h4>Emma Chen</h4>
-                                <p>UC Berkeley • 92% Match</p>
-                            </div>
-                            <div class="match-badge" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;">92%</div>
-                        </div>
                     </div>
                     <a href="view-applications.html" class="card-link">View all applicants →</a>
                 </div>
@@ -353,28 +209,32 @@
                         <div class="skill-item">
                             <span class="skill-name">React.js</span>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 92%; background: linear-gradient(135deg, #2196F3, #21CBF3);"></div>
+                                <div class="progress-fill"
+                                    style="width: 92%; background: linear-gradient(135deg, #2196F3, #21CBF3);"></div>
                             </div>
                             <span class="skill-percent">92%</span>
                         </div>
                         <div class="skill-item">
                             <span class="skill-name">Python</span>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 88%; background: linear-gradient(135deg, #4CAF50, #8BC34A);"></div>
+                                <div class="progress-fill"
+                                    style="width: 88%; background: linear-gradient(135deg, #4CAF50, #8BC34A);"></div>
                             </div>
                             <span class="skill-percent">88%</span>
                         </div>
                         <div class="skill-item">
                             <span class="skill-name">AWS</span>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 85%; background: linear-gradient(135deg, #FF9800, #FF5722);"></div>
+                                <div class="progress-fill"
+                                    style="width: 85%; background: linear-gradient(135deg, #FF9800, #FF5722);"></div>
                             </div>
                             <span class="skill-percent">85%</span>
                         </div>
                         <div class="skill-item">
                             <span class="skill-name">AI/ML</span>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 78%; background: linear-gradient(135deg, #9C27B0, #673AB7);"></div>
+                                <div class="progress-fill"
+                                    style="width: 78%; background: linear-gradient(135deg, #9C27B0, #673AB7);"></div>
                             </div>
                             <span class="skill-percent">78%</span>
                         </div>
@@ -393,7 +253,7 @@
                         <h3>Quick Actions</h3>
                     </div>
                     <div class="trending-list">
-                        <div class="trending-item" onclick="window.location.href='post-internship.html'">
+                        <div class="trending-item" onclick="openPostInternshipSection()">
                             <div class="trending-icon" style="background: #4CAF50;">
                                 <i class="fas fa-plus"></i>
                             </div>
@@ -433,210 +293,795 @@
                 </div>
             </div>
         </div>
-    </main>
 
-    <!-- ===== ENHANCED FOOTER ===== -->
-    <footer class="dashboard-footer">
-        <!-- Same footer as student dashboard -->
-        <div class="footer-container">
-            <div class="footer-grid">
-                <!-- Brand Column -->
-                <div class="footer-brand">
-                    <h3>SkillLaunch</h3>
-                    <p>Connecting organizations with talented students. Find the perfect interns and build your future team.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link" title="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" title="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="#" class="social-link" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
+        <!-- POST INTERNSHIP SECTION (Hidden by default) -->
+        <div class="main-container" id="postInternshipContainer" style="display: none;">
+            <div class="feed-column">
+                <!-- My Internships List -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0; font-size: 18px; color: #1a1a2e;"><i class="fas fa-briefcase"
+                                style="color: #d32f2f; margin-right: 10px;"></i>My Internships</h3>
+                        <button onclick="toggleCreateForm()" id="toggleFormBtn"
+                            style="background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            <i class="fas fa-plus"></i> Create New
+                        </button>
+                    </div>
+                    <div id="myInternshipsList" style="min-height: 100px;">
+                        <div style="text-align: center; padding: 30px; color: #666;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 24px;"></i>
+                            <p style="margin-top: 10px;">Loading your internships...</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- For Organizations -->
-                <div class="footer-col">
-                    <h4>For Organizations</h4>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-briefcase"></i> Post Internships</a></li>
-                        <li><a href="#"><i class="fas fa-search"></i> Find Talent</a></li>
-                        <li><a href="#"><i class="fas fa-chart-line"></i> Analytics Dashboard</a></li>
-                        <li><a href="#"><i class="fas fa-users"></i> Team Management</a></li>
-                        <li><a href="#"><i class="fas fa-star"></i> Success Stories</a></li>
+                <!-- Create Form (Hidden by default) -->
+                <div class="card" id="createInternshipCard" style="padding: 0; overflow: hidden; display: none;">
+                    <div
+                        style="background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 24px 28px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h2 style="margin: 0 0 8px; font-size: 22px;"><i class="fas fa-briefcase"></i> Post New
+                                Internship</h2>
+                            <p style="margin: 0; opacity: 0.9; font-size: 14px;">Create an opportunity and reach
+                                thousands of talented students</p>
+                        </div>
+                        <button onclick="toggleCreateForm()"
+                            style="background: rgba(255,255,255,0.2); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 18px;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <form id="internshipPostForm" style="padding: 28px;">
+                        <!-- Section 1: Basic Info -->
+                        <div style="margin-bottom: 28px;">
+                            <div
+                                style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0;">
+                                <span
+                                    style="width: 28px; height: 28px; background: #d32f2f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">1</span>
+                                <span style="font-weight: 600; font-size: 16px; color: #1a1a2e;">Basic
+                                    Information</span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div><label
+                                        style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Title
+                                        <span style="color: #d32f2f;">*</span></label><input type="text"
+                                        id="internshipTitle" placeholder="e.g., Software Intern" required
+                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                </div>
+                                <div><label
+                                        style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Location
+                                        Type <span style="color: #d32f2f;">*</span></label><select id="internshipMode"
+                                        required
+                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                        <option value="">Select</option>
+                                        <option value="remote">Remote</option>
+                                        <option value="onsite">On-site</option>
+                                        <option value="hybrid">Hybrid</option>
+                                    </select></div>
+                                <div><label
+                                        style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">City/Location</label><input
+                                        type="text" id="internshipLocation" placeholder="e.g., San Francisco"
+                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                </div>
+                                <div><label
+                                        style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Compensation
+                                        <span style="color: #d32f2f;">*</span></label><select id="internshipType"
+                                        required
+                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                        <option value="">Select</option>
+                                        <option value="paid">Paid</option>
+                                        <option value="unpaid">Unpaid</option>
+                                        <option value="stipend">Stipend</option>
+                                    </select></div>
+                                <div><label
+                                        style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Duration</label><select
+                                        id="internshipDuration"
+                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                        <option value="">Select</option>
+                                        <option value="1 month">1 Month</option>
+                                        <option value="3 months">3 Months</option>
+                                        <option value="6 months">6 Months</option>
+                                    </select></div>
+                                <div><label
+                                        style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Stipend
+                                        Amount</label><input type="text" id="internshipStipend"
+                                        placeholder="e.g., $2000/month"
+                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                </div>
+                                <div><label
+                                        style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Openings</label><input
+                                        type="number" id="internshipOpenings" min="1" value="1"
+                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                </div>
+                                <div><label
+                                        style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Deadline
+                                        <span style="color: #d32f2f;">*</span></label><input type="date"
+                                        id="internshipDeadline" required
+                                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Skills with Levels -->
+                        <div style="margin-bottom: 28px;">
+                            <div
+                                style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0;">
+                                <span
+                                    style="width: 28px; height: 28px; background: #d32f2f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">2</span>
+                                <span style="font-weight: 600; font-size: 16px; color: #1a1a2e;">Required Skills
+                                    (Per-Skill Level)</span>
+                            </div>
+                            <p style="color: #666; font-size: 13px; margin-bottom: 16px;">Add skills and specify
+                                proficiency level for each skill individually</p>
+                            <div id="skillsWithLevels"
+                                style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;"></div>
+                            <div style="display: flex; gap: 10px;">
+                                <div class="skill-autocomplete-wrap">
+                                    <input type="text" id="newSkillInput" placeholder="Skill name (e.g., Python)"
+                                        style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                    <div id="newSkillSuggestions" class="skill-suggestions-dropdown hidden"></div>
+                                </div>
+                                <select id="newSkillLevel"
+                                    style="padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate" selected>Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                    <option value="expert">Expert</option>
+                                </select>
+                                <button type="button" onclick="addSkillWithLevel()"
+                                    style="padding: 10px 16px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer;"><i
+                                        class="fas fa-plus"></i> Add</button>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Description -->
+                        <div style="margin-bottom: 28px;">
+                            <div
+                                style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0;">
+                                <span
+                                    style="width: 28px; height: 28px; background: #d32f2f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">3</span>
+                                <span style="font-weight: 600; font-size: 16px; color: #1a1a2e;">Internship
+                                    Details</span>
+                            </div>
+                            <div><label
+                                    style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Description
+                                    <span style="color: #d32f2f;">*</span></label><textarea id="internshipDescription"
+                                    rows="4"
+                                    placeholder="Describe the internship, responsibilities, and what makes it exciting..."
+                                    required
+                                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+                            </div>
+                            <div style="margin-top: 16px;"><label
+                                    style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px;">Requirements</label><textarea
+                                    id="internshipRequirements" rows="3"
+                                    placeholder="List any specific requirements or qualifications..."
+                                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <div
+                            style="background: #f8f9fa; margin: -28px; margin-top: 0; padding: 24px 28px; text-align: center;">
+                            <button type="submit" id="postInternshipSubmit"
+                                style="background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; border: none; padding: 16px 48px; font-size: 16px; font-weight: 600; border-radius: 30px; cursor: pointer;">
+                                <span class="btn-text"><i class="fas fa-paper-plane"></i> Post Internship</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Sidebar for Post Section -->
+            <div class="sidebar-column">
+                <div class="card sidebar-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(76, 175, 80, 0.1); color: #4CAF50;"><i
+                                class="fas fa-lightbulb"></i></div>
+                        <h3>Posting Tips</h3>
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: #666;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid #eee;"><i class="fas fa-check"
+                                style="color: #4CAF50; margin-right: 8px;"></i> Use clear, specific titles</li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #eee;"><i class="fas fa-check"
+                                style="color: #4CAF50; margin-right: 8px;"></i> Add skill levels for better matching
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid #eee;"><i class="fas fa-check"
+                                style="color: #4CAF50; margin-right: 8px;"></i> Include compensation details</li>
+                        <li style="padding: 10px 0;"><i class="fas fa-check"
+                                style="color: #4CAF50; margin-right: 8px;"></i> Set realistic deadlines</li>
                     </ul>
                 </div>
-
-                <!-- For Students -->
-                <div class="footer-col">
-                    <h4>For Students</h4>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-rocket"></i> Find Internships</a></li>
-                        <li><a href="#"><i class="fas fa-briefcase"></i> Build Portfolio</a></li>
-                        <li><a href="#"><i class="fas fa-graduation-cap"></i> Learn Skills</a></li>
-                        <li><a href="#"><i class="fas fa-users"></i> Network</a></li>
-                        <li><a href="#"><i class="fas fa-file-alt"></i> Resume Builder</a></li>
-                    </ul>
-                </div>
-
-                <!-- Resources -->
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-book"></i> Hiring Guide</a></li>
-                        <li><a href="#"><i class="fas fa-video"></i> Webinars</a></li>
-                        <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
-                        <li><a href="#"><i class="fas fa-download"></i> Templates</a></li>
-                        <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
-                    </ul>
-                </div>
-
-                <!-- About -->
-                <div class="footer-col">
-                    <h4>About</h4>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
-                        <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
-                        <li><a href="#"><i class="fas fa-users"></i> Team</a></li>
-                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy</a></li>
-                        <li><a href="#"><i class="fas fa-file-contract"></i> Terms</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <div class="copyright">
-                    © 2025 SkillLaunch. All rights reserved. 
-                    <a href="#">Privacy Policy</a> • 
-                    <a href="#">Terms of Service</a> • 
-                    <a href="#">Cookie Policy</a>
-                </div>
-                <div class="footer-legal">
-                    <a href="#">Contact</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Sitemap</a>
-                </div>
-                <div class="developer-credits">
-                    Built with ❤️ by <strong>Pawan Rimal & Anup Shrestha</strong>
+                <div class="card sidebar-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: rgba(33, 150, 243, 0.1); color: #2196F3;"><i
+                                class="fas fa-chart-bar"></i></div>
+                        <h3>Your Stats</h3>
+                    </div>
+                    <div style="font-size: 13px; color: #666;">
+                        <p style="margin: 8px 0;"><strong>3</strong> Active Internships</p>
+                        <p style="margin: 8px 0;"><strong>156</strong> Total Applications</p>
+                        <p style="margin: 8px 0;"><strong>89%</strong> Response Rate</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
 
-    <!-- ===== DROPDOWN MENUS ===== -->
-    <!-- Notification Dropdown -->
-    <div class="dropdown-menu notification-dropdown" id="notificationDropdown">
-        <h3>Notifications</h3>
-        <div class="notification-item">
-            <div class="notification-icon">
-                <i class="fas fa-user-plus"></i>
-            </div>
-            <div class="notification-content">
-                <p><strong>New Applicant</strong> - Alex Johnson applied to Full-Stack Intern</p>
-                <small>10 minutes ago</small>
-            </div>
-        </div>
-        <div class="notification-item">
-            <div class="notification-icon">
-                <i class="fas fa-eye"></i>
-            </div>
-            <div class="notification-content">
-                <p><strong>Profile Viewed</strong> - Your internship viewed 156 times</p>
-                <small>2 hours ago</small>
-            </div>
-        </div>
-        <div class="notification-item">
-            <div class="notification-icon">
-                <i class="fas fa-star"></i>
-            </div>
-            <div class="notification-content">
-                <p><strong>High Match</strong> - 95% skill match student available</p>
-                <small>1 day ago</small>
-            </div>
-        </div>
-        <a href="#" class="dropdown-item">See all notifications</a>
-    </div>
+        <div class="main-container" id="orgProfileContainer"
+            style="display: none; max-width: 980px; margin: 0 auto; padding: 20px 24px;">
+            <div class="card" style="overflow: hidden; margin-bottom: 20px;">
+                <div id="orgProfileCoverBanner"
+                    style="height: 180px; background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%); position: relative;">
+                    <button onclick="openOrgProfileEditModal()"
+                        style="position: absolute; top: 12px; right: 12px; padding: 8px 14px; background: rgba(255,255,255,0.9); border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px;">
+                        <i class="fas fa-pen"></i> Edit Profile
+                    </button>
+                </div>
 
-    <!-- Messages Dropdown -->
-    <div class="dropdown-menu message-dropdown" id="messageDropdown">
-        <h3>Messages</h3>
-        <div class="message-item">
-            <div class="message-avatar">AJ</div>
-            <div class="notification-content">
-                <p><strong>Alex Johnson</strong> - Interested in the internship role...</p>
-                <small>Yesterday</small>
-            </div>
-        </div>
-        <div class="message-item">
-            <div class="message-avatar">SC</div>
-            <div class="notification-content">
-                <p><strong>Sarah Chen</strong> - Can we schedule an interview?</p>
-                <small>2 days ago</small>
-            </div>
-        </div>
-        <a href="#" class="dropdown-item">View all messages</a>
-    </div>
+                <div style="padding: 0 24px 24px; position: relative;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: -50px;">
+                        <div id="orgProfileLogoContainer"
+                            style="width: 120px; height: 120px; border-radius: 16px; background: white; padding: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                            <div id="orgProfileLogo"
+                                style="width: 100%; height: 100%; border-radius: 12px; background: linear-gradient(135deg, #d32f2f, #b71c1c); display: flex; align-items: center; justify-content: center; color: white; font-size: 34px; font-weight: 800;">
+                                OR</div>
+                        </div>
+                        <div style="flex: 1; min-width: 200px; padding-top: 55px;">
+                            <h1 id="orgProfileName"
+                                style="font-size: 24px; font-weight: 800; color: #1a1a2e; margin: 0;">Organization</h1>
+                            <p id="orgProfileIndustry" style="color: #666; margin: 4px 0 0; font-size: 15px;">Industry
+                            </p>
+                            <div
+                                style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; color: #888; font-size: 13px;">
+                                <span id="orgProfileLocation"><i class="fas fa-map-marker-alt"></i> Location</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; padding-top: 55px; flex-wrap: wrap;">
+                            <button onclick="openOrgProfileEditModal()"
+                                style="padding: 10px 20px; background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 13px;">
+                                <i class="fas fa-pen"></i> Edit
+                            </button>
+                            <button onclick="copyOrgProfileLink()"
+                                style="padding: 10px 20px; background: #f5f5f5; color: #333; border: 1px solid #ddd; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 13px;">
+                                <i class="fas fa-link"></i> Copy Link
+                            </button>
+                        </div>
+                    </div>
 
-    <!-- Profile Dropdown -->
-    <div class="dropdown-menu profile-dropdown" id="profileMenu">
-        <div class="profile-info">
-            <div class="dropdown-avatar" id="dropdownAvatar">TC</div>
-            <div class="profile-details">
-                <h4 id="userName">TechCorp Inc.</h4>
-                <p id="userEmail">hr@techcorp.com</p>
-                <small>Organization Account</small>
+                    <div id="orgProfileSocialLinks"
+                        style="display: flex; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee;">
+                        <span style="color: #666; font-weight: 600; font-size: 13px;">Connect:</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 14px;">
+                <a href="#" id="orgProfileNavHome" onclick="event.preventDefault(); showOrgProfileSection('home');"
+                    style="padding: 10px 16px; border-bottom: 3px solid #d32f2f; color: #d32f2f; font-weight: 700; text-decoration: none;">Home</a>
+                <a href="#" id="orgProfileNavAbout" onclick="event.preventDefault(); showOrgProfileSection('about');"
+                    style="padding: 10px 16px; border-bottom: 3px solid transparent; color: #666; font-weight: 700; text-decoration: none;">About</a>
+                <a href="#" id="orgProfileNavInternships"
+                    onclick="event.preventDefault(); showOrgProfileSection('internships');"
+                    style="padding: 10px 16px; border-bottom: 3px solid transparent; color: #666; font-weight: 700; text-decoration: none;">Internships</a>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div id="orgProfileHomeSection" style="display: block;">
+                        <div class="card" style="padding: 20px;">
+                            <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 12px;">Company
+                                Overview</h3>
+                            <p id="orgProfileOverviewText" style="color: #555; line-height: 1.7; margin: 0;">No company
+                                description yet. Click Edit to add details.</p>
+                        </div>
+
+                        <div class="card" style="padding: 20px;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0;">Open
+                                    Internships</h3>
+                                <a href="#" onclick="event.preventDefault(); showOrgProfileSection('internships');"
+                                    style="color: #d32f2f; font-weight: 800; text-decoration: none; font-size: 13px;">View
+                                    all</a>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div
+                                    style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; background: #fff;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+                                        <div style="min-width: 220px;">
+                                            <div style="font-weight: 900; color: #1a1a2e;">Software Engineering Intern
+                                            </div>
+                                            <div
+                                                style="margin-top: 6px; color: #666; font-size: 13px; display: flex; gap: 14px; flex-wrap: wrap;">
+                                                <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                                                <span><i class="fas fa-clock"></i> Internship</span>
+                                                <span><i class="fas fa-dollar-sign"></i> Stipend</span>
+                                            </div>
+                                        </div>
+                                        <button onclick="openPostInternshipSection()"
+                                            style="padding: 10px 16px; background: #d32f2f; border: none; color: #fff; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 13px;">Manage</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="padding: 20px;">
+                            <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 14px;">Company
+                                Highlights</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <div
+                                    style="background: #f9f9f9; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px;">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div
+                                            style="width: 38px; height: 38px; border-radius: 999px; background: #fdeaea; display: flex; align-items: center; justify-content: center; color: #d32f2f;">
+                                            <i class="fas fa-trophy"></i></div>
+                                        <div style="font-weight: 900; color: #1a1a2e;">Awards</div>
+                                    </div>
+                                    <div style="margin-top: 10px; color: #666; font-size: 13px;">Add awards and
+                                        recognitions in Edit Profile.</div>
+                                </div>
+                                <div
+                                    style="background: #f9f9f9; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px;">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div
+                                            style="width: 38px; height: 38px; border-radius: 999px; background: #fdeaea; display: flex; align-items: center; justify-content: center; color: #d32f2f;">
+                                            <i class="fas fa-leaf"></i></div>
+                                        <div style="font-weight: 900; color: #1a1a2e;">Sustainability</div>
+                                    </div>
+                                    <div style="margin-top: 10px; color: #666; font-size: 13px;">Add sustainability
+                                        initiatives in Edit Profile.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="orgProfileAboutSection" style="display: none;">
+                        <div class="card" style="padding: 20px;">
+                            <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 12px;">About</h3>
+                            <p id="orgProfileAbout" style="color: #555; line-height: 1.7; margin: 0;">No company
+                                description yet. Click Edit to add details.</p>
+                        </div>
+
+                        <div class="card" style="padding: 20px;">
+                            <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 12px;">Company
+                                Details</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <div>
+                                    <div style="color: #777; font-size: 12px; font-weight: 800;">Industry</div>
+                                    <div id="orgProfileIndustryDetail"
+                                        style="color: #1a1a2e; font-weight: 800; margin-top: 4px;">Industry</div>
+                                </div>
+                                <div>
+                                    <div style="color: #777; font-size: 12px; font-weight: 800;">Headquarters</div>
+                                    <div id="orgProfileHQ" style="color: #1a1a2e; font-weight: 800; margin-top: 4px;">
+                                        Location</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="orgProfileInternshipsSection" style="display: none;">
+                        <div class="card" style="padding: 20px;">
+                            <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 14px;">Open
+                                Internship Positions</h3>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div
+                                    style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; background: #fff;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+                                        <div style="min-width: 220px;">
+                                            <div style="font-weight: 900; color: #1a1a2e;">Frontend Intern</div>
+                                            <div
+                                                style="margin-top: 6px; color: #666; font-size: 13px; display: flex; gap: 14px; flex-wrap: wrap;">
+                                                <span><i class="fas fa-map-marker-alt"></i> On-site</span>
+                                                <span><i class="fas fa-clock"></i> Internship</span>
+                                                <span><i class="fas fa-dollar-sign"></i> Stipend</span>
+                                            </div>
+                                        </div>
+                                        <button onclick="openPostInternshipSection()"
+                                            style="padding: 10px 16px; background: #d32f2f; border: none; color: #fff; border-radius: 10px; cursor: pointer; font-weight: 800; font-size: 13px;">Manage</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="card" style="padding: 20px;">
+                        <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 14px;">Contact
+                            Information</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <i class="fas fa-map-marker-alt" style="color: #888; width: 16px; margin-top: 3px;"></i>
+                                <div>
+                                    <div style="font-weight: 800; font-size: 13px; color: #1a1a2e;">Headquarters</div>
+                                    <div id="orgProfileHQAddress" style="color: #666; font-size: 13px;">Location</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <i class="fas fa-globe" style="color: #888; width: 16px; margin-top: 3px;"></i>
+                                <div>
+                                    <div style="font-weight: 800; font-size: 13px; color: #1a1a2e;">Website</div>
+                                    <a id="orgProfileWebsite" href="#" target="_blank"
+                                        style="color: #d32f2f; font-weight: 800; font-size: 13px; text-decoration: none;">Not
+                                        provided</a>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <i class="fas fa-envelope" style="color: #888; width: 16px; margin-top: 3px;"></i>
+                                <div>
+                                    <div style="font-weight: 800; font-size: 13px; color: #1a1a2e;">Email</div>
+                                    <div id="orgProfileEmail" style="color: #666; font-size: 13px;">Not provided</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <i class="fas fa-phone" style="color: #888; width: 16px; margin-top: 3px;"></i>
+                                <div>
+                                    <div style="font-weight: 800; font-size: 13px; color: #1a1a2e;">Phone</div>
+                                    <div id="orgProfilePhone" style="color: #666; font-size: 13px;">Not provided</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="padding: 20px;">
+                        <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 14px;">Location</h3>
+                        <div
+                            style="border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; background: #f3f4f6;">
+                            <div
+                                style="height: 180px; display: flex; align-items: center; justify-content: center; padding: 18px; text-align: center;">
+                                <div>
+                                    <i class="fas fa-map-marker-alt" style="color: #d32f2f; font-size: 28px;"></i>
+                                    <div id="orgProfileMapTitle"
+                                        style="margin-top: 10px; font-weight: 900; color: #1a1a2e;">Office</div>
+                                    <div id="orgProfileMapLocation"
+                                        style="margin-top: 4px; color: #666; font-size: 13px;">Location</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="getOrgDirections()"
+                            style="width: 100%; margin-top: 12px; padding: 12px; background: #fff; color: #d32f2f; border: 2px solid #d32f2f; border-radius: 10px; cursor: pointer; font-weight: 900;">
+                            <i class="fas fa-directions"></i> Get Directions
+                        </button>
+                    </div>
+
+                    <div class="card" style="padding: 20px;">
+                        <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 14px;">Send Message
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <input id="orgMessageName" type="text" placeholder="Your Name"
+                                style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                            <input id="orgMessageEmail" type="email" placeholder="Your Email"
+                                style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                            <textarea id="orgMessageText" rows="3" placeholder="Your message..."
+                                style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; resize: vertical;"></textarea>
+                            <button onclick="sendOrgMessage()"
+                                style="width: 100%; padding: 12px; background: #d32f2f; border: none; color: #fff; border-radius: 10px; cursor: pointer; font-weight: 900;">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="padding: 20px;">
+                        <h3 style="font-size: 18px; font-weight: 900; color: #1a1a2e; margin: 0 0 14px;">Organization
+                            Tools</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                            <button onclick="window.location.href='org-analytics.html'"
+                                style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; cursor: pointer; font-weight: 900;">
+                                <i class="fas fa-chart-line" style="color: #d32f2f;"></i>
+                                <div style="margin-top: 6px; font-size: 12px; color: #1a1a2e;">Analytics</div>
+                            </button>
+                            <button onclick="copyOrgProfileLink()"
+                                style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; cursor: pointer; font-weight: 900;">
+                                <i class="fas fa-share-alt" style="color: #d32f2f;"></i>
+                                <div style="margin-top: 6px; font-size: 12px; color: #1a1a2e;">Share</div>
+                            </button>
+                            <button onclick="exportOrgData()"
+                                style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; cursor: pointer; font-weight: 900;">
+                                <i class="fas fa-file-export" style="color: #d32f2f;"></i>
+                                <div style="margin-top: 6px; font-size: 12px; color: #1a1a2e;">Export</div>
+                            </button>
+                            <button onclick="generateOrgQR()"
+                                style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; cursor: pointer; font-weight: 900;">
+                                <i class="fas fa-qrcode" style="color: #d32f2f;"></i>
+                                <div style="margin-top: 6px; font-size: 12px; color: #1a1a2e;">QR Code</div>
+                            </button>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <button onclick="openPostInternshipSection()"
+                                style="width: 100%; padding: 12px; background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 800;">
+                                <span style="display: flex; align-items: center; gap: 10px;"><i class="fas fa-briefcase"
+                                        style="color: #d32f2f;"></i> Post New Internship</span>
+                                <i class="fas fa-chevron-right" style="color: #999;"></i>
+                            </button>
+                            <button onclick="window.location.href='view-applications.html'"
+                                style="width: 100%; padding: 12px; background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 800;">
+                                <span style="display: flex; align-items: center; gap: 10px;"><i class="fas fa-file-alt"
+                                        style="color: #d32f2f;"></i> View Applications</span>
+                                <i class="fas fa-chevron-right" style="color: #999;"></i>
+                            </button>
+                            <button onclick="openOrgProfileEditModal()"
+                                style="width: 100%; padding: 12px; background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 800;">
+                                <span style="display: flex; align-items: center; gap: 10px;"><i class="fas fa-edit"
+                                        style="color: #d32f2f;"></i> Edit Profile</span>
+                                <i class="fas fa-chevron-right" style="color: #999;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <a href="org-profile.html" class="dropdown-item">
-            <i class="fas fa-building"></i>
-            <span>Company Profile</span>
-        </a>
-        <a href="org-settings.html" class="dropdown-item">
-            <i class="fas fa-cog"></i>
-            <span>Organization Settings</span>
-        </a>
-        <a href="post-internship.html" class="dropdown-item">
-            <i class="fas fa-plus-circle"></i>
-            <span>Post New Internship</span>
-        </a>
-        <a href="team-management.html" class="dropdown-item">
-            <i class="fas fa-users"></i>
-            <span>Team Management</span>
-        </a>
-        <a href="billing.html" class="dropdown-item">
-            <i class="fas fa-credit-card"></i>
-            <span>Billing (Free Plan)</span>
-        </a>
-        
-        <hr>
-        
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-question-circle"></i>
-            <span>Help Center</span>
-        </a>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-moon"></i>
-            <span>Display</span>
-        </a>
-        
-        <hr>
-        
-        <a href="#" class="dropdown-item logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Sign Out</span>
-        </a>
-    </div>
 
-    <!-- JavaScript -->
-    <script src="org-dashboard.js"></script>
+        <div id="orgEditProfileModal"
+            style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+            <div style="background: white; border-radius: 16px; padding: 24px; max-width: 520px; width: 92%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                    <h3 style="margin: 0; font-size: 18px; font-weight: 900; color: #1a1a2e;">Edit Company Profile</h3>
+                    <button onclick="closeOrgProfileEditModal()"
+                        style="background: none; border: none; font-size: 22px; cursor: pointer; color: #666;">×</button>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div style="grid-column: 1/-1;">
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">Company
+                            Name</label>
+                        <input id="orgEditName" type="text"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">Industry</label>
+                        <select id="orgEditIndustry"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                            <option value="it">IT / Software</option>
+                            <option value="technology">Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="banking">Banking</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="consulting">Consulting</option>
+                            <option value="education">Education</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="retail">Retail</option>
+                            <option value="media">Media</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">Location</label>
+                        <input id="orgEditLocation" type="text"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                    <div style="grid-column: 1/-1;">
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">About</label>
+                        <textarea id="orgEditAbout" rows="4"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; resize: vertical;"></textarea>
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">Email</label>
+                        <input id="orgEditEmail" type="email"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">Phone</label>
+                        <input id="orgEditPhone" type="text"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                    <div style="grid-column: 1/-1;">
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">Website</label>
+                        <input id="orgEditWebsite" type="url" placeholder="https://"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">LinkedIn</label>
+                        <input id="orgEditLinkedin" type="url" placeholder="https://linkedin.com"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">X
+                            / Twitter</label>
+                        <input id="orgEditTwitter" type="url" placeholder="https://x.com"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">Facebook</label>
+                        <input id="orgEditFacebook" type="url" placeholder="https://facebook.com"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1a1a2e;">Instagram</label>
+                        <input id="orgEditInstagram" type="url" placeholder="https://instagram.com"
+                            style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 16px;">
+                    <button onclick="saveOrgProfileEdits()"
+                        style="flex: 1; padding: 12px; background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 800;">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <button onclick="closeOrgProfileEditModal()"
+                        style="flex: 1; padding: 12px; background: #f5f5f5; color: #333; border: 1px solid #ddd; border-radius: 10px; cursor: pointer; font-weight: 800;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ENHANCED FOOTER ===== -->
+        <footer class="dashboard-footer">
+            <!-- Same footer as student dashboard -->
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <!-- Brand Column -->
+                    <div class="footer-brand">
+                        <h3>SkillLaunch</h3>
+                        <p>Connecting organizations with talented students. Find the perfect interns and build your
+                            future team.</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link" title="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="social-link" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-link" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-link" title="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="social-link" title="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- For Organizations -->
+                    <div class="footer-col">
+                        <h4>For Organizations</h4>
+                        <ul>
+                            <li><a href="#"><i class="fas fa-briefcase"></i> Post Internships</a></li>
+                            <li><a href="#"><i class="fas fa-search"></i> Find Talent</a></li>
+                            <li><a href="#"><i class="fas fa-chart-line"></i> Analytics Dashboard</a></li>
+                            <li><a href="#"><i class="fas fa-users"></i> Team Management</a></li>
+                            <li><a href="#"><i class="fas fa-star"></i> Success Stories</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- For Students -->
+                    <div class="footer-col">
+                        <h4>For Students</h4>
+                        <ul>
+                            <li><a href="#"><i class="fas fa-rocket"></i> Find Internships</a></li>
+                            <li><a href="#"><i class="fas fa-briefcase"></i> Build Portfolio</a></li>
+                            <li><a href="#"><i class="fas fa-graduation-cap"></i> Learn Skills</a></li>
+                            <li><a href="#"><i class="fas fa-users"></i> Network</a></li>
+                            <li><a href="#"><i class="fas fa-file-alt"></i> Resume Builder</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Resources -->
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#"><i class="fas fa-book"></i> Hiring Guide</a></li>
+                            <li><a href="#"><i class="fas fa-video"></i> Webinars</a></li>
+                            <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+                            <li><a href="#"><i class="fas fa-download"></i> Templates</a></li>
+                            <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- About -->
+                    <div class="footer-col">
+                        <h4>About</h4>
+                        <ul>
+                            <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
+                            <li><a href="#"><i class="fas fa-newspaper"></i> News</a></li>
+                            <li><a href="#"><i class="fas fa-users"></i> Team</a></li>
+                            <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+                            <li><a href="#"><i class="fas fa-file-contract"></i> Terms</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="copyright">
+                        2025 SkillLaunch. All rights reserved.
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Contact</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Sitemap</a>
+                    </div>
+                    <div class="developer-credits">
+                        Built with by <strong>Pawan Rimal & Anup Shrestha</strong>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- ===== DROPDOWN MENUS ===== -->
+        <!-- Notification Dropdown -->
+        <div class="dropdown-menu notification-dropdown" id="notificationDropdown">
+            <h3>Notifications</h3>
+        </div>
+
+        <!-- Messages Dropdown -->
+        <div class="dropdown-menu message-dropdown" id="messageDropdown">
+            <h3>Messages</h3>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="dropdown-menu profile-dropdown" id="profileMenu">
+            <div class="profile-info">
+                <div class="dropdown-avatar" id="dropdownAvatar">TC</div>
+                <div class="profile-details">
+                    <h4 id="userName">TechCorp Inc.</h4>
+                    <p id="userEmail">hr@techcorp.com</p>
+                    <small>Organization Account</small>
+                </div>
+            </div>
+
+            <a href="#" class="dropdown-item" onclick="event.preventDefault(); showOrgProfileTab();">
+                <i class="fas fa-building"></i>
+                <span>Company Profile</span>
+            </a>
+            <a href="org-settings.html" class="dropdown-item">
+                <i class="fas fa-cog"></i>
+                <span>Organization Settings</span>
+            </a>
+            <a href="#" class="dropdown-item" onclick="navigateToPostInternship(); return false;">
+                <i class="fas fa-plus-circle"></i>
+                <span>Post New Internship</span>
+            </a>
+            <a href="team-management.html" class="dropdown-item">
+                <i class="fas fa-users"></i>
+                <span>Team Management</span>
+            </a>
+            <a href="billing.html" class="dropdown-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Billing (Free Plan)</span>
+            </a>
+
+            <hr>
+
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-question-circle"></i>
+                <span>Help Center</span>
+            </a>
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-moon"></i>
+                <span>Display</span>
+            </a>
+
+            <hr>
+
+            <a href="#" class="dropdown-item logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sign Out</span>
+            </a>
+        </div>
+
+        <!-- JavaScript -->
+        <script src="org-api.js"></script>
+        <script src="org-dashboard.js"></script>
+        <script src="FEED_LOADER_ADDITION.js"></script>
 </body>
+
 </html>

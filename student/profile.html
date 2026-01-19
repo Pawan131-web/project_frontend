@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile | SkillLaunch</title>
+  <link rel="stylesheet" href="../css/profile-page.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="profile-page">
+  <!-- Mobile Toggle -->
+  <button class="pf-sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="pf-sidebar" id="pfSidebar">
+    <div class="pf-avatar-wrap">
+      <img id="pfAvatarImg" alt="Profile photo" style="display:none;" />
+      <span id="pfAvatarFallback" class="pf-avatar-fallback">S</span>
+    </div>
+    <h1 class="pf-sidebar-name" id="pfName">Your Name</h1>
+    <p class="pf-sidebar-title" id="pfTitle">Professional Title</p>
+
+    <div class="pf-social-links" id="pfSocialLinks">
+      <a href="#" id="pfLinkedin" title="LinkedIn" style="display:none;"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" id="pfGithub" title="GitHub" style="display:none;"><i class="fab fa-github"></i></a>
+      <a href="#" id="pfWebsite" title="Website" style="display:none;"><i class="fas fa-globe"></i></a>
+      <a href="#" id="pfEmail" title="Email" style="display:none;"><i class="fas fa-envelope"></i></a>
+    </div>
+
+    <nav class="pf-nav">
+      <a href="#about" class="active"><i class="fas fa-user"></i> About</a>
+      <a href="#skills"><i class="fas fa-code"></i> Skills</a>
+      <a href="#resume"><i class="fas fa-file-alt"></i> Resume</a>
+      <a href="#projects"><i class="fas fa-layer-group"></i> Projects</a>
+      <a href="#certifications"><i class="fas fa-certificate"></i> Certifications</a>
+    </nav>
+
+    <div class="pf-sidebar-actions">
+      <button id="pfBtnEdit" class="pf-btn pf-btn-primary"><i class="fas fa-pen"></i> Edit Profile</button>
+      <button id="pfBtnDownload" class="pf-btn pf-btn-outline"><i class="fas fa-download"></i> Download PDF</button>
+      <button id="pfBtnShare" class="pf-btn pf-btn-outline"><i class="fas fa-share-nodes"></i> Share</button>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="pf-main">
+    <!-- Empty State -->
+    <div id="pfEmptyState" class="pf-section pf-empty" style="display:none;">
+      <i class="fas fa-user-circle"></i>
+      <h3>No profile data found</h3>
+      <p>Build your portfolio once and it will automatically power your profile.</p>
+      <a href="std-dashboard.html?tab=portfolio&mode=new" class="pf-btn pf-btn-primary"><i class="fas fa-rocket"></i> Build Portfolio</a>
+    </div>
+
+    <!-- Content -->
+    <div id="pfContent">
+      <!-- About Section -->
+      <section class="pf-section" id="about">
+        <h2 class="pf-section-title"><i class="fas fa-user"></i> About</h2>
+        <p class="pf-section-subtitle">Professional Summary</p>
+        <div class="pf-about-content">
+          <div class="pf-about-img" id="pfCover" style="background:linear-gradient(135deg, #667eea, #764ba2);">
+          </div>
+          <div class="pf-about-text">
+            <h3 id="pfAboutTitle">Full Stack Developer</h3>
+            <p class="pf-about-quote" id="pfAboutQuote"></p>
+            <div class="pf-info-grid">
+              <div class="pf-info-item" id="pfLocationRow" style="display:none;"><i class="fas fa-map-marker-alt"></i><strong>Location:</strong><span id="pfLocation"></span></div>
+              <div class="pf-info-item" id="pfEmailRowInfo" style="display:none;"><i class="fas fa-envelope"></i><strong>Email:</strong><span id="pfEmailText"></span></div>
+              <div class="pf-info-item" id="pfPhoneRow" style="display:none;"><i class="fas fa-phone"></i><strong>Phone:</strong><span id="pfPhone"></span></div>
+              <div class="pf-info-item" id="pfWebsiteRow" style="display:none;"><i class="fas fa-globe"></i><strong>Website:</strong><span id="pfWebsiteText"></span></div>
+            </div>
+            <p class="pf-about-desc" id="pfAbout">Add a professional summary to introduce yourself.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section class="pf-section" id="skills">
+        <h2 class="pf-section-title"><i class="fas fa-code"></i> Skills</h2>
+        <p class="pf-section-subtitle">Technical & Soft Skills</p>
+        <div class="pf-skills-grid" id="pfSkills"></div>
+      </section>
+
+      <!-- Resume Section -->
+      <section class="pf-section" id="resume">
+        <h2 class="pf-section-title"><i class="fas fa-file-alt"></i> Resume</h2>
+        <p class="pf-section-subtitle">Education & Experience</p>
+        <div class="pf-resume-grid">
+          <div class="pf-resume-col">
+            <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+            <div class="pf-timeline" id="pfEducation"></div>
+          </div>
+          <div class="pf-resume-col">
+            <h3><i class="fas fa-briefcase"></i> Experience</h3>
+            <div class="pf-timeline" id="pfExperience"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section class="pf-section" id="projects">
+        <h2 class="pf-section-title"><i class="fas fa-layer-group"></i> Projects</h2>
+        <p class="pf-section-subtitle">Featured Work</p>
+        <div class="pf-projects-grid" id="pfProjects"></div>
+      </section>
+
+      <!-- Certifications Section -->
+      <section class="pf-section" id="certifications">
+        <h2 class="pf-section-title"><i class="fas fa-certificate"></i> Certifications</h2>
+        <p class="pf-section-subtitle">Professional Credentials</p>
+        <div class="pf-certs-list" id="pfCerts"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="portfolio/profile-renderer.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      // Sidebar toggle for mobile
+      const toggle = document.getElementById('sidebarToggle');
+      const sidebar = document.getElementById('pfSidebar');
+      if(toggle && sidebar){
+        toggle.addEventListener('click', ()=> sidebar.classList.toggle('open'));
+      }
+
+      // Smooth scroll for nav links
+      document.querySelectorAll('.pf-nav a').forEach(link => {
+        link.addEventListener('click', function(e){
+          const href = this.getAttribute('href');
+          if(href.startsWith('#')){
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.querySelectorAll('.pf-nav a').forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+            if(sidebar) sidebar.classList.remove('open');
+          }
+        });
+      });
+
+      // Initialize profile renderer
+      if(window.ProfileRenderer && window.ProfileRenderer.init){
+        window.ProfileRenderer.init({ forceOwner: true });
+      }
+    });
+  </script>
+</body>
+</html>

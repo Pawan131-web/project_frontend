@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-red: #D32F2F;
+            --primary-dark: #B71C1C;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .profile-banner {
+            height: 180px;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+        }
+        
+        .red-btn {
+            background-color: var(--primary-red);
+            color: white;
+        }
+        
+        .red-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .outline-btn {
+            background: white;
+            color: var(--primary-red);
+            border: 2px solid var(--primary-red);
+        }
+        
+        .outline-btn:hover {
+            background-color: #fce4e4;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .nav-link {
+            color: #666;
+            padding: 10px 16px;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-red);
+            border-bottom: 3px solid var(--primary-red);
+        }
+        
+        .nav-link.active {
+            color: var(--primary-red);
+            border-bottom: 3px solid var(--primary-red);
+        }
+        
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f5f5f5;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .linkedin:hover { background: #0077B5 !important; color: white !important; }
+        .x-icon:hover { background: #000000 !important; color: white !important; }
+        .facebook:hover { background: #1877F2 !important; color: white !important; }
+        .instagram:hover { background: #E4405F !important; color: white !important; }
+        .youtube:hover { background: #FF0000 !important; color: white !important; }
+        
+        .social-icon i {
+            font-size: 14px;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tool-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.1);
+            border-color: var(--primary-red);
+        }
+        
+        /* Fix for layout overflow */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+        
+        /* Adjust card heights */
+        .section-card {
+            min-height: auto;
+            margin-bottom: 24px;
+        }
+        
+        /* Fix for X icon */
+        .x-icon i {
+            font-size: 15px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Profile Banner -->
+        <div class="card overflow-hidden mb-6 fade-in">
+            <div class="profile-banner"></div>
+            
+            <!-- Company Info & Social -->
+            <div class="relative -mt-16 px-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between">
+                    <!-- Company Logo & Basic Info -->
+                    <div class="flex items-end">
+                        <div class="w-24 h-24 rounded-xl bg-white p-2 shadow-lg">
+                            <div class="w-full h-full rounded-lg bg-red-600 flex items-center justify-center">
+                                <i class="fas fa-building text-white text-3xl"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-6 mb-4">
+                            <h1 id="orgProfileName" class="text-2xl font-bold text-gray-900">Myntra</h1>
+                            <div class="flex flex-wrap items-center gap-2 mt-2">
+                                <span id="orgProfileType" class="text-red-600 font-medium">Technology, Information and Internet</span>
+                                <span class="text-gray-400">•</span>
+                                <span id="orgProfileLocation" class="text-gray-600">Bengaluru, Karnataka</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap gap-3 mt-4 md:mt-0">
+                        <button class="px-4 py-2 rounded-full red-btn font-medium text-sm" onclick="openEditProfileModal()">
+                            <i class="fas fa-edit mr-2"></i>Edit Profile
+                        </button>
+                        <button class="px-4 py-2 rounded-full outline-btn font-medium text-sm" onclick="shareProfile()">
+                            <i class="fas fa-share-alt mr-2"></i>Share
+                        </button>
+                        <button class="px-4 py-2 rounded-full outline-btn font-medium text-sm" onclick="downloadProfilePDF()">
+                            <i class="fas fa-file-pdf mr-2"></i>PDF
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Social Media Links -->
+                <div class="flex items-center space-x-2 mt-4 pb-6">
+                    <span class="text-gray-600 font-medium">Connect:</span>
+                    <a href="#" class="social-icon linkedin" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-icon x-icon" title="X">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon facebook" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon instagram" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon youtube" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <button class="ml-2 text-gray-500 hover:text-red-600" onclick="addSocialLink()" title="Add social link">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="border-t border-gray-200">
+                <div class="flex">
+                    <a href="#" class="nav-link active" onclick="showSection('home')">Home</a>
+                    <a href="#" class="nav-link" onclick="showSection('about')">About</a>
+                    <a href="#" class="nav-link" onclick="showSection('internships')">Internships</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Grid -->
+        <div class="grid-container">
+            <!-- Left Column -->
+            <div class="space-y-6">
+                
+                <!-- Home Content -->
+                <div id="home-content" class="space-y-6 fade-in">
+                    <!-- Company Overview -->
+                    <div class="card p-6 section-card">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">Company Overview</h2>
+                        
+                        <div class="space-y-4">
+                            <p class="text-gray-700">
+                                At Myntra, we don't just follow fashion - we define it. As India's leading fashion, 
+                                lifestyle, and beauty destination, we bring together the best of style, innovation, 
+                                and technology.
+                            </p>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                                <div class="text-center p-4 bg-red-50 rounded-lg">
+                                    <div class="text-xl font-bold text-red-600">13,000+</div>
+                                    <div class="text-gray-600 text-sm">Brands & Labels</div>
+                                </div>
+                                <div class="text-center p-4 bg-red-50 rounded-lg">
+                                    <div class="text-xl font-bold text-red-600">2007</div>
+                                    <div class="text-gray-600 text-sm">Founded</div>
+                                </div>
+                                <div class="text-center p-4 bg-red-50 rounded-lg">
+                                    <div class="text-xl font-bold text-red-600">50+</div>
+                                    <div class="text-gray-600 text-sm">Cities</div>
+                                </div>
+                                <div class="text-center p-4 bg-red-50 rounded-lg">
+                                    <div class="text-xl font-bold text-red-600">1M+</div>
+                                    <div class="text-gray-600 text-sm">Products</div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="showSection('about')" class="mt-4 text-red-600 font-medium hover:underline">
+                                Read more about us <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Open Internships -->
+                    <div class="card p-6 section-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold text-gray-900">Open Internships</h2>
+                            <button class="text-red-600 text-sm font-medium hover:underline" onclick="showSection('internships')">
+                                View all
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="p-4 border border-gray-200 rounded-lg hover:border-red-300">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                    <div class="mb-3 md:mb-0">
+                                        <h3 class="font-bold text-gray-900">Senior Software Engineer</h3>
+                                        <div class="flex flex-wrap gap-3 mt-1">
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-map-marker-alt mr-1"></i> Bengaluru
+                                            </span>
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-clock mr-1"></i> Full-time
+                                            </span>
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-dollar-sign mr-1"></i> Competitive
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button class="px-4 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700" onclick="applyJob('Senior Software Engineer')">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 border border-gray-200 rounded-lg hover:border-red-300">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                    <div class="mb-3 md:mb-0">
+                                        <h3 class="font-bold text-gray-900">Marketing Manager</h3>
+                                        <div class="flex flex-wrap gap-3 mt-1">
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-map-marker-alt mr-1"></i> Remote
+                                            </span>
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-clock mr-1"></i> Full-time
+                                            </span>
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-dollar-sign mr-1"></i> Competitive
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button class="px-4 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700" onclick="applyJob('Marketing Manager')">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Company Highlights -->
+                    <div class="card p-6 section-card">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">Company Highlights</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-trophy text-red-600"></i>
+                                    </div>
+                                    <h3 class="font-bold text-gray-900">Awards</h3>
+                                </div>
+                                <p class="text-gray-600 text-sm">Best Fashion Platform 2023, Retail Innovation Award 2022</p>
+                            </div>
+                            
+                            <div class="p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-leaf text-red-600"></i>
+                                    </div>
+                                    <h3 class="font-bold text-gray-900">Sustainability</h3>
+                                </div>
+                                <p class="text-gray-600 text-sm">Carbon neutral operations, Eco-friendly packaging initiatives</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- About Content (Hidden by default) -->
+                <div id="about-content" class="space-y-6" style="display: none;">
+                    <!-- Full About Section -->
+                    <div class="card p-6 section-card">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">About Myntra</h2>
+                        
+                        <div class="space-y-4">
+                            <p class="text-gray-700">
+                                At Myntra, we don't just follow fashion - we define it. As India's leading fashion, 
+                                lifestyle, and beauty destination, we bring together the best of style, innovation, 
+                                and technology to create a seamless shopping experience for our customers.
+                            </p>
+                            
+                            <p class="text-gray-700">
+                                With a commitment to empowering self-expression, we curate over 13,000+ brands and labels, 
+                                blending global trends with India's unique fashion pulse. Our people are at the heart of 
+                                everything we do.
+                            </p>
+                            
+                            <div class="p-4 bg-red-50 rounded-lg border border-red-100 mt-6">
+                                <h3 class="font-bold text-gray-900 mb-3">Company Details</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-gray-600 text-sm">Industry</p>
+                                        <p class="font-medium">E-commerce, Fashion Retail</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 text-sm">Founded</p>
+                                        <p class="font-medium">2007</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 text-sm">Headquarters</p>
+                                        <p class="font-medium">Bengaluru, India</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600 text-sm">Specialties</p>
+                                        <p class="font-medium">Fashion, Lifestyle, Beauty</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Internships Content (Hidden by default) -->
+                <div id="internships-content" class="space-y-6" style="display: none;">
+                    <!-- All Internships Section -->
+                    <div class="card p-6 section-card">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">Open Internship Positions</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="p-4 border border-gray-200 rounded-lg hover:border-red-300">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                    <div class="mb-3 md:mb-0">
+                                        <h3 class="font-bold text-gray-900">Senior Software Engineer</h3>
+                                        <div class="flex flex-wrap gap-3 mt-1">
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-map-marker-alt mr-1"></i> Bengaluru
+                                            </span>
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-clock mr-1"></i> Full-time
+                                            </span>
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-dollar-sign mr-1"></i> Competitive Salary
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button class="px-4 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700" onclick="applyJob('Senior Software Engineer')">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 border border-gray-200 rounded-lg hover:border-red-300">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                    <div class="mb-3 md:mb-0">
+                                        <h3 class="font-bold text-gray-900">Marketing Manager</h3>
+                                        <div class="flex flex-wrap gap-3 mt-1">
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-map-marker-alt mr-1"></i> Remote
+                                            </span>
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-clock mr-1"></i> Full-time
+                                            </span>
+                                            <span class="text-gray-600 text-sm">
+                                                <i class="fas fa-dollar-sign mr-1"></i> Competitive Salary
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button class="px-4 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700" onclick="applyJob('Marketing Manager')">
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="space-y-6">
+                
+                <!-- Contact Info -->
+                <div class="card p-6 fade-in">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Contact Information</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-gray-500 mt-1 mr-3"></i>
+                            <div>
+                                <p class="font-medium text-sm">Headquarters</p>
+                                <p class="text-gray-600 text-sm">Myntra Jabong, Bagmane Tech Park, Bengaluru</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-globe text-gray-500 mt-1 mr-3"></i>
+                            <div>
+                                <p class="font-medium text-sm">Website</p>
+                                <a href="#" class="text-red-600 text-sm hover:underline">www.myntra.com</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-envelope text-gray-500 mt-1 mr-3"></i>
+                            <div>
+                                <p class="font-medium text-sm">Email</p>
+                                <p class="text-gray-600 text-sm">contact@myntra.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Location Map -->
+                <div class="card p-6 fade-in">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Location</h2>
+                    
+                    <!-- Map Container -->
+                    <div class="border border-gray-300 rounded overflow-hidden mb-4">
+                        <div class="h-48 bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-map-marker-alt text-red-600 text-3xl mb-3"></i>
+                                <p class="text-gray-800 font-medium">Bengaluru Office</p>
+                                <p class="text-gray-500 text-sm mt-1">(Map Integration)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-2 border border-red-600 text-red-600 rounded font-medium text-sm hover:bg-red-50" onclick="getDirections()">
+                        <i class="fas fa-directions mr-2"></i> Get Directions
+                    </button>
+                </div>
+                
+                <!-- Send Message -->
+                <div class="card p-6 fade-in">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Send Message</h2>
+                    
+                    <div class="space-y-3">
+                        <input type="text" 
+                               placeholder="Your Name"
+                               class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+                        
+                        <input type="email" 
+                               placeholder="Your Email"
+                               class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+                        
+                        <textarea 
+                            class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                            rows="3"
+                            placeholder="Your message..."></textarea>
+                        
+                        <button class="w-full py-2 bg-red-600 text-white rounded font-medium text-sm hover:bg-red-700" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane mr-2"></i> Send Message
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Organization Tools -->
+                <div class="card p-6 fade-in">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Organization Tools</h2>
+                    
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <div class="tool-card text-center cursor-pointer" onclick="viewAnalytics()">
+                            <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-chart-line text-red-600"></i>
+                            </div>
+                            <p class="font-medium text-xs">Analytics</p>
+                        </div>
+                        
+                        <div class="tool-card text-center cursor-pointer" onclick="shareProfile()">
+                            <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-share-alt text-red-600"></i>
+                            </div>
+                            <p class="font-medium text-xs">Share</p>
+                        </div>
+                        
+                        <div class="tool-card text-center cursor-pointer" onclick="exportData()">
+                            <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-file-export text-red-600"></i>
+                            </div>
+                            <p class="font-medium text-xs">Export</p>
+                        </div>
+                        
+                        <div class="tool-card text-center cursor-pointer" onclick="generateQR()">
+                            <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-qrcode text-red-600"></i>
+                            </div>
+                            <p class="font-medium text-xs">QR Code</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="space-y-3">
+                        <button class="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50" onclick="postInternship()">
+                            <div class="flex items-center">
+                                <i class="fas fa-briefcase text-red-600 mr-3"></i>
+                                <span class="font-medium text-sm">Post New Internship</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </button>
+                        
+                        <button class="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50" onclick="viewApplications()">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-alt text-red-600 mr-3"></i>
+                                <span class="font-medium text-sm">View Applications</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 24px; max-width: 600px; width: 92%; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0; font-size: 20px; font-weight: 900; color: #1a1a2e;"><i class="fas fa-edit" style="color: #d32f2f; margin-right: 8px;"></i>Edit Company Profile</h3>
+                <button onclick="closeEditProfileModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #666;">×</button>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div style="grid-column: 1/-1;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">Company Name</label>
+                    <input id="editOrgName" type="text" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">Organization Type</label>
+                    <select id="editOrgType" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px;">
+                        <option value="it">IT / Software</option>
+                        <option value="technology">Technology</option>
+                        <option value="finance">Finance</option>
+                        <option value="banking">Banking</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="consulting">Consulting</option>
+                        <option value="education">Education</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="retail">Retail</option>
+                        <option value="media">Media & Entertainment</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">Location</label>
+                    <input id="editOrgLocation" type="text" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px;">
+                </div>
+                <div style="grid-column: 1/-1;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">Company Overview</label>
+                    <textarea id="editOrgAbout" rows="4" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; resize: vertical;"></textarea>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">Email</label>
+                    <input id="editOrgEmail" type="email" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">Phone</label>
+                    <input id="editOrgPhone" type="text" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px;">
+                </div>
+                <div style="grid-column: 1/-1;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">Website</label>
+                    <input id="editOrgWebsite" type="url" placeholder="https://" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">LinkedIn</label>
+                    <input id="editOrgLinkedin" type="url" placeholder="https://linkedin.com/company/" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e;">X / Twitter</label>
+                    <input id="editOrgTwitter" type="url" placeholder="https://x.com/" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px;">
+                </div>
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;">
+                <button onclick="closeEditProfileModal()" style="padding: 12px 24px; background: #f1f3f4; color: #333; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;">Cancel</button>
+                <button onclick="saveProfileChanges()" style="padding: 12px 24px; background: #d32f2f; color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;"><i class="fas fa-save" style="margin-right: 6px;"></i>Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ORG_TYPE_LABELS = {
+            'it': 'IT / Software',
+            'technology': 'Technology',
+            'finance': 'Finance',
+            'banking': 'Banking',
+            'healthcare': 'Healthcare',
+            'marketing': 'Marketing',
+            'consulting': 'Consulting',
+            'education': 'Education',
+            'manufacturing': 'Manufacturing',
+            'retail': 'Retail',
+            'media': 'Media & Entertainment',
+            'other': 'Other'
+        };
+
+        // Load profile data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfileData();
+        });
+
+        function loadProfileData() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const orgProfile = JSON.parse(localStorage.getItem('orgProfileData') || '{}');
+            
+            // Update profile display
+            document.getElementById('orgProfileName').textContent = user.fullName || orgProfile.companyName || 'Company Name';
+            document.getElementById('orgProfileType').textContent = ORG_TYPE_LABELS[user.orgType || orgProfile.orgType] || 'Organization';
+            document.getElementById('orgProfileLocation').textContent = orgProfile.location || user.location || 'Location';
+        }
+
+        // Navigation functionality
+        function showSection(section) {
+            event.preventDefault();
+            
+            // Hide all sections
+            document.getElementById('home-content').style.display = 'none';
+            document.getElementById('about-content').style.display = 'none';
+            document.getElementById('internships-content').style.display = 'none';
+            
+            // Show selected section
+            document.getElementById(section + '-content').style.display = 'block';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Edit Profile Modal
+        function openEditProfileModal() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const orgProfile = JSON.parse(localStorage.getItem('orgProfileData') || '{}');
+            
+            // Populate form fields
+            document.getElementById('editOrgName').value = user.fullName || orgProfile.companyName || '';
+            document.getElementById('editOrgType').value = user.orgType || orgProfile.orgType || 'other';
+            document.getElementById('editOrgLocation').value = orgProfile.location || '';
+            document.getElementById('editOrgAbout').value = orgProfile.about || '';
+            document.getElementById('editOrgEmail').value = user.email || orgProfile.email || '';
+            document.getElementById('editOrgPhone').value = orgProfile.phone || '';
+            document.getElementById('editOrgWebsite').value = orgProfile.website || '';
+            document.getElementById('editOrgLinkedin').value = orgProfile.linkedin || '';
+            document.getElementById('editOrgTwitter').value = orgProfile.twitter || '';
+            
+            document.getElementById('editProfileModal').style.display = 'flex';
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        async function saveProfileChanges() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            const profileData = {
+                companyName: document.getElementById('editOrgName').value.trim(),
+                orgType: document.getElementById('editOrgType').value,
+                location: document.getElementById('editOrgLocation').value.trim(),
+                about: document.getElementById('editOrgAbout').value.trim(),
+                email: document.getElementById('editOrgEmail').value.trim(),
+                phone: document.getElementById('editOrgPhone').value.trim(),
+                website: document.getElementById('editOrgWebsite').value.trim(),
+                linkedin: document.getElementById('editOrgLinkedin').value.trim(),
+                twitter: document.getElementById('editOrgTwitter').value.trim()
+            };
+
+            // Save to localStorage
+            localStorage.setItem('orgProfileData', JSON.stringify(profileData));
+            
+            // Update user with orgType
+            user.orgType = profileData.orgType;
+            user.fullName = profileData.companyName;
+            localStorage.setItem('user', JSON.stringify(user));
+
+            // Update UI
+            loadProfileData();
+            closeEditProfileModal();
+            
+            // Show success notification
+            showNotification('Profile updated successfully!', 'success');
+
+            // Try to update backend
+            try {
+                await fetch(`http://localhost:5000/api/users/${user.id}/profile`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orgType: profileData.orgType, fullName: profileData.companyName })
+                });
+            } catch (error) {
+                console.log('Backend sync pending');
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; padding: 16px 24px; border-radius: 12px; z-index: 10001;
+                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+                color: white; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Get directions
+        function getDirections() {
+            const orgProfile = JSON.parse(localStorage.getItem('orgProfileData') || '{}');
+            const location = orgProfile.location || 'Bengaluru';
+            window.open(`https://www.google.com/maps/search/${encodeURIComponent(location)}`, '_blank');
+        }
+
+        // Send message
+        function sendMessage() {
+            const textarea = document.querySelector('textarea');
+            if(textarea.value.trim()) {
+                showNotification('Message sent successfully!', 'success');
+                textarea.value = '';
+            } else {
+                showNotification('Please write a message before sending.', 'error');
+            }
+        }
+
+        // Add social link
+        function addSocialLink() {
+            openEditProfileModal();
+        }
+
+        // Organization Tools Functions
+        function viewAnalytics() {
+            window.location.href = 'org-analytics.html';
+        }
+
+        function shareProfile() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                showNotification('Profile link copied to clipboard!', 'success');
+            });
+        }
+
+        function exportData() {
+            showNotification('Exporting organization data...', 'info');
+        }
+
+        function generateQR() {
+            showNotification('Generating QR code...', 'info');
+        }
+
+        function postInternship() {
+            window.location.href = 'org-dashboard.html';
+        }
+
+        function viewApplications() {
+            window.location.href = 'org-dashboard.html';
+        }
+
+        function downloadProfilePDF() {
+            showNotification('Generating PDF...', 'info');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Professional Portfolio | SkillLaunch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portfolio-form.css">
+</head>
+<body>
+    <!-- Form Container -->
+    <div class="portfolio-form-container" id="formContainer">
+        <!-- Brand Header -->
+        <div class="brand-header">
+            <h1><i class="fas fa-edit"></i> SkillLaunch Portfolio Builder</h1>
+            <p>Create a professional portfolio in minutes</p>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-section">
+            <div class="progress-steps">
+                <div class="progress-step active">
+                    <div class="step-number">1</div>
+                    <span>Basic Info</span>
+                </div>
+                <div class="progress-step">
+                    <div class="step-number">2</div>
+                    <span>Education</span>
+                </div>
+                <div class="progress-step">
+                    <div class="step-number">3</div>
+                    <span>Skills</span>
+                </div>
+                <div class="progress-step">
+                    <div class="step-number">4</div>
+                    <span>Experience</span>
+                </div>
+                <div class="progress-step">
+                    <div class="step-number">5</div>
+                    <span>Projects</span>
+                </div>
+                <div class="progress-step">
+                    <div class="step-number">6</div>
+                    <span>Generate</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 16%"></div>
+            </div>
+        </div>
+
+        <!-- Main Form -->
+        <form class="portfolio-form" id="portfolioForm">
+            <!-- Step 1: Basic Information -->
+            <div class="form-step active" data-step="1">
+                <div class="section-header">
+                    <h2><i class="fas fa-user"></i> Basic Information</h2>
+                    <p>Start with your professional details</p>
+                </div>
+
+                <!-- Single Profile Photo Upload -->
+                <div class="photo-section">
+                    <div class="profile-preview-container">
+                        <div class="profile-preview" id="profilePreview">
+                            <div class="initials-placeholder">JD</div>
+                            <img id="profileImage" class="hidden" alt="Profile">
+                        </div>
+                    </div>
+                    
+                    <input type="file" id="profileUpload" accept="image/*" class="hidden">
+                    <button type="button" class="upload-btn" onclick="document.getElementById('profileUpload').click()">
+                        <i class="fas fa-camera"></i> Upload Profile Photo
+                    </button>
+                    
+                    <div class="image-controls">
+                        <button type="button" class="image-control-btn" onclick="adjustImage('zoomIn')">
+                            <i class="fas fa-search-plus"></i> Zoom In
+                        </button>
+                        <button type="button" class="image-control-btn" onclick="adjustImage('zoomOut')">
+                            <i class="fas fa-search-minus"></i> Zoom Out
+                        </button>
+                        <button type="button" class="image-control-btn" onclick="adjustImage('reposition')">
+                            <i class="fas fa-arrows-alt"></i> Reposition
+                        </button>
+                        <button type="button" class="image-control-btn" onclick="adjustImage('reset')">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Basic Info Form -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">
+                            <i class="fas fa-user"></i> Full Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="fullName" class="form-input" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="professionalTitle">
+                            <i class="fas fa-briefcase"></i> Professional Title <span class="required">*</span>
+                        </label>
+                        <input type="text" id="professionalTitle" class="form-input" placeholder="Software Engineer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">
+                            <i class="fas fa-envelope"></i> Email <span class="required">*</span>
+                        </label>
+                        <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">
+                            <i class="fas fa-phone"></i> Phone
+                        </label>
+                        <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="location">
+                            <i class="fas fa-map-marker-alt"></i> Location
+                        </label>
+                        <input type="text" id="location" class="form-input" placeholder="San Francisco, CA">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="summary">
+                            <i class="fas fa-file-alt"></i> Professional Summary <span class="required">*</span>
+                        </label>
+                        <textarea id="summary" class="form-textarea" rows="3" placeholder="Describe your background, skills, and career goals..." required></textarea>
+                        <div class="char-counter"><span id="charCount">0</span>/300</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Education -->
+            <div class="form-step" data-step="2">
+                <div class="section-header">
+                    <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+                    <p>Add your educational background</p>
+                </div>
+
+                <div class="education-container" id="educationContainer">
+                    <!-- Education entries will be added here -->
+                </div>
+
+                <button type="button" class="nav-btn add-section-btn" onclick="addEducationEntry()">
+                    <i class="fas fa-plus"></i> Add Education
+                </button>
+            </div>
+
+            <!-- Step 3: Skills & Competencies -->
+            <div class="form-step" data-step="3">
+                <div class="section-header">
+                    <h2><i class="fas fa-code"></i> Skills & Competencies</h2>
+                    <p>Showcase your technical and professional skills</p>
+                </div>
+
+                <!-- Technical Skills -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Technical Skills</h3>
+                    </div>
+                    
+                    <div class="skills-input-container">
+                        <div class="skill-input-wrapper">
+                            <div class="skill-combobox">
+                                <input type="text" id="skillInput" class="form-input" placeholder="Type a skill (e.g., Python, React, AWS)" list="skillsList">
+                                <select id="skillLevel" class="form-select">
+                                    <option value="">Select Level</option>
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                    <option value="expert">Expert</option>
+                                </select>
+                                <button type="button" class="nav-btn" id="addSkillBtn" style="padding: 8px 12px;">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+                            <div class="skill-suggestions" id="skillSuggestions"></div>
+                        </div>
+                        
+                        <div class="skills-display" id="technicalSkillsDisplay">
+                            <!-- Skills will be added here as chips -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soft Skills -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <i class="fas fa-users"></i>
+                        <h3>Soft Skills</h3>
+                    </div>
+                    
+                    <div class="soft-skills-input">
+                        <input type="text" id="softSkillsInput" class="form-input" placeholder="Enter soft skills separated by commas">
+                        <div class="soft-skills-tags" id="softSkillsDisplay">
+                            <!-- Soft skills will be added here as tags -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="section-card additional-info-section">
+                    <div class="section-card-header">
+                        <i class="fas fa-sticky-note"></i>
+                        <h3>Additional Information</h3>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea id="additionalInfo" class="form-textarea additional-info-input" 
+                                  placeholder="Add any additional information about yourself, achievements, awards, or anything else you'd like to include..."></textarea>
+                        <div class="input-hint">
+                            <i class="fas fa-info-circle"></i> This will appear in your portfolio under "Additional Information"
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Work Experience -->
+            <div class="form-step" data-step="4">
+                <div class="section-header">
+                    <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
+                    <p>Detail your professional experience</p>
+                </div>
+
+                <div class="experience-container" id="experienceContainer">
+                    <!-- Experience entries will be added here -->
+                </div>
+
+                <button type="button" class="nav-btn add-section-btn" onclick="addExperienceEntry()">
+                    <i class="fas fa-plus"></i> Add Experience
+                </button>
+            </div>
+
+            <!-- Step 5: Projects -->
+            <div class="form-step" data-step="5">
+                <div class="section-header">
+                    <h2><i class="fas fa-project-diagram"></i> Projects</h2>
+                    <p>Showcase your best work</p>
+                </div>
+
+                <div class="projects-container" id="projectsContainer">
+                    <!-- Project entries will be added here -->
+                </div>
+
+                <button type="button" class="nav-btn add-section-btn" onclick="addProjectEntry()">
+                    <i class="fas fa-plus"></i> Add Project
+                </button>
+            </div>
+
+            <!-- Step 6: Generate Portfolio -->
+            <div class="form-step" data-step="6">
+                <div class="section-header">
+                    <h2><i class="fas fa-check-circle"></i> Generate Portfolio</h2>
+                    <p>Review and create your professional portfolio</p>
+                </div>
+
+                <div class="completion-card">
+                    <div style="text-align: center; padding: 40px 20px;">
+                        <div style="font-size: 48px; color: var(--accent-color); margin-bottom: 20px;">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3 style="font-size: 24px; color: var(--text-primary); margin-bottom: 10px;">
+                            Ready to Generate Your Portfolio
+                        </h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                            Click the button below to generate your professional portfolio. You'll be able to download it as a PDF or share it with others.
+                        </p>
+                        
+                        <button type="button" class="nav-btn generate-btn" id="generateBtn" style="min-width: 200px; padding: 12px 30px;">
+                            <i class="fas fa-magic"></i> Generate Portfolio
+                        </button>
+                        
+                        <div class="input-hint" style="margin-top: 20px; justify-content: center;">
+                            <i class="fas fa-lightbulb"></i> Your data is automatically saved as you progress
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Navigation (for steps 1-5) -->
+            <div class="form-navigation" id="formNavigation">
+                <button type="button" class="nav-btn prev-btn" id="formPrevBtn">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button type="button" class="nav-btn next-btn" id="formNextBtn">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </form>
+
+        <!-- Datalist for Skills Suggestions -->
+        <datalist id="skillsList">
+            <!-- Skills will be populated from skills-database.json -->
+        </datalist>
+    </div>
+
+    <!-- Preview Page -->
+    <div class="preview-page" id="previewPage">
+        <div class="preview-container">
+            <!-- Header with Zigzag Line -->
+            <div class="preview-header">
+                <div class="preview-controls">
+                    <button class="preview-control-btn" id="downloadPreviewBtn">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <button class="preview-control-btn" id="sharePreviewBtn">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Portfolio Preview -->
+            <div class="portfolio-preview" id="portfolioPreview">
+                <!-- Sidebar -->
+                <div class="preview-sidebar">
+                    <!-- Profile Image with Logo Frame -->
+                    <div class="profile-frame">
+                        <div class="profile-emblem"></div>
+                        <div class="profile-image-container" id="previewProfileImage">
+                            <div class="initials">JD</div>
+                            <!-- Image will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="sidebar-section">
+                        <h3>Contact Details</h3>
+                        <ul class="contact-info-list" id="previewContactInfo">
+                            <!-- Contact info will be inserted here -->
+                        </ul>
+                    </div>
+                    
+                    <!-- Education -->
+                    <div class="sidebar-section">
+                        <h3>Education</h3>
+                        <ul class="education-list" id="previewEducation">
+                            <!-- Education items will be inserted here -->
+                        </ul>
+                    </div>
+                    
+                    <!-- Skills -->
+                    <div class="sidebar-section">
+                        <h3>Skills</h3>
+                        <ul class="skills-list" id="previewSkills">
+                            <!-- Skills will be inserted here -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="preview-content">
+                    <!-- Header -->
+                    <div class="content-header">
+                        <h1 id="previewFullName">John Doe</h1>
+                        <div class="professional-title" id="previewTitle">Professional Title</div>
+                    </div>
+                    
+                    <!-- Summary -->
+                    <div class="summary-section">
+                        <h2>Summary</h2>
+                        <div class="summary-content" id="previewSummary">
+                            <!-- Summary content will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Work Experience -->
+                    <div class="content-section">
+                        <h2>Work Experience</h2>
+                        <div id="previewExperience">
+                            <!-- Experience items will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Projects -->
+                    <div class="content-section">
+                        <h2>Projects</h2>
+                        <div id="previewProjects">
+                            <!-- Project items will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Information -->
+                    <div class="content-section" id="previewAdditionalInfoSection" style="display: none;">
+                        <h2>Additional Information</h2>
+                        <div class="additional-info" id="previewAdditionalInfo">
+                            <!-- Additional info will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <!-- References -->
+                    <div class="references-section">
+                        <div class="references-note">
+                            References available upon request
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="portfolio-form.js"></script>
+</body>
+</html>

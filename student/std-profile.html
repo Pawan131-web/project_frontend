@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-red: #D32F2F;
+            --primary-dark: #B71C1C;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .profile-banner {
+            height: 180px;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+        }
+        
+        .red-btn {
+            background-color: var(--primary-red);
+            color: white;
+        }
+        
+        .red-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .outline-btn {
+            background: white;
+            color: var(--primary-red);
+            border: 2px solid var(--primary-red);
+        }
+        
+        .outline-btn:hover {
+            background-color: #fce4e4;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .section-title {
+            color: var(--primary-red);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f5f5f5;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .linkedin:hover { background: #0077B5; color: white; }
+        .github:hover { background: #333; color: white; }
+        .twitter:hover { background: #1DA1F2; color: white; }
+        .instagram:hover { background: #E4405F; color: white; }
+        .facebook:hover { background: #1877F2; color: white; }
+        
+        .skill-tag {
+            background: #f0f0f0;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .tech-skill-card {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-skill-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.1);
+            border-color: var(--primary-red);
+        }
+        
+        .skill-progress {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .skill-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-dark));
+            border-radius: 4px;
+        }
+        
+        .skill-level-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .level-beginner { background: #ffebee; color: #d32f2f; }
+        .level-intermediate { background: #fff3e0; color: #f57c00; }
+        .level-advanced { background: #e8f5e9; color: #388e3c; }
+        .level-expert { background: #e3f2fd; color: #1976d2; }
+        
+        .edit-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .edit-btn:hover {
+            background: white;
+            color: var(--primary-red);
+            transform: scale(1.1);
+        }
+        
+        .editable {
+            position: relative;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Profile Banner -->
+        <div class="card overflow-hidden mb-6 fade-in">
+            <div class="profile-banner"></div>
+            
+            <!-- Profile Info & Social -->
+            <div class="relative -mt-16 px-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between">
+                    <!-- Profile Picture & Basic Info -->
+                    <div class="flex items-end">
+                        <div class="relative">
+                            <div class="w-24 h-24 rounded-xl bg-white p-1 shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                                     alt="Profile" 
+                                     id="profile-pic"
+                                     class="w-full h-full rounded-lg object-cover">
+                            </div>
+                            <div class="edit-btn" onclick="editProfilePicture()">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-6 mb-4">
+                            <h1 id="profile-name" class="text-2xl font-bold text-gray-900 editable" onclick="editField('name')">
+                                Alex Johnson
+                            </h1>
+                            <p id="profile-title" class="text-gray-600 editable" onclick="editField('title')">
+                                Computer Science Student
+                            </p>
+                            <div class="flex flex-wrap items-center gap-2 mt-2">
+                                <span id="profile-uni" class="text-red-600 font-medium editable" onclick="editField('university')">
+                                    Stanford University
+                                </span>
+                                <span class="text-gray-400">•</span>
+                                <span id="profile-year" class="text-gray-600 editable" onclick="editField('year')">
+                                    Class of 2024
+                                </span>
+                                <span class="text-gray-400">•</span>
+                                <span id="profile-location" class="text-gray-600 editable" onclick="editField('location')">
+                                    San Francisco, CA
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap gap-3 mt-4 md:mt-0">
+                        <button class="px-4 py-2 rounded-full red-btn font-medium text-sm" onclick="toggleEditMode()">
+                            <i class="fas fa-edit mr-2"></i>Edit Profile
+                        </button>
+                        <button class="px-4 py-2 rounded-full outline-btn font-medium text-sm" onclick="downloadResume()">
+                            <i class="fas fa-download mr-2"></i>Resume
+                        </button>
+                        <button class="px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium text-sm hover:bg-gray-200" onclick="shareProfile()">
+                            <i class="fas fa-share-alt mr-2"></i>Share
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Social Media Links -->
+                <div class="flex items-center space-x-2 mt-4 pb-6">
+                    <span class="text-gray-600 font-medium">Connect:</span>
+                    <a href="#" class="social-icon linkedin editable" onclick="editSocial('linkedin')">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-icon github editable" onclick="editSocial('github')">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-icon twitter editable" onclick="editSocial('twitter')">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon instagram editable" onclick="editSocial('instagram')">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <button class="ml-2 text-gray-500 hover:text-red-600" onclick="addSocialLink()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left Column -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Summary/About -->
+                <div class="card p-6 fade-in editable">
+                    <div class="edit-btn" onclick="editSection('about')">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2 class="section-title mb-4">About</h2>
+                    <p id="about-text" class="text-gray-700" onclick="editSection('about')">
+                        Passionate Computer Science student at Stanford University with strong interest in 
+                        Artificial Intelligence, Web Development, and Data Science. Seeking internship 
+                        opportunities to apply academic knowledge in real-world projects and contribute 
+                        to innovative tech solutions.
+                    </p>
+                </div>
+                
+                <!-- Education -->
+                <div class="card p-6 fade-in editable" style="animation-delay: 0.1s">
+                    <div class="edit-btn" onclick="editEducation()">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2 class="section-title mb-4">Education</h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Education 1 -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-graduation-cap text-red-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-900" onclick="editEducationItem(0)">Stanford University</h3>
+                                <p class="text-gray-600" onclick="editEducationItem(0)">Bachelor of Science in Computer Science</p>
+                                <p class="text-gray-500 text-sm" onclick="editEducationItem(0)">2020 - 2024 (Expected)</p>
+                                <p class="text-gray-600 text-sm mt-1" onclick="editEducationItem(0)">GPA: 3.8/4.0</p>
+                                <p class="text-gray-600 text-sm" onclick="editEducationItem(0)">Relevant Coursework: Data Structures, Algorithms, Machine Learning</p>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full py-2 border border-dashed border-gray-300 text-gray-500 rounded-lg hover:border-red-300 hover:text-red-600" onclick="addEducation()">
+                            <i class="fas fa-plus mr-2"></i> Add Education
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Technical Skills - Special Card Style -->
+                <div class="card p-6 fade-in editable" style="animation-delay: 0.2s">
+                    <div class="edit-btn" onclick="editTechnicalSkills()">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2 class="section-title mb-4">Technical Skills</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Python Skill Card -->
+                        <div class="tech-skill-card">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center mr-3">
+                                            <i class="fab fa-python text-blue-600"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-gray-900">Python</h3>
+                                            <span class="skill-level-badge level-expert">Expert</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-lg font-bold text-gray-900">90%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-progress-fill" style="width: 90%"></div>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-gray-600 text-sm">Django, Flask, Pandas, NumPy</p>
+                            </div>
+                        </div>
+                        
+                        <!-- JavaScript Skill Card -->
+                        <div class="tech-skill-card">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center mr-3">
+                                            <i class="fab fa-js-square text-yellow-600"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-gray-900">JavaScript</h3>
+                                            <span class="skill-level-badge level-advanced">Advanced</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-lg font-bold text-gray-900">85%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-progress-fill" style="width: 85%"></div>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-gray-600 text-sm">React, Node.js, Express, TypeScript</p>
+                            </div>
+                        </div>
+                        
+                        <!-- React Skill Card -->
+                        <div class="tech-skill-card">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center mr-3">
+                                            <i class="fab fa-react text-blue-500"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-gray-900">React</h3>
+                                            <span class="skill-level-badge level-advanced">Advanced</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-lg font-bold text-gray-900">80%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-progress-fill" style="width: 80%"></div>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-gray-600 text-sm">Redux, Hooks, Context API</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Machine Learning Skill Card -->
+                        <div class="tech-skill-card">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-brain text-orange-600"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-gray-900">ML/AI</h3>
+                                            <span class="skill-level-badge level-intermediate">Intermediate</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-lg font-bold text-gray-900">70%</span>
+                            </div>
+                            <div class="skill-progress">
+                                <div class="skill-progress-fill" style="width: 70%"></div>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-gray-600 text-sm">TensorFlow, Scikit-learn, NLP</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full mt-4 py-2 border border-dashed border-gray-300 text-gray-500 rounded-lg hover:border-red-300 hover:text-red-600" onclick="addTechnicalSkill()">
+                        <i class="fas fa-plus mr-2"></i> Add Technical Skill
+                    </button>
+                </div>
+                
+                <!-- Other Skills -->
+                <div class="card p-6 fade-in editable" style="animation-delay: 0.3s">
+                    <div class="edit-btn" onclick="editOtherSkills()">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2 class="section-title mb-4">Other Skills</h2>
+                    
+                    <div class="space-y-5">
+                        <!-- Languages -->
+                        <div>
+                            <h3 class="font-medium text-gray-900 mb-3">Languages</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag">English (Native)</span>
+                                <span class="skill-tag">Spanish (Fluent)</span>
+                                <span class="skill-tag">French (Intermediate)</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Soft Skills -->
+                        <div>
+                            <h3 class="font-medium text-gray-900 mb-3">Soft Skills</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="skill-tag">Team Leadership</span>
+                                <span class="skill-tag">Problem Solving</span>
+                                <span class="skill-tag">Communication</span>
+                                <span class="skill-tag">Project Management</span>
+                                <span class="skill-tag">Time Management</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Projects -->
+                <div class="card p-6 fade-in editable" style="animation-delay: 0.4s">
+                    <div class="edit-btn" onclick="editProjects()">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2 class="section-title mb-4">Projects</h2>
+                    
+                    <div class="space-y-5">
+                        <!-- Project 1 -->
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors" onclick="editProject(0)">
+                            <h3 class="font-bold text-gray-900">E-commerce Platform</h3>
+                            <p class="text-gray-600 text-sm mt-1">Full-stack web application built with React, Node.js, and MongoDB</p>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="skill-tag">React</span>
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">MongoDB</span>
+                                <span class="skill-tag">REST API</span>
+                            </div>
+                            <a href="#" class="text-red-600 text-sm font-medium mt-3 inline-block hover:underline">
+                                <i class="fab fa-github mr-1"></i> View on GitHub
+                            </a>
+                        </div>
+                        
+                        <button class="w-full py-2 border border-dashed border-gray-300 text-gray-500 rounded-lg hover:border-red-300 hover:text-red-600" onclick="addProject()">
+                            <i class="fas fa-plus mr-2"></i> Add Project
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="space-y-6">
+                
+                <!-- Contact Info -->
+                <div class="card p-6 fade-in editable" style="animation-delay: 0.5s">
+                    <div class="edit-btn" onclick="editContact()">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2 class="section-title mb-4">Contact Information</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start" onclick="editContactField('email')">
+                            <i class="fas fa-envelope text-gray-500 mt-1 mr-3"></i>
+                            <div>
+                                <p class="font-medium text-sm">Email</p>
+                                <p id="contact-email" class="text-gray-600 text-sm">alex.johnson@stanford.edu</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start" onclick="editContactField('phone')">
+                            <i class="fas fa-phone text-gray-500 mt-1 mr-3"></i>
+                            <div>
+                                <p class="font-medium text-sm">Phone</p>
+                                <p id="contact-phone" class="text-gray-600 text-sm">(555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start" onclick="editContactField('portfolio')">
+                            <i class="fas fa-link text-gray-500 mt-1 mr-3"></i>
+                            <div>
+                                <p class="font-medium text-sm">Portfolio</p>
+                                <a id="contact-portfolio" href="#" class="text-red-600 text-sm hover:underline">alexjohnson.dev</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certifications -->
+                <div class="card p-6 fade-in editable" style="animation-delay: 0.6s">
+                    <div class="edit-btn" onclick="editCertifications()">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2 class="section-title mb-4">Certifications</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start" onclick="editCertification(0)">
+                            <div class="flex-shrink-0 w-10 h-10 rounded bg-red-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-certificate text-red-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900 text-sm">AWS Certified Developer</h3>
+                                <p class="text-gray-600 text-xs">Amazon Web Services • 2023</p>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full py-2 border border-dashed border-gray-300 text-gray-500 rounded-lg hover:border-red-300 hover:text-red-600" onclick="addCertification()">
+                            <i class="fas fa-plus mr-2"></i> Add Certification
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Hobbies & Interests -->
+                <div class="card p-6 fade-in editable" style="animation-delay: 0.7s">
+                    <div class="edit-btn" onclick="editHobbies()">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2 class="section-title mb-4">Hobbies & Interests</h2>
+                    
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Photography</span>
+                        <span class="skill-tag">Hiking</span>
+                        <span class="skill-tag">Open Source</span>
+                        <span class="skill-tag">Chess</span>
+                        <button class="skill-tag border-dashed" onclick="addHobby()">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Send Message Box -->
+                <div class="card p-6 fade-in" style="animation-delay: 0.8s">
+                    <h2 class="section-title mb-4">Send Message</h2>
+                    <p class="text-gray-600 text-sm mb-4">Interested in connecting? Send a message directly.</p>
+                    
+                    <form id="contactForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                            <input type="text" id="senderName" placeholder="Enter your name" class="w-full" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
+                            <input type="email" id="senderEmail" placeholder="Enter your email" class="w-full" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea id="messageContent" rows="4" placeholder="Write your message here..." class="w-full" style="resize: none;" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 red-btn rounded-lg font-medium">
+                            <i class="fas fa-paper-plane mr-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Additional Features -->
+                <div class="card p-6 fade-in" style="animation-delay: 0.9s">
+                    <h2 class="section-title mb-4">Profile Tools</h2>
+                    
+                    <div class="space-y-3">
+                        <button class="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50" onclick="viewAnalytics()">
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-line text-red-600 mr-3"></i>
+                                <span class="font-medium text-sm">View Profile Analytics</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </button>
+                        
+                        <button class="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50" onclick="exportProfile()">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-export text-red-600 mr-3"></i>
+                                <span class="font-medium text-sm">Export Profile as PDF</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </button>
+                        
+                        <button class="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50" onclick="generateQR()">
+                            <div class="flex items-center">
+                                <i class="fas fa-qrcode text-red-600 mr-3"></i>
+                                <span class="font-medium text-sm">Generate Profile QR</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let editMode = false;
+
+        // Toggle edit mode
+        function toggleEditMode() {
+            editMode = !editMode;
+            const btn = document.querySelector('button:contains("Edit Profile")');
+            if (editMode) {
+                btn.innerHTML = '<i class="fas fa-save mr-2"></i>Save Profile';
+                document.querySelectorAll('.editable').forEach(el => {
+                    el.style.cursor = 'pointer';
+                });
+            } else {
+                btn.innerHTML = '<i class="fas fa-edit mr-2"></i>Edit Profile';
+                document.querySelectorAll('.editable').forEach(el => {
+                    el.style.cursor = 'default';
+                });
+                // Save all changes
+                saveAllChanges();
+            }
+        }
+
+        // Edit functions
+        function editField(field) {
+            if (!editMode) return;
+            alert('Edit ' + field);
+        }
+
+        function editSection(section) {
+            if (!editMode) return;
+            alert('Edit ' + section);
+        }
+
+        function editContactField(field) {
+            if (!editMode) return;
+            alert('Edit ' + field);
+        }
+
+        function saveAllChanges() {
+            console.log('Saving all changes...');
+        }
+
+        // Additional features
+        function downloadResume() {
+            alert('Downloading resume...');
+        }
+
+        function shareProfile() {
+            alert('Sharing profile link...');
+        }
+
+        function viewAnalytics() {
+            alert('Opening profile analytics...');
+        }
+
+        function exportProfile() {
+            alert('Exporting profile as PDF...');
+        }
+
+        function generateQR() {
+            alert('Generating QR code for profile...');
+        }
+
+        // Add new items
+        function addEducation() {
+            if (!editMode) return;
+            alert('Add Education form would appear here');
+        }
+
+        function addTechnicalSkill() {
+            if (!editMode) return;
+            alert('Add Technical Skill form would appear here');
+        }
+
+        function addProject() {
+            if (!editMode) return;
+            alert('Add Project form would appear here');
+        }
+
+        function addCertification() {
+            if (!editMode) return;
+            alert('Add Certification form would appear here');
+        }
+
+        function addHobby() {
+            if (!editMode) return;
+            alert('Add Hobby form would appear here');
+        }
+
+        function addSocialLink() {
+            if (!editMode) return;
+            alert('Add Social Media link form would appear here');
+        }
+
+        // Edit existing items
+        function editEducationItem(index) {
+            if (!editMode) return;
+            alert('Editing education item ' + index);
+        }
+
+        function editProject(index) {
+            if (!editMode) return;
+            alert('Editing project ' + index);
+        }
+
+        function editCertification(index) {
+            if (!editMode) return;
+            alert('Editing certification ' + index);
+        }
+
+        function editTechnicalSkills() {
+            if (!editMode) return;
+            alert('Editing technical skills...');
+        }
+
+        function editOtherSkills() {
+            if (!editMode) return;
+            alert('Editing other skills...');
+        }
+
+        function editHobbies() {
+            if (!editMode) return;
+            alert('Editing hobbies...');
+        }
+
+        function editProfilePicture() {
+            if (!editMode) return;
+            alert('Upload new profile picture');
+        }
+
+        function editSocial(platform) {
+            if (!editMode) return;
+            alert('Edit ' + platform + ' link');
+        }
+
+        function editEducation() {
+            if (!editMode) return;
+            alert('Edit education section');
+        }
+
+        function editProjects() {
+            if (!editMode) return;
+            alert('Edit projects section');
+        }
+
+        function editCertifications() {
+            if (!editMode) return;
+            alert('Edit certifications section');
+        }
+
+        function editContact() {
+            if (!editMode) return;
+            alert('Edit contact section');
+        }
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('senderName').value;
+            const email = document.getElementById('senderEmail').value;
+            const message = document.getElementById('messageContent').value;
+            
+            // TODO: Send message to backend
+            alert(`Message sent!\n\nFrom: ${name}\nEmail: ${email}\nMessage: ${message}`);
+            this.reset();
+        });
+
+        // Level to percentage conversion
+        function levelToPercent(level) {
+            const v = String(level || '').toLowerCase();
+            if (v.includes('expert')) return 95;
+            if (v.includes('advanced')) return 80;
+            if (v.includes('intermediate')) return 60;
+            if (v.includes('beginner')) return 35;
+            return 60;
+        }
+
+        // Get skill icon based on name
+        function getSkillIcon(name) {
+            const icons = {
+                'python': 'fab fa-python',
+                'javascript': 'fab fa-js-square',
+                'react': 'fab fa-react',
+                'node': 'fab fa-node-js',
+                'html': 'fab fa-html5',
+                'css': 'fab fa-css3-alt',
+                'java': 'fab fa-java',
+                'php': 'fab fa-php',
+                'angular': 'fab fa-angular',
+                'vue': 'fab fa-vuejs',
+                'git': 'fab fa-git-alt',
+                'docker': 'fab fa-docker',
+                'aws': 'fab fa-aws',
+                'linux': 'fab fa-linux',
+                'android': 'fab fa-android',
+                'swift': 'fab fa-swift',
+                'database': 'fas fa-database',
+                'sql': 'fas fa-database',
+                'mongodb': 'fas fa-database',
+                'ml': 'fas fa-brain',
+                'ai': 'fas fa-brain',
+                'machine learning': 'fas fa-brain'
+            };
+            const lowerName = name.toLowerCase();
+            for (const [key, icon] of Object.entries(icons)) {
+                if (lowerName.includes(key)) return icon;
+            }
+            return 'fas fa-code';
+        }
+
+        // Get skill color class
+        function getSkillColor(name) {
+            const colors = {
+                'python': 'bg-blue-100 text-blue-600',
+                'javascript': 'bg-yellow-100 text-yellow-600',
+                'react': 'bg-blue-100 text-blue-500',
+                'node': 'bg-green-100 text-green-600',
+                'html': 'bg-orange-100 text-orange-600',
+                'css': 'bg-blue-100 text-blue-600',
+                'java': 'bg-red-100 text-red-600',
+                'ml': 'bg-orange-100 text-orange-600',
+                'ai': 'bg-purple-100 text-purple-600'
+            };
+            const lowerName = name.toLowerCase();
+            for (const [key, color] of Object.entries(colors)) {
+                if (lowerName.includes(key)) return color;
+            }
+            return 'bg-gray-100 text-gray-600';
+        }
+
+        // Load and render profile data from portfolioDraftV2
+        function loadProfileData() {
+            const draft = JSON.parse(localStorage.getItem('portfolioDraftV2') || 'null');
+            if (!draft) return;
+
+            // Profile basic info
+            if (draft.name) document.getElementById('profile-name').textContent = draft.name;
+            if (draft.title) document.getElementById('profile-title').textContent = draft.title;
+            if (draft.location) document.getElementById('profile-location').textContent = draft.location;
+
+            // Profile photo
+            if (draft.profilePhoto) {
+                document.getElementById('profile-pic').src = draft.profilePhoto;
+            }
+
+            // Cover banner
+            if (draft.coverPhoto) {
+                document.querySelector('.profile-banner').style.backgroundImage = `url(${draft.coverPhoto})`;
+                document.querySelector('.profile-banner').style.backgroundSize = 'cover';
+                document.querySelector('.profile-banner').style.backgroundPosition = 'center';
+            }
+
+            // Education - get first entry for header display
+            if (draft.education && draft.education.length > 0) {
+                const edu = draft.education[0];
+                if (edu.institution) document.getElementById('profile-uni').textContent = edu.institution;
+                if (edu.graduation) {
+                    const year = edu.graduation.split('-')[0];
+                    document.getElementById('profile-year').textContent = `Class of ${year}`;
+                }
+            }
+
+            // About section
+            if (draft.about) document.getElementById('about-text').textContent = draft.about;
+
+            // Contact info
+            if (draft.email) document.getElementById('contact-email').textContent = draft.email;
+            if (draft.phone) document.getElementById('contact-phone').textContent = draft.phone;
+            if (draft.website) {
+                const portfolioLink = document.getElementById('contact-portfolio');
+                portfolioLink.href = draft.website;
+                portfolioLink.textContent = draft.website.replace(/^https?:\/\//, '');
+            }
+
+            // Social links
+            const socialLinksContainer = document.querySelector('.social-icon.linkedin').parentElement;
+            if (draft.socialLinks && draft.socialLinks.length > 0) {
+                // Clear existing social links (except the add button)
+                const addBtn = socialLinksContainer.querySelector('button');
+                socialLinksContainer.innerHTML = '<span class="text-gray-600 font-medium">Connect:</span>';
+                
+                draft.socialLinks.forEach(link => {
+                    const iconMap = {
+                        'linkedin': 'fab fa-linkedin-in',
+                        'github': 'fab fa-github',
+                        'twitter': 'fab fa-x-twitter',
+                        'instagram': 'fab fa-instagram',
+                        'facebook': 'fab fa-facebook-f',
+                        'website': 'fas fa-globe',
+                        'behance': 'fab fa-behance',
+                        'dribbble': 'fab fa-dribbble'
+                    };
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.target = '_blank';
+                    a.className = `social-icon ${link.platform}`;
+                    a.innerHTML = `<i class="${iconMap[link.platform] || 'fas fa-link'}"></i>`;
+                    socialLinksContainer.appendChild(a);
+                });
+                socialLinksContainer.appendChild(addBtn);
+            }
+
+            // Technical Skills
+            if (draft.skills && draft.skills.length > 0) {
+                const skillsGrid = document.querySelector('.tech-skill-card').parentElement;
+                skillsGrid.innerHTML = '';
+                
+                draft.skills.forEach(skill => {
+                    const name = typeof skill === 'string' ? skill : skill.name;
+                    const level = typeof skill === 'string' ? 'intermediate' : (skill.level || 'intermediate');
+                    const experience = typeof skill === 'string' ? '' : (skill.experience || '');
+                    const percent = levelToPercent(level);
+                    const levelClass = `level-${level.toLowerCase()}`;
+                    const levelLabel = level.charAt(0).toUpperCase() + level.slice(1);
+                    
+                    const card = document.createElement('div');
+                    card.className = 'tech-skill-card';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-lg ${getSkillColor(name)} flex items-center justify-center mr-3">
+                                        <i class="${getSkillIcon(name)}"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-900">${name}</h3>
+                                        <span class="skill-level-badge ${levelClass}">${levelLabel}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-lg font-bold text-gray-900">${percent}%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" style="width: ${percent}%"></div>
+                        </div>
+                        ${experience ? `<div class="mt-3"><p class="text-gray-600 text-sm">${experience}</p></div>` : ''}
+                    `;
+                    skillsGrid.appendChild(card);
+                });
+            }
+
+            // Other Skills (Languages & Soft Skills)
+            const otherSkillsSection = document.querySelector('.card:has(h2:contains("Other Skills"))') || 
+                                       document.querySelectorAll('.card')[3];
+            if (otherSkillsSection) {
+                const languagesDiv = otherSkillsSection.querySelector('div:has(h3:contains("Languages"))') ||
+                                     otherSkillsSection.querySelectorAll('.space-y-5 > div')[0];
+                const softSkillsDiv = otherSkillsSection.querySelector('div:has(h3:contains("Soft Skills"))') ||
+                                      otherSkillsSection.querySelectorAll('.space-y-5 > div')[1];
+                
+                if (draft.languages && languagesDiv) {
+                    const tagsDiv = languagesDiv.querySelector('.flex.flex-wrap');
+                    if (tagsDiv) {
+                        tagsDiv.innerHTML = draft.languages.split(',').map(lang => 
+                            `<span class="skill-tag">${lang.trim()}</span>`
+                        ).join('');
+                    }
+                }
+                
+                if (draft.softSkills && softSkillsDiv) {
+                    const tagsDiv = softSkillsDiv.querySelector('.flex.flex-wrap');
+                    if (tagsDiv) {
+                        tagsDiv.innerHTML = draft.softSkills.split(',').map(skill => 
+                            `<span class="skill-tag">${skill.trim()}</span>`
+                        ).join('');
+                    }
+                }
+            }
+
+            // Education section
+            if (draft.education && draft.education.length > 0) {
+                const eduContainer = document.querySelector('.card:has(h2:contains("Education")) .space-y-6') ||
+                                     document.querySelectorAll('.card')[1].querySelector('.space-y-6');
+                if (eduContainer) {
+                    const addBtn = eduContainer.querySelector('button');
+                    eduContainer.innerHTML = '';
+                    
+                    draft.education.forEach(edu => {
+                        const eduDiv = document.createElement('div');
+                        eduDiv.className = 'flex';
+                        eduDiv.innerHTML = `
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
+                                <i class="fas fa-graduation-cap text-red-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-900">${edu.institution || ''}</h3>
+                                <p class="text-gray-600">${edu.degree || ''} ${edu.field ? 'in ' + edu.field : ''}</p>
+                                <p class="text-gray-500 text-sm">${edu.graduation || ''}</p>
+                                ${edu.achievements ? `<p class="text-gray-600 text-sm mt-1">${edu.achievements}</p>` : ''}
+                            </div>
+                        `;
+                        eduContainer.appendChild(eduDiv);
+                    });
+                    
+                    if (addBtn) eduContainer.appendChild(addBtn);
+                }
+            }
+
+            // Projects section
+            if (draft.projects && draft.projects.length > 0) {
+                const projContainer = document.querySelector('#projects-container') || 
+                                      document.querySelectorAll('.card')[4]?.querySelector('.space-y-5');
+                if (projContainer) {
+                    const addBtn = projContainer.querySelector('button:last-child');
+                    projContainer.innerHTML = '';
+                    
+                    draft.projects.forEach(proj => {
+                        const projDiv = document.createElement('div');
+                        projDiv.className = 'border border-gray-200 rounded-lg p-4 hover:border-red-300 transition-colors';
+                        const techTags = proj.tech ? proj.tech.split(',').map(t => 
+                            `<span class="skill-tag">${t.trim()}</span>`
+                        ).join('') : '';
+                        
+                        projDiv.innerHTML = `
+                            <h3 class="font-bold text-gray-900">${proj.title || ''}</h3>
+                            <p class="text-gray-600 text-sm mt-1">${proj.description || ''}</p>
+                            ${techTags ? `<div class="flex flex-wrap gap-2 mt-3">${techTags}</div>` : ''}
+                            ${proj.url ? `<a href="${proj.url}" target="_blank" class="text-red-600 text-sm font-medium mt-3 inline-block hover:underline"><i class="fab fa-github mr-1"></i> View Project</a>` : ''}
+                        `;
+                        projContainer.appendChild(projDiv);
+                    });
+                    
+                    if (addBtn) projContainer.appendChild(addBtn);
+                }
+            }
+
+            // Certifications
+            if (draft.certifications && draft.certifications.length > 0) {
+                const certContainer = document.querySelectorAll('.card')[5]?.querySelector('.space-y-4');
+                if (certContainer) {
+                    const addBtn = certContainer.querySelector('button:last-child');
+                    certContainer.innerHTML = '';
+                    
+                    draft.certifications.forEach(cert => {
+                        const certDiv = document.createElement('div');
+                        certDiv.className = 'flex items-start';
+                        certDiv.innerHTML = `
+                            <div class="flex-shrink-0 w-10 h-10 rounded bg-red-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-certificate text-red-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900 text-sm">${cert.name || ''}</h3>
+                                <p class="text-gray-600 text-xs">${cert.issuer || ''} ${cert.issueDate ? '• ' + cert.issueDate : ''}</p>
+                            </div>
+                        `;
+                        certContainer.appendChild(certDiv);
+                    });
+                    
+                    if (addBtn) certContainer.appendChild(addBtn);
+                }
+            }
+
+            // Hobbies
+            if (draft.hobbies) {
+                const hobbiesContainer = document.querySelectorAll('.card')[6]?.querySelector('.flex.flex-wrap');
+                if (hobbiesContainer) {
+                    const addBtn = hobbiesContainer.querySelector('button');
+                    hobbiesContainer.innerHTML = draft.hobbies.split(',').map(hobby => 
+                        `<span class="skill-tag">${hobby.trim()}</span>`
+                    ).join('');
+                    if (addBtn) hobbiesContainer.appendChild(addBtn);
+                }
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load profile data from portfolioDraftV2
+            loadProfileData();
+
+            // Add hover effects for editable areas
+            document.querySelectorAll('.editable').forEach(el => {
+                el.addEventListener('mouseenter', function() {
+                    if (editMode) {
+                        this.style.backgroundColor = '#f9f9f9';
+                    }
+                });
+                el.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+        });
+    </script>
+    <script src="std-profile-api.js"></script>
+</body>
+</html>

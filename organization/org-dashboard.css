@@ -105,6 +105,53 @@
     margin-bottom: 8px;
 }
 
+/* Skill autocomplete (shared) */
+.skill-autocomplete-wrap {
+    position: relative;
+    flex: 1;
+}
+
+.skill-autocomplete-wrap input {
+    width: 100%;
+}
+
+.skill-suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 9999;
+}
+
+.skill-suggestion-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.skill-suggestion-item:hover {
+    background: #f5f5f5;
+}
+
+.skill-suggestion-item.highlighted {
+    background: rgba(211, 47, 47, 0.12);
+}
+
+.skill-suggestion-item span {
+    color: #666;
+    font-size: 11px;
+}
+
 .team-role {
     background: #E3F2FD;
     color: #1976D2;
@@ -190,5 +237,170 @@
 /* Organization header subtle differences */
 .org-header {
     border-bottom: 3px solid #2196F3;
+}
+
+/* Organization verification banner */
+.verification-banner {
+    max-width: 1280px;
+    margin: 0 auto 16px;
+    padding: 10px 16px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, rgba(234, 179, 8, 0.12), rgba(249, 115, 22, 0.16));
+    border: 1px solid rgba(249, 115, 22, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: #92400e;
+}
+
+.verification-link {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    background: #f97316;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.verification-link:hover {
+    background: #ea580c;
+}
+
+/* Post internship form layout */
+.post-internship-card {
+    padding: 20px 20px 18px;
+}
+
+.card-subtitle {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.internship-form {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-row.two-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.internship-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.internship-form .form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+}
+
+.internship-form .form-input {
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    padding: 9px 11px;
+    font-size: 14px;
+    background: #f9fafb;
+}
+
+.internship-form .form-input:focus {
+    outline: none;
+    border-color: #0A66C2;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+    background: #ffffff;
+}
+
+.internship-form textarea.form-input {
+    resize: vertical;
+    min-height: 72px;
+}
+
+/* Skill tags input */
+.skills-input-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 6px 2px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background: rgba(37, 99, 235, 0.08);
+    border: 1px solid rgba(37, 99, 235, 0.4);
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.skill-tag-pill button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0;
+}
+
+.skill-input {
+    flex: 1;
+    min-width: 140px;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 4px 6px !important;
+}
+
+.skill-input:focus {
+    outline: none !important;
+}
+
+.suggested-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.skill-suggestion {
+    border-radius: 9999px;
+    border: 1px dashed rgba(37, 99, 235, 0.5);
+    padding: 4px 10px;
+    font-size: 12px;
+    background: rgba(239, 246, 255, 0.9);
+    color: #1d4ed8;
+    cursor: pointer;
+}
+
+.skill-suggestion:hover {
+    background: #dbeafe;
+}
+
+@media (max-width: 900px) {
+    .form-row.two-columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 

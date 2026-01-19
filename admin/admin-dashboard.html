@@ -1,576 +1,447 @@
-<!--admin/admin-dashboard.html-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillLaunch | Admin Dashboard</title>
+    <title>Admin Dashboard | SkillLaunch</title>
     
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="../css/master-styles.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="admin-dashboard.css">
     
-    <!-- Chart.js for Graphs -->
+    <!-- Chart.js for graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <!-- ===== ADMIN HEADER ===== -->
-    <header class="admin-header">
-        <div class="header-container">
-            <!-- Logo -->
-            <a href="../index.html" class="header-logo">
-                <div class="logo-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
-                    <i class="fas fa-shield-alt"></i>
+<body class="bg-gray-50">
+    
+    <!-- Admin Layout -->
+    <div class="flex h-screen">
+        
+        <!-- Sidebar -->
+        <div class="admin-sidebar w-64 flex-shrink-0">
+            <div class="p-6">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 mb-10">
+                    <div class="w-10 h-10 bg-[#d32f2f] rounded-lg flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-white font-bold text-lg">SkillLaunch</h2>
+                        <p class="text-gray-300 text-xs">Admin Panel</p>
+                    </div>
                 </div>
-                <div class="logo-text">
-                    <span class="logo-main">SkillLaunch</span><span class="logo-accent" style="color: #764ba2;"> Admin</span>
+                
+                <!-- Admin Info -->
+                <div class="mb-8 p-4 bg-white/10 rounded-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-[#d32f2f] rounded-full flex items-center justify-center text-white font-bold">
+                            P
+                        </div>
+                        <div>
+                            <h4 class="text-white font-medium" id="adminName">Pawan Rimal</h4>
+                            <p class="text-gray-300 text-sm">Super Admin</p>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-300">
+                        <i class="fas fa-clock mr-2"></i>
+                        Last login: <span id="lastLogin">Today, 10:30 AM</span>
+                    </div>
                 </div>
-            </a>
-
-            <!-- Admin Quick Actions -->
-            <div class="admin-quick-actions">
-                <button class="admin-btn announce-btn" id="quickAnnounce">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Announcement</span>
-                </button>
-                <button class="admin-btn verify-btn" id="quickVerify">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Verify Org</span>
-                </button>
-                <button class="admin-btn alert-btn" id="quickAlert">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <span>Alerts (3)</span>
-                </button>
-            </div>
-
-            <!-- Admin Profile -->
-            <div class="admin-profile" id="adminDropdown">
-                <div class="admin-avatar">
-                    <i class="fas fa-user-shield"></i>
+                
+                <!-- Navigation -->
+                <nav class="space-y-1">
+                    <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-home mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="#users" class="nav-link" data-section="users">
+                        <i class="fas fa-users mr-3"></i>
+                        Users
+                        <span class="bg-[#d32f2f] text-white text-xs px-2 py-1 rounded-full float-right">12</span>
+                    </a>
+                    <a href="#organizations" class="nav-link" data-section="organizations">
+                        <i class="fas fa-building mr-3"></i>
+                        Organizations
+                        <span class="bg-[#d32f2f] text-white text-xs px-2 py-1 rounded-full float-right">8</span>
+                    </a>
+                    <a href="#reports" class="nav-link" data-section="reports">
+                        <i class="fas fa-flag mr-3"></i>
+                        Reports
+                        <span class="bg-[#d32f2f] text-white text-xs px-2 py-1 rounded-full float-right">5</span>
+                    </a>
+                    <a href="#content" class="nav-link" data-section="content">
+                        <i class="fas fa-newspaper mr-3"></i>
+                        Content
+                    </a>
+                    <a href="#analytics" class="nav-link" data-section="analytics">
+                        <i class="fas fa-chart-line mr-3"></i>
+                        Analytics
+                    </a>
+                    <a href="#skills" class="nav-link" data-section="skills">
+                        <i class="fas fa-code mr-3"></i>
+                        Skills
+                    </a>
+                    <a href="#announcements" class="nav-link" data-section="announcements">
+                        <i class="fas fa-bullhorn mr-3"></i>
+                        Announcements
+                    </a>
+                    <a href="#settings" class="nav-link" data-section="settings">
+                        <i class="fas fa-cog mr-3"></i>
+                        Settings
+                    </a>
+                </nav>
+                
+                <!-- Logout -->
+                <div class="mt-10 pt-6 border-t border-white/20">
+                    <a href="#" id="logoutBtn" class="nav-link text-red-200 hover:text-white">
+                        <i class="fas fa-sign-out-alt mr-3"></i>
+                        Logout
+                    </a>
                 </div>
-                <div class="admin-info">
-                    <span class="admin-name">Super Admin</span>
-                    <span class="admin-role">Administrator</span>
-                </div>
-                <i class="fas fa-chevron-down"></i>
             </div>
         </div>
-    </header>
-
-    <!-- ===== ADMIN LAYOUT ===== -->
-    <div class="admin-layout">
-        <!-- ===== SIDEBAR ===== -->
-        <aside class="admin-sidebar">
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <h4 class="nav-title">Dashboard</h4>
-                    <a href="#" class="nav-item active" data-page="overview">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Overview</span>
-                    </a>
-                </div>
-
-                <div class="nav-section">
-                    <h4 class="nav-title">Users</h4>
-                    <a href="#" class="nav-item" data-page="users">
-                        <i class="fas fa-users"></i>
-                        <span>All Users</span>
-                        <span class="nav-badge">5,428</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="verifications">
-                        <i class="fas fa-user-check"></i>
-                        <span>Verifications</span>
-                        <span class="nav-badge badge-warning">12</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="reported">
-                        <i class="fas fa-flag"></i>
-                        <span>Reported</span>
-                        <span class="nav-badge badge-danger">8</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="blocked">
-                        <i class="fas fa-user-slash"></i>
-                        <span>Blocked</span>
-                        <span class="nav-badge">24</span>
-                    </a>
-                </div>
-
-                <div class="nav-section">
-                    <h4 class="nav-title">Content</h4>
-                    <a href="#" class="nav-item" data-page="internships">
-                        <i class="fas fa-briefcase"></i>
-                        <span>Internships</span>
-                        <span class="nav-badge">856</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="posts">
-                        <i class="fas fa-newspaper"></i>
-                        <span>Posts</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="skills">
-                        <i class="fas fa-code"></i>
-                        <span>Skills</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="categories">
-                        <i class="fas fa-tags"></i>
-                        <span>Categories</span>
-                    </a>
-                </div>
-
-                <div class="nav-section">
-                    <h4 class="nav-title">Analytics</h4>
-                    <a href="#" class="nav-item" data-page="analytics">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Platform Analytics</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="growth">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Growth Reports</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="engagement">
-                        <i class="fas fa-chart-pie"></i>
-                        <span>Engagement</span>
-                    </a>
-                </div>
-
-                <div class="nav-section">
-                    <h4 class="nav-title">Tools</h4>
-                    <a href="#" class="nav-item" data-page="announcements">
-                        <i class="fas fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="search">
-                        <i class="fas fa-search"></i>
-                        <span>Search Users</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="logs">
-                        <i class="fas fa-history"></i>
-                        <span>Activity Logs</span>
-                    </a>
-                </div>
-
-                <div class="nav-section">
-                    <h4 class="nav-title">Settings</h4>
-                    <a href="#" class="nav-item" data-page="settings">
-                        <i class="fas fa-cog"></i>
-                        <span>Platform Settings</span>
-                    </a>
-                    <a href="#" class="nav-item" data-page="email">
-                        <i class="fas fa-envelope"></i>
-                        <span>Email Templates</span>
-                    </a>
-                    <a href="#" class="nav-item logout-btn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </a>
-                </div>
-            </nav>
-        </aside>
-
-        <!-- ===== MAIN CONTENT ===== -->
-        <main class="admin-main">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">Dashboard Overview</h1>
-                <div class="page-actions">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search users, internships, skills..." id="adminSearch">
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            
+            <!-- Top Bar -->
+            <header class="bg-white border-b px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800" id="sectionTitle">Dashboard</h1>
+                        <p class="text-gray-600" id="sectionSubtitle">Admin overview and quick actions</p>
                     </div>
-                    <button class="btn-refresh" id="refreshData">
-                        <i class="fas fa-sync-alt"></i>
-                        Refresh Data
-                    </button>
-                </div>
-            </div>
-
-            <!-- ===== OVERVIEW PAGE (Default) ===== -->
-            <div class="page-content" id="overviewPage">
-                <!-- Quick Stats Row -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon" style="background: rgba(33, 150, 243, 0.1);">
-                            <i class="fas fa-users" style="color: #2196F3;"></i>
+                    
+                    <div class="flex items-center gap-4">
+                        <!-- Search -->
+                        <div class="relative">
+                            <input type="text" 
+                                   placeholder="Search users, orgs, posts..." 
+                                   class="pl-10 pr-4 py-2 border rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-[#d32f2f] focus:border-transparent">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                         </div>
-                        <div class="stat-info">
-                            <h3 class="stat-value">5,428</h3>
-                            <p class="stat-label">Total Users</p>
+                        
+                        <!-- Notifications -->
+                        <div class="relative">
+                            <button id="adminNotificationsBtn" class="p-2 hover:bg-gray-100 rounded-full">
+                                <i class="fas fa-bell text-gray-600"></i>
+                                <span class="absolute -top-1 -right-1 bg-[#d32f2f] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">3</span>
+                            </button>
                         </div>
-                        <div class="stat-detail">
-                            <span class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i> 12%
-                            </span>
-                            <span class="stat-sub">Since last month</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon" style="background: rgba(76, 175, 80, 0.1);">
-                            <i class="fas fa-user-graduate" style="color: #4CAF50;"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-value">4,210</h3>
-                            <p class="stat-label">Students</p>
-                        </div>
-                        <div class="stat-detail">
-                            <span class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i> 8%
-                            </span>
-                            <span class="stat-sub">Active today: 980</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon" style="background: rgba(156, 39, 176, 0.1);">
-                            <i class="fas fa-building" style="color: #9C27B0;"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-value">1,218</h3>
-                            <p class="stat-label">Organizations</p>
-                        </div>
-                        <div class="stat-detail">
-                            <span class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i> 15%
-                            </span>
-                            <span class="stat-sub">265 active today</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon" style="background: rgba(255, 152, 0, 0.1);">
-                            <i class="fas fa-briefcase" style="color: #FF9800;"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-value">856</h3>
-                            <p class="stat-label">Internships</p>
-                        </div>
-                        <div class="stat-detail">
-                            <span class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i> 22%
-                            </span>
-                            <span class="stat-sub">342 active now</span>
+                        
+                        <!-- Admin Menu -->
+                        <div class="relative">
+                            <button class="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg">
+                                <div class="w-8 h-8 bg-[#d32f2f] rounded-full flex items-center justify-center text-white font-bold">
+                                    P
+                                </div>
+                                <i class="fas fa-chevron-down text-gray-600"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
-
-                <!-- Charts Row -->
-                <div class="charts-grid">
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>User Growth (Last 30 Days)</h3>
-                            <select class="chart-filter">
-                                <option>Last 30 Days</option>
-                                <option>Last 90 Days</option>
-                                <option>This Year</option>
-                            </select>
+            </header>
+            
+            <!-- Main Content Area -->
+            <main class="p-6">
+                
+                <!-- Dashboard Section (Default) -->
+                <div id="dashboardSection" class="section-content">
+                    
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="quick-stat">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Total Users</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">5,428</h3>
+                                </div>
+                                <div class="p-3 bg-blue-50 rounded-lg">
+                                    <i class="fas fa-users text-blue-600 text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <span class="text-green-600 mr-2">
+                                    <i class="fas fa-arrow-up"></i> 12%
+                                </span>
+                                <span class="text-gray-600">from last month</span>
+                            </div>
                         </div>
+                        
+                        <div class="quick-stat">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Organizations</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">1,218</h3>
+                                </div>
+                                <div class="p-3 bg-green-50 rounded-lg">
+                                    <i class="fas fa-building text-green-600 text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="text-sm">
+                                <span class="text-gray-600">Verified: </span>
+                                <span class="font-medium">856 (70%)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="quick-stat">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Active Internships</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">342</h3>
+                                </div>
+                                <div class="p-3 bg-purple-50 rounded-lg">
+                                    <i class="fas fa-briefcase text-purple-600 text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                89 applications today
+                            </div>
+                        </div>
+                        
+                        <div class="quick-stat">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Pending Actions</p>
+                                    <h3 class="text-3xl font-bold text-gray-800">25</h3>
+                                </div>
+                                <div class="p-3 bg-red-50 rounded-lg">
+                                    <i class="fas fa-clock text-red-600 text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="text-sm">
+                                <span class="text-gray-600">Includes: </span>
+                                <span class="font-medium">12 verifications, 8 reports</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                         <div class="chart-container">
-                            <canvas id="userGrowthChart"></canvas>
+                            <h3 class="font-bold text-gray-800 mb-4">User Growth (Last 30 Days)</h3>
+                            <canvas id="userGrowthChart" height="200"></canvas>
                         </div>
-                    </div>
-
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>Internship Posts Trend</h3>
-                            <select class="chart-filter">
-                                <option>Monthly</option>
-                                <option>Weekly</option>
-                                <option>Daily</option>
-                            </select>
-                        </div>
+                        
                         <div class="chart-container">
-                            <canvas id="internshipChart"></canvas>
+                            <h3 class="font-bold text-gray-800 mb-4">Internship Posts (Monthly)</h3>
+                            <canvas id="internshipChart" height="200"></canvas>
                         </div>
                     </div>
-                </div>
-
-                <!-- Pending Actions & Recent Activity -->
-                <div class="content-grid">
-                    <!-- Pending Actions -->
-                    <div class="content-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-clock"></i> Pending Actions</h3>
-                            <span class="badge badge-warning">25</span>
-                        </div>
-                        <div class="pending-list">
-                            <div class="pending-item">
-                                <div class="pending-icon">
-                                    <i class="fas fa-user-check"></i>
-                                </div>
-                                <div class="pending-info">
-                                    <h4>Organization Verifications</h4>
-                                    <p>12 organizations waiting for approval</p>
-                                </div>
-                                <button class="btn-action btn-primary">Review</button>
-                            </div>
-                            <div class="pending-item">
-                                <div class="pending-icon">
-                                    <i class="fas fa-flag"></i>
-                                </div>
-                                <div class="pending-info">
-                                    <h4>Reported Users</h4>
-                                    <p>8 users reported for inappropriate behavior</p>
-                                </div>
-                                <button class="btn-action btn-danger">Review</button>
-                            </div>
-                            <div class="pending-item">
-                                <div class="pending-icon">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </div>
-                                <div class="pending-info">
-                                    <h4>Flagged Internships</h4>
-                                    <p>5 internships flagged for review</p>
-                                </div>
-                                <button class="btn-action btn-warning">Review</button>
-                            </div>
-                            <div class="pending-item">
-                                <div class="pending-icon">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="pending-info">
-                                    <h4>Skill Review Requests</h4>
-                                    <p>7 new skills requested by users</p>
-                                </div>
-                                <button class="btn-action btn-info">Review</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity -->
-                    <div class="content-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-history"></i> Recent Activity</h3>
-                        </div>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <div class="activity-avatar">
-                                    <i class="fas fa-user-plus"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p><strong>TechCorp Inc.</strong> registered as organization</p>
-                                    <small>2 minutes ago</small>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-avatar">
-                                    <i class="fas fa-briefcase"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p><strong>Google</strong> posted new internship</p>
-                                    <small>15 minutes ago</small>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-avatar">
-                                    <i class="fas fa-flag"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p><strong>User reported</strong> for spam content</p>
-                                    <small>1 hour ago</small>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-avatar">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p><strong>Microsoft</strong> organization verified</p>
-                                    <small>2 hours ago</small>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-avatar">
-                                    <i class="fas fa-user-slash"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p><strong>User blocked</strong> for violations</p>
-                                    <small>3 hours ago</small>
-                                </div>
+                    
+                    <!-- Quick Actions & Recent Activity -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Quick Actions -->
+                        <div class="chart-container">
+                            <h3 class="font-bold text-gray-800 mb-4">Quick Actions</h3>
+                            <div class="space-y-3">
+                                <button class="w-full text-left p-4 border rounded-lg hover:bg-gray-50 transition-colors" onclick="loadSection('organizations')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="p-2 bg-blue-100 rounded-lg">
+                                                <i class="fas fa-check-circle text-blue-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Verify Organizations</p>
+                                                <p class="text-sm text-gray-600">12 pending verifications</p>
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </div>
+                                </button>
+                                
+                                <button class="w-full text-left p-4 border rounded-lg hover:bg-gray-50 transition-colors" onclick="loadSection('reports')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="p-2 bg-red-100 rounded-lg">
+                                                <i class="fas fa-flag text-red-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Review Reports</p>
+                                                <p class="text-sm text-gray-600">8 user reports pending</p>
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </div>
+                                </button>
+                                
+                                <button class="w-full text-left p-4 border rounded-lg hover:bg-gray-50 transition-colors" onclick="loadSection('announcements')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="p-2 bg-purple-100 rounded-lg">
+                                                <i class="fas fa-bullhorn text-purple-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Send Announcement</p>
+                                                <p class="text-sm text-gray-600">Notify all users</p>
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </div>
+                                </button>
+                                
+                                <button class="w-full text-left p-4 border rounded-lg hover:bg-gray-50 transition-colors" onclick="loadSection('skills')">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div class="p-2 bg-green-100 rounded-lg">
+                                                <i class="fas fa-code text-green-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Manage Skills</p>
+                                                <p class="text-sm text-gray-600">Add/Edit skill categories</p>
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-chevron-right text-gray-400"></i>
+                                    </div>
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Platform Health -->
-                <div class="content-card full-width">
-                    <div class="card-header">
-                        <h3><i class="fas fa-heartbeat"></i> Platform Health</h3>
-                    </div>
-                    <div class="health-grid">
-                        <div class="health-item">
-                            <div class="health-metric">
-                                <span class="health-value">89%</span>
-                                <span class="health-label">Verified Organizations</span>
-                            </div>
-                            <div class="health-bar">
-                                <div class="health-fill" style="width: 89%; background: #4CAF50;"></div>
-                            </div>
-                        </div>
-                        <div class="health-item">
-                            <div class="health-metric">
-                                <span class="health-value">76%</span>
-                                <span class="health-label">Match Success Rate</span>
-                            </div>
-                            <div class="health-bar">
-                                <div class="health-fill" style="width: 76%; background: #2196F3;"></div>
-                            </div>
-                        </div>
-                        <div class="health-item">
-                            <div class="health-metric">
-                                <span class="health-value">2.1h</span>
-                                <span class="health-label">Avg. Response Time</span>
-                            </div>
-                            <div class="health-bar">
-                                <div class="health-fill" style="width: 85%; background: #FF9800;"></div>
-                            </div>
-                        </div>
-                        <div class="health-item">
-                            <div class="health-metric">
-                                <span class="health-value">98%</span>
-                                <span class="health-label">System Uptime</span>
-                            </div>
-                            <div class="health-bar">
-                                <div class="health-fill" style="width: 98%; background: #9C27B0;"></div>
+                        
+                        <!-- Recent Activity -->
+                        <div class="chart-container lg:col-span-2">
+                            <h3 class="font-bold text-gray-800 mb-4">Recent Activity</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-user-plus text-blue-600"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">New Organization Registered</p>
+                                            <p class="text-sm text-gray-600">Google - 10 minutes ago</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-pending">Pending</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-check-circle text-green-600"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">Organization Verified</p>
+                                            <p class="text-sm text-gray-600">Microsoft - 1 hour ago</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-verified">Verified</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-flag text-red-600"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">User Reported</p>
+                                            <p class="text-sm text-gray-600">Spam content - 2 hours ago</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-reported">Reported</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-briefcase text-purple-600"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">New Internship Posted</p>
+                                            <p class="text-sm text-gray-600">Amazon - 3 hours ago</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn-view btn-action">View</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- ===== USERS PAGE (Hidden by default) ===== -->
-            <div class="page-content hidden" id="usersPage">
-                <div class="page-header">
-                    <h1 class="page-title">User Management</h1>
-                    <div class="page-actions">
-                        <div class="filter-buttons">
-                            <button class="filter-btn active">All Users</button>
-                            <button class="filter-btn">Students</button>
-                            <button class="filter-btn">Organizations</button>
-                            <button class="filter-btn">New Today</button>
-                        </div>
-                        <button class="btn-primary">
-                            <i class="fas fa-download"></i> Export CSV
-                        </button>
+                
+                <!-- Users Section (Hidden by default) -->
+                <div id="usersSection" class="section-content hidden">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+                <!-- Organizations Section -->
+                <div id="organizationsSection" class="section-content hidden">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+                <!-- Reports Section -->
+                <div id="reportsSection" class="section-content hidden">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+                <!-- Content Section -->
+                <div id="contentSection" class="section-content hidden">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+                <!-- Analytics Section -->
+                <div id="analyticsSection" class="section-content hidden">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+                <!-- Skills Section -->
+                <div id="skillsSection" class="section-content hidden">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+                <!-- Announcements Section -->
+                <div id="announcementsSection" class="section-content hidden">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+                <!-- Settings Section -->
+                <div id="settingsSection" class="section-content hidden">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                
+            </main>
+            
+            <!-- Footer -->
+            <footer class="bg-white border-t px-6 py-4">
+                <div class="flex justify-between items-center text-sm text-gray-600">
+                    <div>
+                        © 2025 SkillLaunch Admin Panel
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span>Logged in as: <span class="font-medium" id="adminEmailDisplay">admin@skilllaunch.com</span></span>
+                        <span class="text-gray-400">|</span>
+                        <span>Server: <span class="text-green-600 font-medium">Online</span></span>
                     </div>
                 </div>
-                <!-- Users table will be loaded here via JavaScript -->
-                <div class="table-container">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox" id="selectAll"></th>
-                                <th>User</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Joined</th>
-                                <th>Last Active</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="usersTableBody">
-                            <!-- Users will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- ===== OTHER PAGES (Empty for now) ===== -->
-            <div class="page-content hidden" id="verificationsPage">
-                <!-- Verification content -->
-            </div>
-            <div class="page-content hidden" id="reportedPage">
-                <!-- Reported content -->
-            </div>
-            <!-- Add other pages similarly -->
-        </main>
-    </div>
-
-    <!-- ===== ADMIN DROPDOWN MENU ===== -->
-    <div class="admin-dropdown" id="adminMenu">
-        <div class="dropdown-header">
-            <div class="dropdown-avatar">
-                <i class="fas fa-user-shield"></i>
-            </div>
-            <div class="dropdown-info">
-                <h4>Super Admin</h4>
-                <p>admin@skilllaunch.com</p>
-            </div>
-        </div>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-user"></i>
-            <span>My Profile</span>
-        </a>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-bell"></i>
-            <span>Notifications</span>
-            <span class="badge">5</span>
-        </a>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-cog"></i>
-            <span>Admin Settings</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-moon"></i>
-            <span>Dark Mode</span>
-        </a>
-        <a href="#" class="dropdown-item">
-            <i class="fas fa-question-circle"></i>
-            <span>Help & Support</span>
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-        </a>
-    </div>
-
-    <!-- ===== ANNOUNCEMENT MODAL ===== -->
-    <div class="modal hidden" id="announcementModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Send Platform Announcement</h3>
-                <button class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Recipients</label>
-                    <select class="form-select">
-                        <option>All Users</option>
-                        <option>Students Only</option>
-                        <option>Organizations Only</option>
-                        <option>Specific Users</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" class="form-input" placeholder="Announcement title">
-                </div>
-                <div class="form-group">
-                    <label>Message</label>
-                    <textarea class="form-textarea" rows="5" placeholder="Type your announcement..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox"> Send as email notification
-                    </label>
-                    <label>
-                        <input type="checkbox"> Show as platform notification
-                    </label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary modal-close">Cancel</button>
-                <button class="btn-primary">Send Announcement</button>
-            </div>
+            </footer>
         </div>
     </div>
 
+    <div id="adminNotificationsOverlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
+    <div id="adminNotificationsPanel" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-xl transform translate-x-full transition-transform z-50">
+        <div class="h-full flex flex-col">
+            <div class="px-5 py-4 border-b flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800">Notifications</h3>
+                    <p class="text-xs text-gray-500">Updates and pending actions</p>
+                </div>
+                <button id="adminNotificationsCloseBtn" class="p-2 rounded-lg hover:bg-gray-100 text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-5 overflow-y-auto" id="adminNotificationsList"></div>
+        </div>
+    </div>
+    
+    <!-- Admin API Service -->
+    <script src="admin-api.js"></script>
+    
     <!-- JavaScript -->
     <script src="admin-dashboard.js"></script>
+    <script src="admin-dashboard-extended.js"></script>
+    <script src="admin-document-viewer.js"></script>
 </body>
 </html>

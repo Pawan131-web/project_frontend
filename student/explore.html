@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Internships - SkillLaunch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="std-dashboard.css">
+    <style>
+        .explore-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .explore-header {
+            margin-bottom: 24px;
+        }
+        
+        .explore-header h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .explore-header p {
+            color: #666;
+        }
+        
+        .filters-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .filters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 180px;
+        }
+        
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .filter-group input,
+        .filter-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #d32f2f;
+        }
+        
+        .filter-btn {
+            padding: 10px 24px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background: #b71c1c;
+        }
+        
+        .clear-btn {
+            padding: 10px 24px;
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .clear-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .results-info {
+            
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .results-count {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .sort-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .internships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .internship-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .internship-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .card-header {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        
+        .company-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .card-info h3 {
+            font-size: 16px;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        
+        .card-info .company {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .card-info .meta {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .card-description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        
+        .card-tag {
+            padding: 4px 10px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #555;
+        }
+        
+        .card-tag.highlight {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px solid #eee;
+        }
+        
+        .card-details {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .apply-btn {
+            padding: 8px 20px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .apply-btn:hover {
+            background: #b71c1c;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 32px;
+        }
+        
+        .page-btn {
+            padding: 8px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .page-btn:hover {
+            background: #f5f5f5;
+        }
+        
+        .page-btn.active {
+            background: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+        }
+        
+        .loading-state, .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+        }
+        
+        .loading-state i, .empty-state i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 16px;
+        }
+        
+        .loading-state i {
+            color: #d32f2f;
+        }
+        
+        @media (max-width: 768px) {
+            .filters-row {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .internships-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (same as dashboard) -->
+    <header class="navbar">
+        <div class="nav-content">
+            <div class="logo-section">
+                <a href="std-dashboard.html" class="logo">
+                    <span class="logo-icon">🚀</span>
+                    <span class="logo-text">SkillLaunch</span>
+                </a>
+            </div>
+            
+            <div class="search-section">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" id="searchBar" placeholder="Search internships, skills, companies...">
+            </div>
+            
+            <div class="nav-icons">
+                <a href="std-dashboard.html" class="icon-container">
+                    <i class="fas fa-home"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Navigation -->
+    <nav class="quick-nav">
+        <div class="nav-container">
+            <a href="std-dashboard.html" class="nav-tab" data-tab="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-tab active" data-tab="explore">
+                <i class="fas fa-search"></i>
+                <span>Explore</span>
+            </a>
+            <a href="std-dashboard.html?tab=portfolio" class="nav-tab" data-tab="portfolio">
+                <i class="fas fa-briefcase"></i>
+                <span>Portfolio</span>
+            </a>
+            <a href="applications.html" class="nav-tab" data-tab="applications">
+                <i class="fas fa-file-alt"></i>
+                <span>Applications</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="explore-container">
+            <div class="explore-header">
+                <h1>🔍 Explore Internships</h1>
+                <p>Discover internship opportunities from verified organizations</p>
+            </div>
+            
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label>Search</label>
+                        <input type="text" id="filterSearch" placeholder="Job title, skills...">
+                    </div>
+                    <div class="filter-group">
+                        <label>Location</label>
+                        <input type="text" id="filterLocation" placeholder="City or Remote">
+                    </div>
+                    <div class="filter-group">
+                        <label>Work Mode</label>
+                        <select id="filterMode">
+                            <option value="">All Types</option>
+                            <option value="remote">Remote</option>
+                            <option value="onsite">On-site</option>
+                            <option value="hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Skills</label>
+                        <input type="text" id="filterSkills" placeholder="React, Python...">
+                    </div>
+                    <button class="filter-btn" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                    <button class="clear-btn" onclick="clearFilters()">
+                        Clear
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Results Info -->
+            <div class="results-info">
+                <span class="results-count" id="resultsCount">Loading internships...</span>
+                <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+                    <option value="newest">Newest First</option>
+                    <option value="deadline">Deadline Soon</option>
+                </select>
+            </div>
+            
+            <!-- Internships Grid -->
+            <div class="internships-grid" id="internshipsGrid">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <h3>Loading internships...</h3>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </main>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInternships();
+            
+            // Search on Enter
+            document.getElementById('filterSearch').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') applyFilters();
+            });
+            
+            document.getElementById('searchBar').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('filterSearch').value = this.value;
+                    applyFilters();
+                }
+            });
+        });
+        
+        async function loadInternships(page = 1) {
+            const grid = document.getElementById('internshipsGrid');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            grid.innerHTML = `
+                <div class="loading-state" style="grid-column: 1/-1;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <h3>Loading internships...</h3>
+                </div>
+            `;
+            
+            const search = document.getElementById('filterSearch').value;
+            const location = document.getElementById('filterLocation').value;
+            const mode = document.getElementById('filterMode').value;
+            const skills = document.getElementById('filterSkills').value;
+            
+            let url = `http://localhost:5000/api/posts/internships?page=${page}&limit=9`;
+            if (search) url += `&search=${encodeURIComponent(search)}`;
+            if (location) url += `&location=${encodeURIComponent(location)}`;
+            if (mode) url += `&type=${encodeURIComponent(mode)}`;
+            if (skills) url += `&skills=${encodeURIComponent(skills)}`;
+            
+            try {
+                const response = await fetch(url);
+                const result = await response.json();
+                
+                if (result.success && result.internships && result.internships.length > 0) {
+                    currentPage = result.page;
+                    totalPages = result.pages;
+                    
+                    resultsCount.textContent = `Showing ${result.internships.length} of ${result.total} internships`;
+                    
+                    grid.innerHTML = result.internships.map(internship => createInternshipCard(internship)).join('');
+                    
+                    renderPagination();
+                } else {
+                    resultsCount.textContent = '0 internships found';
+                    grid.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <i class="fas fa-briefcase"></i>
+                            <h3>No Internships Found</h3>
+                            <p>Try adjusting your filters or check back later for new opportunities.</p>
+                        </div>
+                    `;
+                    document.getElementById('pagination').innerHTML = '';
+                }
+            } catch (error) {
+                console.error('Error loading internships:', error);
+                resultsCount.textContent = 'Error loading internships';
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-exclamation-triangle" style="color: #e53e3e;"></i>
+                        <h3>Failed to Load Internships</h3>
+                        <p>Please check your connection and try again.</p>
+                        <button class="filter-btn" onclick="loadInternships()" style="margin-top: 16px;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        function createInternshipCard(internship) {
+            const companyInitial = internship.company ? internship.company.charAt(0).toUpperCase() : 'C';
+            const timeAgo = getTimeAgo(new Date(internship.createdAt));
+            
+            return `
+                <div class="internship-card">
+                    <div class="card-header">
+                        <div class="company-avatar">${companyInitial}</div>
+                        <div class="card-info">
+                            <h3>${internship.title}</h3>
+                            <p class="company">${internship.company || 'Company'}</p>
+                            <p class="meta">${internship.location || 'Location not specified'} • ${timeAgo}</p>
+                        </div>
+                    </div>
+                    <p class="card-description">${internship.description}</p>
+                    <div class="card-tags">
+                        ${internship.skills ? internship.skills.slice(0, 4).map(skill => `<span class="card-tag">${skill}</span>`).join('') : ''}
+                        ${internship.mode ? `<span class="card-tag highlight">${internship.mode}</span>` : ''}
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-details">
+                            ${internship.stipend ? `💰 ${internship.stipend}` : ''}
+                            ${internship.duration ? ` • ⏱️ ${internship.duration}` : ''}
+                        </div>
+                        <button class="apply-btn" onclick="applyToInternship('${internship.id}', '${internship.title.replace(/'/g, "\\'")}')">
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            const intervals = { year: 31536000, month: 2592000, week: 604800, day: 86400, hour: 3600, minute: 60 };
+            
+            for (const [unit, secondsInUnit] of Object.entries(intervals)) {
+                const interval = Math.floor(seconds / secondsInUnit);
+                if (interval >= 1) return `${interval} ${unit}${interval > 1 ? 's' : ''} ago`;
+            }
+            return 'Just now';
+        }
+        
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            
+            if (currentPage > 1) {
+                html += `<button class="page-btn" onclick="changePage(${currentPage - 1})">Previous</button>`;
+            }
+            
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span style="padding: 8px;">...</span>`;
+                }
+            }
+            
+            if (currentPage < totalPages) {
+                html += `<button class="page-btn" onclick="changePage(${currentPage + 1})">Next</button>`;
+            }
+            
+            pagination.innerHTML = html;
+        }
+        
+        function changePage(page) {
+            currentPage = page;
+            loadInternships(page);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function applyFilters() {
+            currentPage = 1;
+            loadInternships(1);
+        }
+        
+        function clearFilters() {
+            document.getElementById('filterSearch').value = '';
+            document.getElementById('filterLocation').value = '';
+            document.getElementById('filterMode').value = '';
+            document.getElementById('filterSkills').value = '';
+            applyFilters();
+        }
+        
+        // ========== APPLICATION FLOW ==========
+        const API_BASE_URL = 'http://localhost:5000/api';
+        let currentInternshipData = null;
+        let selectedResumeType = null;
+        let uploadedResumeData = null;
+        let userPortfolio = null;
+
+        function getCurrentUser() {
+            try {
+                return JSON.parse(localStorage.getItem('user') || '{}');
+            } catch {
+                return {};
+            }
+        }
+
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        // Main apply function - opens the application modal
+        async function applyToInternship(internshipId, title) {
+            const currentUser = getCurrentUser();
+            
+            if (!currentUser._id) {
+                showNotification('Please login to apply for internships', 'error');
+                setTimeout(() => {
+                    window.location.href = '../auth/login.html';
+                }, 2000);
+                return;
+            }
+
+            try {
+                // Fetch internship details and check application status
+                const response = await fetch(`${API_BASE_URL}/applications/internship/${internshipId}?studentId=${currentUser._id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Check if already applied
+                    if (data.data.applicationStatus?.hasApplied) {
+                        showNotification(`You have already applied to this position. Status: ${data.data.applicationStatus.status}`, 'warning');
+                        return;
+                    }
+
+                    currentInternshipData = data.data.internship;
+                    userPortfolio = data.data.portfolioPreview;
+                    
+                    showApplicationModal(data.data);
+                } else {
+                    showNotification(data.message || 'Failed to load internship details', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading internship:', error);
+                showNotification('Failed to load internship details. Please try again.', 'error');
+            }
+        }
+
+        // Show the application modal with full internship details
+        function showApplicationModal(data) {
+            const internship = data.internship;
+            const org = internship.userId || {};
+            const hasPortfolio = data.hasPortfolio;
+            const portfolio = data.portfolioPreview;
+
+            // Format skills
+            const skillsHTML = internship.skillsWithLevels?.length > 0 
+                ? internship.skillsWithLevels.map(s => `
+                    <span class="skill-tag" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #f0f4ff; border-radius: 20px; font-size: 13px; margin: 4px;">
+                        ${s.name}
+                        <span style="font-size: 10px; padding: 2px 6px; background: ${getLevelColor(s.level)}; color: white; border-radius: 10px;">${s.level}</span>
+                    </span>
+                `).join('')
+                : internship.skills?.map(s => `<span class="skill-tag" style="padding: 6px 12px; background: #f0f4ff; border-radius: 20px; font-size: 13px; margin: 4px;">${s}</span>`).join('') || '<span style="color: #888;">No specific skills required</span>';
+
+            const modal = document.createElement('div');
+            modal.id = 'applicationModal';
+            modal.innerHTML = `
+                <div class="app-modal-overlay" onclick="closeApplicationModal()"></div>
+                <div class="app-modal-container">
+                    <div class="app-modal-header">
+                        <h2><i class="fas fa-briefcase"></i> Apply for Internship</h2>
+                        <button class="close-btn" onclick="closeApplicationModal()"><i class="fas fa-times"></i></button>
+                    </div>
+                    
+                    <div class="app-modal-body">
+                        <!-- Section 1: Internship Details -->
+                        <div class="section internship-details-section">
+                            <h3 class="section-title"><i class="fas fa-info-circle"></i> Internship Details</h3>
+                            
+                            <div class="internship-header">
+                                <div class="org-avatar">${(org.organizationName || org.fullName || 'O').charAt(0).toUpperCase()}</div>
+                                <div class="internship-title-info">
+                                    <h4>${internship.title}</h4>
+                                    <p class="org-name">${org.organizationName || org.fullName || 'Organization'}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="details-grid">
+                                <div class="detail-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div>
+                                        <span class="label">Location</span>
+                                        <span class="value">${internship.internshipLocation || 'Not specified'}</span>
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <span class="label">Duration</span>
+                                        <span class="value">${internship.internshipDuration || 'Not specified'}</span>
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-laptop-house"></i>
+                                    <div>
+                                        <span class="label">Work Mode</span>
+                                        <span class="value">${internship.internshipMode || 'Not specified'}</span>
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <div>
+                                        <span class="label">Stipend</span>
+                                        <span class="value">${internship.internshipStipend || 'Not specified'}</span>
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-users"></i>
+                                    <div>
+                                        <span class="label">Openings</span>
+                                        <span class="value">${internship.internshipOpenings || 'Multiple'}</span>
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <div>
+                                        <span class="label">Deadline</span>
+                                        <span class="value">${internship.internshipDeadline ? new Date(internship.internshipDeadline).toLocaleDateString() : 'Open'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="description-section">
+                                <h5>Description & Responsibilities</h5>
+                                <p>${internship.content || 'No description provided.'}</p>
+                            </div>
+                            
+                            ${internship.internshipRequirements ? `
+                                <div class="requirements-section">
+                                    <h5>Requirements</h5>
+                                    <p>${internship.internshipRequirements}</p>
+                                </div>
+                            ` : ''}
+                            
+                            <div class="skills-section">
+                                <h5>Required Skills</h5>
+                                <div class="skills-container">${skillsHTML}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Section 2: Application Form -->
+                        <div class="section application-form-section">
+                            <h3 class="section-title"><i class="fas fa-edit"></i> Your Application</h3>
+                            
+                            <div class="form-group">
+                                <label for="applicationMessage">Introduction / Cover Message *</label>
+                                <p class="helper-text">Tell the organization why you're interested and why you're a good fit</p>
+                                <textarea id="applicationMessage" rows="5" placeholder="Dear Hiring Manager,&#10;&#10;I am excited to apply for this internship opportunity because...&#10;&#10;My relevant skills and experience include...&#10;&#10;I believe I would be a great fit because..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Section 3: Resume Submission -->
+                        <div class="section resume-section">
+                            <h3 class="section-title"><i class="fas fa-file-alt"></i> Resume / Portfolio</h3>
+                            <p class="section-description">Choose how you want to submit your resume</p>
+                            
+                            <div class="resume-options">
+                                <!-- Option 1: Use Portfolio -->
+                                <div class="resume-option ${hasPortfolio ? '' : 'disabled'}" id="portfolioOption" onclick="${hasPortfolio ? 'selectResumeOption(\'portfolio\')' : ''}">
+                                    <div class="option-header">
+                                        <div class="option-radio">
+                                            <input type="radio" name="resumeType" value="portfolio" id="usePortfolio" ${!hasPortfolio ? 'disabled' : ''}>
+                                        </div>
+                                        <div class="option-icon portfolio-icon">
+                                            <i class="fas fa-id-card"></i>
+                                        </div>
+                                        <div class="option-info">
+                                            <h4>Use My Portfolio <span class="recommended-badge">Recommended</span></h4>
+                                            <p>Submit your SkillLaunch portfolio as your resume</p>
+                                        </div>
+                                    </div>
+                                    
+                                    ${hasPortfolio ? `
+                                        <div class="portfolio-preview" id="portfolioPreviewSection" style="display: none;">
+                                            <div class="preview-header">
+                                                <div class="preview-avatar">${(portfolio.fullName || 'U').charAt(0)}</div>
+                                                <div class="preview-info">
+                                                    <h5>${portfolio.fullName || 'Your Name'}</h5>
+                                                    <p>${portfolio.professionalTitle || 'Student'}</p>
+                                                </div>
+                                            </div>
+                                            <p class="preview-summary">${portfolio.summary ? portfolio.summary.substring(0, 150) + '...' : 'No summary added yet.'}</p>
+                                            <div class="preview-skills">
+                                                ${portfolio.skills?.technical?.slice(0, 5).map(s => `<span class="mini-skill">${s.name}</span>`).join('') || '<span style="color:#888;font-size:12px;">No skills added</span>'}
+                                            </div>
+                                            <div class="preview-actions">
+                                                <button type="button" class="preview-btn" onclick="viewFullPortfolio()">
+                                                    <i class="fas fa-eye"></i> View Full Portfolio
+                                                </button>
+                                                <button type="button" class="edit-btn" onclick="editPortfolio()">
+                                                    <i class="fas fa-pen"></i> Edit Portfolio
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ` : `
+                                        <div class="no-portfolio-message">
+                                            <p><i class="fas fa-info-circle"></i> You don't have a portfolio yet</p>
+                                            <button type="button" class="create-portfolio-btn" onclick="createPortfolio()">
+                                                <i class="fas fa-plus"></i> Create Portfolio
+                                            </button>
+                                        </div>
+                                    `}
+                                </div>
+                                
+                                <!-- Option 2: Upload Resume -->
+                                <div class="resume-option" id="uploadOption" onclick="selectResumeOption('uploaded')">
+                                    <div class="option-header">
+                                        <div class="option-radio">
+                                            <input type="radio" name="resumeType" value="uploaded" id="uploadResume">
+                                        </div>
+                                        <div class="option-icon upload-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </div>
+                                        <div class="option-info">
+                                            <h4>Upload Resume</h4>
+                                            <p>Upload a PDF or DOC file (max 5MB)</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="upload-section" id="uploadSection" style="display: none;">
+                                        <div class="upload-area" id="uploadArea" onclick="triggerFileUpload()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                                            <input type="file" id="resumeFile" accept=".pdf,.doc,.docx" onchange="handleFileSelect(event)" style="display: none;">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>Drag & drop your resume here or <span class="browse-link">browse</span></p>
+                                            <span class="file-types">PDF, DOC, DOCX (Max 5MB)</span>
+                                        </div>
+                                        <div class="uploaded-file" id="uploadedFileInfo" style="display: none;">
+                                            <i class="fas fa-file-pdf"></i>
+                                            <div class="file-info">
+                                                <span class="file-name" id="uploadedFileName"></span>
+                                                <span class="file-size" id="uploadedFileSize"></span>
+                                            </div>
+                                            <button type="button" class="remove-file-btn" onclick="removeUploadedFile()">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="app-modal-footer">
+                        <button class="cancel-btn" onclick="closeApplicationModal()">Cancel</button>
+                        <button class="submit-btn" id="submitApplicationBtn" onclick="submitApplication()">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Add modal styles
+            addApplicationModalStyles();
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function getLevelColor(level) {
+            const colors = {
+                'beginner': '#4CAF50',
+                'intermediate': '#2196F3',
+                'advanced': '#9C27B0',
+                'expert': '#F44336'
+            };
+            return colors[level] || '#666';
+        }
+
+        function selectResumeOption(type) {
+            selectedResumeType = type;
+            
+            // Update radio buttons
+            document.getElementById('usePortfolio').checked = type === 'portfolio';
+            document.getElementById('uploadResume').checked = type === 'uploaded';
+            
+            // Update option styling
+            document.querySelectorAll('.resume-option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById(type === 'portfolio' ? 'portfolioOption' : 'uploadOption').classList.add('selected');
+            
+            // Show/hide sections
+            const portfolioSection = document.getElementById('portfolioPreviewSection');
+            const uploadSection = document.getElementById('uploadSection');
+            
+            if (portfolioSection) {
+                portfolioSection.style.display = type === 'portfolio' ? 'block' : 'none';
+            }
+            if (uploadSection) {
+                uploadSection.style.display = type === 'uploaded' ? 'block' : 'none';
+            }
+        }
+
+        function triggerFileUpload() {
+            document.getElementById('resumeFile').click();
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.target.closest('.upload-area').classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.target.closest('.upload-area').classList.remove('dragover');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.target.closest('.upload-area').classList.remove('dragover');
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+
+        function processFile(file) {
+            const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            
+            if (!allowedTypes.includes(file.type)) {
+                showNotification('Please upload a PDF or DOC/DOCX file', 'error');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('File size must be less than 5MB', 'error');
+                return;
+            }
+            
+            uploadedResumeData = file;
+            
+            document.getElementById('uploadArea').style.display = 'none';
+            document.getElementById('uploadedFileInfo').style.display = 'flex';
+            document.getElementById('uploadedFileName').textContent = file.name;
+            document.getElementById('uploadedFileSize').textContent = formatFileSize(file.size);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function removeUploadedFile() {
+            uploadedResumeData = null;
+            document.getElementById('resumeFile').value = '';
+            document.getElementById('uploadArea').style.display = 'flex';
+            document.getElementById('uploadedFileInfo').style.display = 'none';
+        }
+
+        function viewFullPortfolio() {
+            // Open portfolio in new tab or modal
+            window.open('portfolio/portfolio-view.html', '_blank');
+        }
+
+        function editPortfolio() {
+            // Save current application context
+            sessionStorage.setItem('pendingApplication', JSON.stringify({
+                internshipId: currentInternshipData._id,
+                message: document.getElementById('applicationMessage')?.value || ''
+            }));
+            
+            // Redirect to portfolio builder
+            window.location.href = 'portfolio/portfolio-form.html?returnTo=explore&action=apply';
+        }
+
+        function createPortfolio() {
+            // Save current application context
+            sessionStorage.setItem('pendingApplication', JSON.stringify({
+                internshipId: currentInternshipData._id,
+                message: document.getElementById('applicationMessage')?.value || ''
+            }));
+            
+            // Redirect to portfolio builder
+            window.location.href = 'portfolio/portfolio-form.html?returnTo=explore&action=apply';
+        }
+
+        async function submitApplication() {
+            const currentUser = getCurrentUser();
+            const message = document.getElementById('applicationMessage').value.trim();
+            
+            // Validate
+            if (!message) {
+                showNotification('Please write an introduction message', 'error');
+                document.getElementById('applicationMessage').focus();
+                return;
+            }
+            
+            if (!selectedResumeType) {
+                showNotification('Please select a resume option', 'error');
+                return;
+            }
+            
+            if (selectedResumeType === 'uploaded' && !uploadedResumeData) {
+                showNotification('Please upload your resume', 'error');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitApplicationBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            
+            try {
+                // If uploaded resume, upload file first
+                let uploadedFileData = null;
+                if (selectedResumeType === 'uploaded' && uploadedResumeData) {
+                    const formData = new FormData();
+                    formData.append('resume', uploadedResumeData);
+                    
+                    const uploadResponse = await fetch(`${API_BASE_URL}/applications/upload-resume`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${getToken()}`
+                        },
+                        body: formData
+                    });
+                    
+                    const uploadResult = await uploadResponse.json();
+                    if (!uploadResult.success) {
+                        throw new Error(uploadResult.message || 'Failed to upload resume');
+                    }
+                    uploadedFileData = uploadResult.data;
+                }
+                
+                // Submit application
+                const applicationData = {
+                    studentId: currentUser._id,
+                    internshipId: currentInternshipData._id,
+                    message: message,
+                    resumeType: selectedResumeType
+                };
+                
+                if (uploadedFileData) {
+                    applicationData.uploadedResume = uploadedFileData;
+                }
+                
+                const response = await fetch(`${API_BASE_URL}/applications/submit`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(applicationData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    closeApplicationModal();
+                    showSuccessModal();
+                } else {
+                    throw new Error(result.message || 'Failed to submit application');
+                }
+            } catch (error) {
+                console.error('Submit error:', error);
+                showNotification(error.message || 'Failed to submit application', 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
+            }
+        }
+
+        function showSuccessModal() {
+            const modal = document.createElement('div');
+            modal.className = 'success-modal';
+            modal.innerHTML = `
+                <div class="success-overlay" onclick="this.parentElement.remove()"></div>
+                <div class="success-content">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Application Submitted!</h2>
+                    <p>Your application has been sent to the organization. They will review it and get back to you.</p>
+                    <div class="success-actions">
+                        <button onclick="this.closest('.success-modal').remove()">Continue Exploring</button>
+                        <button class="secondary" onclick="window.location.href='applications.html'">View My Applications</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function closeApplicationModal() {
+            const modal = document.getElementById('applicationModal');
+            if (modal) {
+                modal.remove();
+            }
+            document.body.style.overflow = '';
+            currentInternshipData = null;
+            selectedResumeType = null;
+            uploadedResumeData = null;
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        function addApplicationModalStyles() {
+            if (document.getElementById('applicationModalStyles')) return;
+            
+            const style = document.createElement('style');
+            style.id = 'applicationModalStyles';
+            style.textContent = `
+                .app-modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.6);
+                    z-index: 9998;
+                }
+                
+                .app-modal-container {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 90%;
+                    max-width: 800px;
+                    max-height: 90vh;
+                    background: white;
+                    border-radius: 16px;
+                    z-index: 9999;
+                    display: flex;
+                    flex-direction: column;
+                    animation: modalSlideIn 0.3s ease;
+                }
+                
+                @keyframes modalSlideIn {
+                    from { opacity: 0; transform: translate(-50%, -48%); }
+                    to { opacity: 1; transform: translate(-50%, -50%); }
+                }
+                
+                .app-modal-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px 24px;
+                    border-bottom: 1px solid #eee;
+                }
+                
+                .app-modal-header h2 {
+                    margin: 0;
+                    font-size: 1.4rem;
+                    color: #1a1a2e;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                
+                .app-modal-header h2 i {
+                    color: #d32f2f;
+                }
+                
+                .close-btn {
+                    background: none;
+                    border: none;
+                    font-size: 1.2rem;
+                    color: #666;
+                    cursor: pointer;
+                    padding: 8px;
+                    border-radius: 50%;
+                    transition: all 0.2s;
+                }
+                
+                .close-btn:hover {
+                    background: #f5f5f5;
+                    color: #333;
+                }
+                
+                .app-modal-body {
+                    flex: 1;
+                    overflow-y: auto;
+                    padding: 24px;
+                }
+                
+                .section {
+                    margin-bottom: 28px;
+                    padding-bottom: 24px;
+                    border-bottom: 1px solid #eee;
+                }
+                
+                .section:last-child {
+                    border-bottom: none;
+                    margin-bottom: 0;
+                }
+                
+                .section-title {
+                    font-size: 1.1rem;
+                    color: #1a1a2e;
+                    margin: 0 0 16px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                
+                .section-title i {
+                    color: #d32f2f;
+                }
+                
+                .section-description {
+                    color: #666;
+                    font-size: 14px;
+                    margin-bottom: 16px;
+                }
+                
+                .internship-header {
+                    display: flex;
+                    gap: 16px;
+                    margin-bottom: 20px;
+                }
+                
+                .org-avatar {
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 12px;
+                    background: linear-gradient(135deg, #667eea, #764ba2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 24px;
+                    font-weight: bold;
+                }
+                
+                .internship-title-info h4 {
+                    margin: 0 0 4px;
+                    font-size: 1.2rem;
+                    color: #1a1a2e;
+                }
+                
+                .org-name {
+                    margin: 0;
+                    color: #666;
+                    font-size: 14px;
+                }
+                
+                .details-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 16px;
+                    margin-bottom: 20px;
+                }
+                
+                .detail-item {
+                    display: flex;
+                    gap: 12px;
+                    align-items: flex-start;
+                }
+                
+                .detail-item i {
+                    color: #d32f2f;
+                    font-size: 16px;
+                    margin-top: 2px;
+                }
+                
+                .detail-item .label {
+                    display: block;
+                    font-size: 12px;
+                    color: #888;
+                    margin-bottom: 2px;
+                }
+                
+                .detail-item .value {
+                    display: block;
+                    font-size: 14px;
+                    color: #333;
+                    font-weight: 500;
+                }
+                
+                .description-section, .requirements-section, .skills-section {
+                    margin-bottom: 16px;
+                }
+                
+                .description-section h5, .requirements-section h5, .skills-section h5 {
+                    margin: 0 0 8px;
+                    font-size: 14px;
+                    color: #555;
+                }
+                
+                .description-section p, .requirements-section p {
+                    margin: 0;
+                    font-size: 14px;
+                    color: #666;
+                    line-height: 1.6;
+                    white-space: pre-wrap;
+                }
+                
+                .skills-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 4px;
+                }
+                
+                .form-group {
+                    margin-bottom: 16px;
+                }
+                
+                .form-group label {
+                    display: block;
+                    font-weight: 600;
+                    color: #333;
+                    margin-bottom: 6px;
+                }
+                
+                .helper-text {
+                    font-size: 13px;
+                    color: #888;
+                    margin: 0 0 8px;
+                }
+                
+                .form-group textarea {
+                    width: 100%;
+                    padding: 14px;
+                    border: 1px solid #ddd;
+                    border-radius: 10px;
+                    font-size: 14px;
+                    resize: vertical;
+                    font-family: inherit;
+                    transition: border-color 0.2s;
+                }
+                
+                .form-group textarea:focus {
+                    outline: none;
+                    border-color: #d32f2f;
+                }
+                
+                .resume-options {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                }
+                
+                .resume-option {
+                    border: 2px solid #e0e0e0;
+                    border-radius: 12px;
+                    padding: 16px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                
+                .resume-option:hover {
+                    border-color: #d32f2f;
+                }
+                
+                .resume-option.selected {
+                    border-color: #d32f2f;
+                    background: #fff5f5;
+                }
+                
+                .resume-option.disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
+                
+                .resume-option.disabled:hover {
+                    border-color: #e0e0e0;
+                }
+                
+                .option-header {
+                    display: flex;
+                    gap: 14px;
+                    align-items: center;
+                }
+                
+                .option-radio input {
+                    width: 18px;
+                    height: 18px;
+                    accent-color: #d32f2f;
+                }
+                
+                .option-icon {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 18px;
+                }
+                
+                .portfolio-icon {
+                    background: #e3f2fd;
+                    color: #1976d2;
+                }
+                
+                .upload-icon {
+                    background: #f3e5f5;
+                    color: #7b1fa2;
+                }
+                
+                .option-info h4 {
+                    margin: 0 0 4px;
+                    font-size: 15px;
+                    color: #333;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                
+                .recommended-badge {
+                    font-size: 10px;
+                    padding: 2px 8px;
+                    background: #4caf50;
+                    color: white;
+                    border-radius: 10px;
+                    font-weight: 500;
+                }
+                
+                .option-info p {
+                    margin: 0;
+                    font-size: 13px;
+                    color: #888;
+                }
+                
+                .portfolio-preview {
+                    margin-top: 16px;
+                    padding: 16px;
+                    background: #f8f9fa;
+                    border-radius: 10px;
+                }
+                
+                .preview-header {
+                    display: flex;
+                    gap: 12px;
+                    align-items: center;
+                    margin-bottom: 12px;
+                }
+                
+                .preview-avatar {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-weight: bold;
+                }
+                
+                .preview-info h5 {
+                    margin: 0;
+                    font-size: 14px;
+                    color: #333;
+                }
+                
+                .preview-info p {
+                    margin: 0;
+                    font-size: 12px;
+                    color: #666;
+                }
+                
+                .preview-summary {
+                    font-size: 13px;
+                    color: #555;
+                    margin: 0 0 12px;
+                    line-height: 1.5;
+                }
+                
+                .preview-skills {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                    margin-bottom: 12px;
+                }
+                
+                .mini-skill {
+                    padding: 4px 10px;
+                    background: white;
+                    border-radius: 15px;
+                    font-size: 12px;
+                    color: #555;
+                }
+                
+                .preview-actions {
+                    display: flex;
+                    gap: 10px;
+                }
+                
+                .preview-btn, .edit-btn {
+                    padding: 8px 14px;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 13px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    transition: all 0.2s;
+                }
+                
+                .preview-btn {
+                    background: #1976d2;
+                    color: white;
+                }
+                
+                .preview-btn:hover {
+                    background: #1565c0;
+                }
+                
+                .edit-btn {
+                    background: white;
+                    color: #333;
+                    border: 1px solid #ddd;
+                }
+                
+                .edit-btn:hover {
+                    background: #f5f5f5;
+                }
+                
+                .no-portfolio-message {
+                    margin-top: 12px;
+                    padding: 16px;
+                    background: #fff3e0;
+                    border-radius: 8px;
+                    text-align: center;
+                }
+                
+                .no-portfolio-message p {
+                    margin: 0 0 12px;
+                    color: #e65100;
+                    font-size: 14px;
+                }
+                
+                .create-portfolio-btn {
+                    padding: 10px 20px;
+                    background: #ff9800;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                
+                .create-portfolio-btn:hover {
+                    background: #f57c00;
+                }
+                
+                .upload-section {
+                    margin-top: 16px;
+                }
+                
+                .upload-area {
+                    border: 2px dashed #ddd;
+                    border-radius: 10px;
+                    padding: 32px;
+                    text-align: center;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                
+                .upload-area:hover, .upload-area.dragover {
+                    border-color: #d32f2f;
+                    background: #fff5f5;
+                }
+                
+                .upload-area i {
+                    font-size: 32px;
+                    color: #ccc;
+                    margin-bottom: 12px;
+                }
+                
+                .upload-area p {
+                    margin: 0;
+                    color: #666;
+                }
+                
+                .browse-link {
+                    color: #d32f2f;
+                    font-weight: 600;
+                }
+                
+                .file-types {
+                    display: block;
+                    font-size: 12px;
+                    color: #999;
+                    margin-top: 8px;
+                }
+                
+                .uploaded-file {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 14px;
+                    background: #f5f5f5;
+                    border-radius: 10px;
+                }
+                
+                .uploaded-file > i {
+                    font-size: 28px;
+                    color: #d32f2f;
+                }
+                
+                .file-info {
+                    flex: 1;
+                }
+                
+                .file-name {
+                    display: block;
+                    font-weight: 600;
+                    color: #333;
+                }
+                
+                .file-size {
+                    font-size: 12px;
+                    color: #888;
+                }
+                
+                .remove-file-btn {
+                    background: none;
+                    border: none;
+                    color: #888;
+                    cursor: pointer;
+                    padding: 8px;
+                    font-size: 16px;
+                }
+                
+                .remove-file-btn:hover {
+                    color: #d32f2f;
+                }
+                
+                .app-modal-footer {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 12px;
+                    padding: 16px 24px;
+                    border-top: 1px solid #eee;
+                }
+                
+                .cancel-btn {
+                    padding: 12px 24px;
+                    background: #f5f5f5;
+                    color: #333;
+                    border: none;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                
+                .cancel-btn:hover {
+                    background: #e0e0e0;
+                }
+                
+                .submit-btn {
+                    padding: 12px 28px;
+                    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+                    color: white;
+                    border: none;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    transition: all 0.2s;
+                }
+                
+                .submit-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(211,47,47,0.3);
+                }
+                
+                .submit-btn:disabled {
+                    opacity: 0.7;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+                
+                /* Success Modal */
+                .success-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                
+                .success-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.6);
+                }
+                
+                .success-content {
+                    position: relative;
+                    background: white;
+                    padding: 40px;
+                    border-radius: 16px;
+                    text-align: center;
+                    max-width: 400px;
+                    animation: successPop 0.4s ease;
+                }
+                
+                @keyframes successPop {
+                    from { transform: scale(0.8); opacity: 0; }
+                    50% { transform: scale(1.05); }
+                    to { transform: scale(1); opacity: 1; }
+                }
+                
+                .success-icon {
+                    font-size: 64px;
+                    color: #4caf50;
+                    margin-bottom: 20px;
+                }
+                
+                .success-content h2 {
+                    margin: 0 0 12px;
+                    color: #333;
+                }
+                
+                .success-content p {
+                    margin: 0 0 24px;
+                    color: #666;
+                }
+                
+                .success-actions {
+                    display: flex;
+                    gap: 12px;
+                    justify-content: center;
+                }
+                
+                .success-actions button {
+                    padding: 12px 20px;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                
+                .success-actions button:first-child {
+                    background: #d32f2f;
+                    color: white;
+                    border: none;
+                }
+                
+                .success-actions button.secondary {
+                    background: white;
+                    color: #333;
+                    border: 1px solid #ddd;
+                }
+                
+                /* Notification */
+                .notification {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 16px 24px;
+                    border-radius: 10px;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    z-index: 10001;
+                    animation: slideIn 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                }
+                
+                .notification-success { background: #2e7d32; }
+                .notification-error { background: #c62828; }
+                .notification-warning { background: #f57c00; }
+                .notification-info { background: #1976d2; }
+                
+                .notification.fade-out {
+                    animation: slideOut 0.3s ease forwards;
+                }
+                
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+                
+                @media (max-width: 768px) {
+                    .app-modal-container {
+                        width: 95%;
+                        max-height: 95vh;
+                    }
+                    
+                    .details-grid {
+                        grid-template-columns: 1fr;
+                    }
+                    
+                    .success-actions {
+                        flex-direction: column;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Check for pending application on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const pendingApp = sessionStorage.getItem('pendingApplication');
+            if (pendingApp) {
+                try {
+                    const data = JSON.parse(pendingApp);
+                    sessionStorage.removeItem('pendingApplication');
+                    
+                    // Show notification and reopen application
+                    showNotification('Portfolio updated! Continuing your application...', 'success');
+                    setTimeout(() => {
+                        applyToInternship(data.internshipId, '');
+                    }, 1000);
+                } catch (e) {
+                    console.error('Error restoring pending application:', e);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

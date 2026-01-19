@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | SkillLaunch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="portfolio-form.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f5f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .view-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .view-header .logo {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .view-header .logo span {
+            background: linear-gradient(135deg, #d32f2f, #ff5252);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .view-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .view-actions button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .btn-download {
+            background: white;
+            color: #1a1a2e;
+            border: none;
+        }
+        
+        .btn-download:hover {
+            background: #f0f0f0;
+        }
+        
+        .view-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .loading-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .loading-state i {
+            font-size: 48px;
+            color: #d32f2f;
+            margin-bottom: 16px;
+        }
+        
+        .error-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 16px;
+            margin: 40px auto;
+            max-width: 500px;
+        }
+        
+        .error-state i {
+            font-size: 64px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        
+        .error-state h2 {
+            color: #1a1a2e;
+            margin: 0 0 12px;
+        }
+        
+        .error-state p {
+            color: #666;
+            margin: 0 0 24px;
+        }
+        
+        .error-state a {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .portfolio-preview {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .preview-badge {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(26, 26, 46, 0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+        }
+        
+        .preview-badge i {
+            color: #d32f2f;
+        }
+        
+        @media print {
+            .view-header, .view-actions, .preview-badge {
+                display: none !important;
+            }
+            
+            .view-container {
+                padding: 0;
+                max-width: 100%;
+            }
+            
+            .portfolio-preview {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="view-header">
+        <a href="/" class="logo">
+            <i class="fas fa-rocket"></i>
+            <span>SkillLaunch</span>
+        </a>
+        <div class="view-actions">
+            <button class="btn-download" onclick="downloadPDF()">
+                <i class="fas fa-download"></i> Download PDF
+            </button>
+        </div>
+    </header>
+    
+    <div class="view-container">
+        <div id="loadingState" class="loading-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading portfolio...</p>
+        </div>
+        
+        <div id="errorState" class="error-state" style="display: none;">
+            <i class="fas fa-file-excel"></i>
+            <h2>Portfolio Not Found</h2>
+            <p>This portfolio may have been removed or the link is invalid.</p>
+            <a href="/">Go to SkillLaunch</a>
+        </div>
+        
+        <div id="portfolioContainer" class="portfolio-preview" style="display: none;">
+            <!-- Portfolio content will be rendered here -->
+        </div>
+    </div>
+    
+    <div class="preview-badge">
+        <i class="fas fa-eye"></i>
+        View Only
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPortfolio();
+        });
+        
+        async function loadPortfolio() {
+            const params = new URLSearchParams(window.location.search);
+            const shareToken = params.get('token');
+            const localShareId = params.get('share');
+            
+            if (shareToken) {
+                // Load from backend using share token
+                await loadFromBackend(shareToken);
+            } else if (localShareId) {
+                // Load from localStorage (fallback for non-authenticated shares)
+                loadFromLocalStorage(localShareId);
+            } else {
+                showError();
+            }
+        }
+        
+        async function loadFromBackend(shareToken) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/portfolio/public/${shareToken}`);
+                const result = await response.json();
+                
+                if (result.success && result.portfolio) {
+                    renderPortfolio(result.portfolio);
+                } else {
+                    showError();
+                }
+            } catch (error) {
+                console.error('Error loading portfolio:', error);
+                showError();
+            }
+        }
+        
+        function loadFromLocalStorage(shareId) {
+            const portfolioData = localStorage.getItem('share_' + shareId);
+            
+            if (portfolioData) {
+                try {
+                    const data = JSON.parse(portfolioData);
+                    renderPortfolioFromFormData(data);
+                } catch (error) {
+                    console.error('Error parsing portfolio data:', error);
+                    showError();
+                }
+            } else {
+                showError();
+            }
+        }
+        
+        function renderPortfolio(portfolio) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('portfolioContainer').style.display = 'block';
+            
+            // Update page title
+            document.title = `${portfolio.fullName || 'Portfolio'} | SkillLaunch`;
+            
+            const container = document.getElementById('portfolioContainer');
+            
+            // Build skills HTML
+            let skillsHTML = '';
+            if (portfolio.skills?.technical?.length > 0) {
+                skillsHTML = portfolio.skills.technical.map(skill => `
+                    <li class="skill-item">
+                        <span class="skill-name">${escapeHTML(skill.name)}</span>
+                        <span class="skill-level">${capitalizeFirstLetter(skill.level || 'intermediate')}</span>
+                    </li>
+                `).join('');
+            }
+            
+            // Build education HTML
+            let educationHTML = '';
+            if (portfolio.education?.length > 0) {
+                educationHTML = portfolio.education.map(edu => `
+                    <li class="education-item">
+                        <div class="education-degree">${escapeHTML(edu.degree || '')}</div>
+                        <div class="education-institution">${escapeHTML(edu.institution || '')}</div>
+                        <div class="education-date">${formatDateRange(edu.startDate, edu.endDate, edu.currentlyStudying)}</div>
+                    </li>
+                `).join('');
+            }
+            
+            // Build experience HTML
+            let experienceHTML = '';
+            if (portfolio.experience?.length > 0) {
+                experienceHTML = portfolio.experience.map(exp => `
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <div>
+                                <div class="timeline-title">${escapeHTML(exp.title || '')}</div>
+                                <div class="timeline-subtitle">${escapeHTML(exp.company || '')}${exp.location ? ` • ${escapeHTML(exp.location)}` : ''}</div>
+                            </div>
+                            <div class="timeline-date">${formatDateRange(exp.startDate, exp.endDate, exp.current)}</div>
+                        </div>
+                        ${exp.description ? `<div class="timeline-description">${escapeHTML(exp.description)}</div>` : ''}
+                    </div>
+                `).join('');
+            }
+            
+            // Build projects HTML
+            let projectsHTML = '';
+            if (portfolio.projects?.length > 0) {
+                projectsHTML = portfolio.projects.map(project => `
+                    <div class="timeline-item">
+                        <div class="timeline-header">
+                            <div>
+                                <div class="timeline-title">${escapeHTML(project.title || '')}</div>
+                                ${project.technologies ? `
+                                    <div class="project-tags">
+                                        ${project.technologies.split(',').map(tech => `
+                                            <span class="project-tag">${escapeHTML(tech.trim())}</span>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                            ${(project.url || project.demoUrl) ? `
+                                <div style="display: flex; gap: 10px;">
+                                    ${project.url ? `<a href="${project.url}" target="_blank" style="color: var(--accent-color); font-size: 14px;"><i class="fab fa-github"></i></a>` : ''}
+                                    ${project.demoUrl ? `<a href="${project.demoUrl}" target="_blank" style="color: var(--accent-color); font-size: 14px;"><i class="fas fa-external-link-alt"></i></a>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${project.description ? `<div class="timeline-description">${escapeHTML(project.description)}</div>` : ''}
+                    </div>
+                `).join('');
+            }
+            
+            // Get initials for avatar
+            const initials = (portfolio.fullName || 'JD').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            
+            container.innerHTML = `
+                <div class="preview-page active" id="previewPage" style="padding: 0;">
+                    <div class="preview-container" id="previewContainer">
+                        <aside class="preview-sidebar">
+                            <div class="sidebar-profile">
+                                <div class="profile-image-container" id="previewProfileImage">
+                                    ${portfolio.profilePhoto 
+                                        ? `<img src="${portfolio.profilePhoto}" alt="Profile">`
+                                        : `<div class="initials">${initials}</div>`
+                                    }
+                                </div>
+                            </div>
+                            
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title"><i class="fas fa-envelope"></i> Contact</h3>
+                                <ul class="contact-list" id="previewContactInfo">
+                                    ${portfolio.email ? `<li><i class="fas fa-envelope"></i> ${escapeHTML(portfolio.email)}</li>` : ''}
+                                    ${portfolio.phone ? `<li><i class="fas fa-phone"></i> ${escapeHTML(portfolio.phone)}</li>` : ''}
+                                    ${portfolio.location ? `<li><i class="fas fa-map-marker-alt"></i> ${escapeHTML(portfolio.location)}</li>` : ''}
+                                </ul>
+                            </div>
+                            
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                                <ul class="education-list" id="previewEducation">
+                                    ${educationHTML || '<div class="no-data">No education added</div>'}
+                                </ul>
+                            </div>
+                            
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title"><i class="fas fa-code"></i> Skills</h3>
+                                <ul class="skills-list" id="previewSkills">
+                                    ${skillsHTML || '<div class="no-data">No skills added</div>'}
+                                </ul>
+                            </div>
+                        </aside>
+                        
+                        <main class="preview-main">
+                            <header class="main-header">
+                                <h1 class="preview-name" id="previewFullName">${escapeHTML(portfolio.fullName || 'Your Name')}</h1>
+                                <p class="preview-title" id="previewTitle">${escapeHTML(portfolio.professionalTitle || portfolio.title || 'Professional')}</p>
+                            </header>
+                            
+                            <section class="main-section">
+                                <h2 class="section-title"><i class="fas fa-user"></i> Professional Summary</h2>
+                                <div class="section-content summary-text" id="previewSummary">
+                                    ${escapeHTML(portfolio.summary || 'No summary provided.')}
+                                </div>
+                            </section>
+                            
+                            <section class="main-section">
+                                <h2 class="section-title"><i class="fas fa-briefcase"></i> Work Experience</h2>
+                                <div class="section-content timeline" id="previewExperience">
+                                    ${experienceHTML || '<div class="no-data">No work experience added</div>'}
+                                </div>
+                            </section>
+                            
+                            <section class="main-section">
+                                <h2 class="section-title"><i class="fas fa-project-diagram"></i> Projects</h2>
+                                <div class="section-content timeline" id="previewProjects">
+                                    ${projectsHTML || '<div class="no-data">No projects added</div>'}
+                                </div>
+                            </section>
+                            
+                            ${portfolio.additionalInfo ? `
+                            <section class="main-section" id="previewAdditionalInfoSection">
+                                <h2 class="section-title"><i class="fas fa-info-circle"></i> Additional Information</h2>
+                                <div class="section-content" id="previewAdditionalInfo">
+                                    ${escapeHTML(portfolio.additionalInfo)}
+                                </div>
+                            </section>
+                            ` : ''}
+                        </main>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderPortfolioFromFormData(data) {
+            // Transform form data to portfolio format
+            const portfolio = {
+                fullName: data.basicInfo?.fullName || '',
+                professionalTitle: data.basicInfo?.professionalTitle || '',
+                email: data.basicInfo?.email || '',
+                phone: data.basicInfo?.phone || '',
+                location: data.basicInfo?.location || '',
+                summary: data.basicInfo?.summary || '',
+                skills: data.skills || { technical: [], soft: '' },
+                education: data.education || [],
+                experience: data.experience || [],
+                projects: data.projects || [],
+                additionalInfo: data.additionalInfo || ''
+            };
+            
+            renderPortfolio(portfolio);
+        }
+        
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+        
+        function downloadPDF() {
+            const element = document.getElementById('previewContainer');
+            if (!element) {
+                alert('Portfolio not loaded');
+                return;
+            }
+            
+            const nameEl = document.getElementById('previewFullName');
+            const filename = nameEl ? nameEl.textContent : 'portfolio';
+            
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: `${filename}_Portfolio.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true,
+                    backgroundColor: '#ffffff'
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        }
+        
+        // Helper functions
+        function escapeHTML(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function capitalizeFirstLetter(string) {
+            if (!string) return '';
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        function formatDateRange(startDate, endDate, isCurrent = false) {
+            if (!startDate) return '';
+            
+            const formatDate = (dateString) => {
+                if (!dateString) return '';
+                const [year, month] = dateString.split('-');
+                const date = new Date(year, month - 1);
+                return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            };
+            
+            const formattedStart = formatDate(startDate);
+            const formattedEnd = isCurrent ? 'Present' : formatDate(endDate);
+            
+            return `${formattedStart} - ${formattedEnd}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications - SkillLaunch</title>
+
+    <link rel="stylesheet" href="../css/master-styles.css">
+    <link rel="stylesheet" href="std-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-red: #D32F2F;
+            --primary-dark: #B71C1C;
+            --primary-light: #EF5350;
+            --dark-navy: #1A1A2E;
+            --gray-dark: #4A5568;
+            --gray-medium: #718096;
+            --gray-light: #EDF2F7;
+            --success-green: #2E7D32;
+            --warning-orange: #F57C00;
+            --info-blue: #1976D2;
+        }
+
+        /* Main Container */
+        .applications-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Header */
+        .applications-header {
+            margin-bottom: 32px;
+        }
+
+        .applications-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark-navy);
+            margin-bottom: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .applications-subtitle {
+            color: var(--gray-medium);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .icon-applied { background: rgba(33, 150, 243, 0.1); color: #1976D2; }
+        .icon-shortlisted { background: rgba(76, 175, 80, 0.1); color: #2E7D32; }
+        .icon-accepted { background: rgba(211, 47, 47, 0.1); color: var(--primary-red); }
+        .icon-rejected { background: rgba(244, 67, 54, 0.1); color: #C62828; }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark-navy);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            font-weight: 600;
+        }
+
+        /* Applications Grid */
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .application-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .application-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            border-color: rgba(211, 47, 47, 0.3);
+        }
+
+        /* Card Header with Company Branding */
+        .card-header {
+            padding: 20px;
+            position: relative;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .company-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .company-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .company-info {
+            flex: 1;
+        }
+
+        .company-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray-medium);
+            margin-bottom: 4px;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark-navy);
+            line-height: 1.3;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .status-applied { background: #E3F2FD; color: #1976D2; }
+        .status-review { background: #FFF3E0; color: #E65100; }
+        .status-accepted { background: #E8F5E9; color: #2E7D32; }
+        .status-rejected { background: #FFEBEE; color: var(--primary-red); }
+
+        /* Card Body */
+        .card-body {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .application-details {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .detail-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(211, 47, 47, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-red);
+            flex-shrink: 0;
+        }
+
+        .detail-content h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray-dark);
+            margin-bottom: 2px;
+        }
+
+        .detail-content p {
+            font-size: 0.85rem;
+            color: var(--gray-medium);
+            margin: 0;
+        }
+
+        .internship-type {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(33, 150, 243, 0.1);
+            color: #1976D2;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Progress Timeline */
+        .progress-timeline {
+            margin-top: 20px;
+        }
+
+        .timeline-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray-dark);
+            margin-bottom: 12px;
+        }
+
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .timeline-steps::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gray-light);
+            z-index: 1;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            color: var(--gray-medium);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .step-icon.active {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+            color: white;
+        }
+
+        .step-icon.completed {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+        }
+
+        .step-icon.rejected {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+            color: white;
+        }
+
+        /* Card Footer */
+        .card-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-dark));
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #9A0007);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25);
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: var(--gray-dark);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn.secondary:hover {
+            background: var(--gray-light);
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 16px;
+            border: 2px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: var(--gray-medium);
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-navy);
+            margin-bottom: 12px;
+        }
+
+        .empty-text {
+            color: var(--gray-medium);
+            margin-bottom: 24px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .explore-btn {
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .explore-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.25);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .applications-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .applications-container {
+                padding: 16px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .applications-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-footer {
+                flex-direction: column;
+            }
+            
+            .company-brand {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .status-indicator {
+                position: static;
+                margin-top: 12px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-container">
+            <a href="../index.html" class="header-logo">
+                <div class="logo-icon"><i class="fas fa-rocket"></i></div>
+                <div class="logo-text">
+                    <span class="logo-main">Skill</span>
+                    <span class="logo-accent">Launch</span>
+                </div>
+            </a>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" placeholder="Search internships, companies, skills...">
+            </div>
+            <div class="header-right">
+                <div class="icon-container" id="notificationIcon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot" style="display: none;"></span>
+                    <span class="notification-count" id="notificationBadge" style="display: none;">0</span>
+                </div>
+                <div class="icon-container" id="messageIcon">
+                    <i class="fas fa-comment"></i>
+                    <span class="notification-dot" style="display: none;"></span>
+                    <span class="notification-count" id="messageBadge" style="display: none;">0</span>
+                </div>
+                <div class="profile-container" id="profileDropdown">
+                    <div class="profile-avatar" id="userAvatar">PR</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="quick-nav">
+        <div class="nav-container">
+            <a href="std-dashboard.html" class="nav-tab"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="explore.html" class="nav-tab"><i class="fas fa-search"></i><span>Explore</span></a>
+            <a href="portfolio-builder.html" class="nav-tab"><i class="fas fa-briefcase"></i><span>Portfolio</span></a>
+            <a href="skill-map.html" class="nav-tab"><i class="fas fa-map"></i><span>Skill Map</span></a>
+            <a href="applications.html" class="nav-tab active"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+            <a href="network.html" class="nav-tab"><i class="fas fa-users"></i><span>Network</span></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="applications-container">
+            <!-- Header -->
+            <div class="applications-header">
+                <h1 class="applications-title">My Applications</h1>
+                <p class="applications-subtitle">
+                    <i class="fas fa-info-circle" style="color: var(--primary-red);"></i>
+                    Track all your internship applications in one place
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number" id="appliedCount">0</div>
+                            <div class="stat-label">Applied</div>
+                        </div>
+                        <div class="stat-icon icon-applied">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                    </div>
+                    <small style="color: var(--gray-medium);">Applications submitted</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number" id="reviewCount">0</div>
+                            <div class="stat-label">Shortlisted</div>
+                        </div>
+                        <div class="stat-icon icon-shortlisted">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <small style="color: var(--gray-medium);">Currently Shortlisted</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number" id="acceptedCount">0</div>
+                            <div class="stat-label">Accepted</div>
+                        </div>
+                        <div class="stat-icon icon-accepted">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <small style="color: var(--gray-medium);">Successfully placed</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number" id="rejectedCount">0</div>
+                            <div class="stat-label">Rejected</div>
+                        </div>
+                        <div class="stat-icon icon-rejected">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                    </div>
+                    <small style="color: var(--gray-medium);">Not selected</small>
+                </div>
+            </div>
+
+            <!-- Applications List -->
+            <div id="applicationsList" class="applications-grid">
+                <!-- Applications will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Empty State (hidden by default) -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h3 class="empty-title">No Applications Yet</h3>
+                <p class="empty-text">
+                    You haven't applied to any internships yet. Start exploring opportunities and build your career!
+                </p>
+                <button class="explore-btn" onclick="window.location.href='explore.html'">
+                    <i class="fas fa-search"></i> Explore Internships
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <div class="dropdown-menu notification-dropdown" id="notificationDropdown">
+        <h3>Notifications</h3>
+        <div style="padding: 12px; color: #666;">Loading...</div>
+        <a href="#" class="dropdown-item">See all notifications</a>
+    </div>
+
+    <div class="dropdown-menu message-dropdown" id="messageDropdown">
+        <h3>Messages</h3>
+        <div class="message-item">
+            <div class="notification-content">
+                <p><strong>No messages</strong> - Your messages will appear here.</p>
+            </div>
+        </div>
+        <a href="#" class="dropdown-item">View all messages</a>
+    </div>
+
+    <div class="dropdown-menu profile-dropdown" id="profileMenu">
+        <div class="profile-info">
+            <div class="dropdown-avatar" id="dropdownAvatar">PR</div>
+            <div class="profile-details">
+                <h4 id="userName">Student</h4>
+                <p id="userEmail">student@skilllaunch.com</p>
+                <small>View Profile</small>
+            </div>
+        </div>
+
+        <a href="std-profile.html" class="dropdown-item">
+            <i class="fas fa-user-circle"></i>
+            <span>View Profile</span>
+        </a>
+        <a href="applications.html" class="dropdown-item">
+            <i class="fas fa-file-alt"></i>
+            <span>Applications</span>
+        </a>
+        <a href="network.html" class="dropdown-item">
+            <i class="fas fa-users"></i>
+            <span>Network</span>
+        </a>
+
+        <hr>
+
+        <a href="#" class="dropdown-item logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sign Out</span>
+        </a>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:5000/api';
+        let applications = [];
+        let currentUser = null;
+
+        // Get current user from localStorage
+        function getCurrentUser() {
+            try {
+                const user = JSON.parse(localStorage.getItem('user') || '{}');
+                return user;
+            } catch {
+                return {};
+            }
+        }
+
+        // Get auth token
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        function getAuthHeaders() {
+            const token = getToken();
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+            return headers;
+        }
+
+        function getInitials(name) {
+            if (!name) return 'PR';
+            return name
+                .split(' ')
+                .map(w => w[0])
+                .join('')
+                .toUpperCase()
+                .substring(0, 2);
+        }
+
+        function closeAllDropdowns() {
+            document.querySelectorAll('.dropdown-menu').forEach(dropdown => {
+                dropdown.style.display = 'none';
+            });
+        }
+
+        function positionDropdown(dropdown, trigger) {
+            const triggerRect = trigger.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+
+            if (viewportWidth <= 768) {
+                dropdown.style.position = 'fixed';
+                dropdown.style.top = '70px';
+                dropdown.style.left = '16px';
+                dropdown.style.right = '16px';
+                dropdown.style.width = 'auto';
+            } else {
+                dropdown.style.position = 'absolute';
+                dropdown.style.top = `${triggerRect.bottom + 8}px`;
+                dropdown.style.right = `${viewportWidth - triggerRect.right}px`;
+            }
+        }
+
+        function setupDropdownToggle(triggerId, dropdownId, onOpen) {
+            const trigger = document.getElementById(triggerId);
+            const dropdown = document.getElementById(dropdownId);
+            if (!trigger || !dropdown) return;
+
+            trigger.addEventListener('click', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+
+                const isVisible = dropdown.style.display === 'block';
+                closeAllDropdowns();
+
+                dropdown.style.display = isVisible ? 'none' : 'block';
+                if (!isVisible) {
+                    positionDropdown(dropdown, trigger);
+                    if (typeof onOpen === 'function') onOpen();
+                }
+            });
+        }
+
+        function updateStudentNotificationBadge(count) {
+            const badge = document.getElementById('notificationBadge');
+            const dot = document.querySelector('#notificationIcon .notification-dot');
+
+            if (badge) {
+                if (count && count > 0) {
+                    badge.textContent = String(count);
+                    badge.style.display = 'inline-flex';
+                } else {
+                    badge.textContent = '0';
+                    badge.style.display = 'none';
+                }
+            }
+            if (dot) dot.style.display = count && count > 0 ? 'block' : 'none';
+        }
+
+        async function markNotificationRead(notificationId) {
+            try {
+                await fetch(`http://localhost:5000/api/notifications/${notificationId}/read`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders()
+                });
+            } catch {
+                // ignore
+            }
+        }
+
+        function renderNotificationDropdown(notifications) {
+            const dropdown = document.getElementById('notificationDropdown');
+            if (!dropdown) return;
+
+            const itemsHtml = (notifications || []).map(n => {
+                const id = n._id || '';
+                const title = n.title || 'Notification';
+                const message = n.message || '';
+                const createdAt = n.createdAt ? new Date(n.createdAt) : null;
+                const timeLabel = createdAt ? createdAt.toLocaleString() : '';
+                const isRead = !!n.isRead;
+                let icon = 'fa-bell';
+                if (n.type && String(n.type).includes('application')) icon = 'fa-briefcase';
+
+                return `
+                    <div class="notification-item" data-id="${id}" style="opacity:${isRead ? '0.65' : '1'}; cursor:pointer;">
+                        <div class="notification-icon"><i class="fas ${icon}"></i></div>
+                        <div class="notification-content">
+                            <p><strong>${title}</strong>${message ? ` - ${message}` : ''}</p>
+                            <small>${timeLabel}</small>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            dropdown.innerHTML = `
+                <h3>Notifications</h3>
+                ${itemsHtml || '<div style="padding: 12px; color: #666;">No notifications</div>'}
+                <a href="applications.html" class="dropdown-item">See all applications</a>
+            `;
+
+            dropdown.querySelectorAll('.notification-item').forEach(el => {
+                el.addEventListener('click', async () => {
+                    const notificationId = el.getAttribute('data-id');
+                    if (notificationId) await markNotificationRead(notificationId);
+                    window.location.href = 'applications.html';
+                });
+            });
+        }
+
+        async function loadStudentNotifications() {
+            const user = getCurrentUser();
+            const userId = user._id || user.id;
+            if (!userId) {
+                updateStudentNotificationBadge(0);
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/notifications/${userId}`, {
+                    headers: getAuthHeaders()
+                });
+                const result = await response.json();
+                if (result && result.success) {
+                    updateStudentNotificationBadge(result.unreadCount || 0);
+                    renderNotificationDropdown(result.notifications || []);
+                }
+            } catch {
+                // ignore
+            }
+        }
+
+        function setupHeaderUser() {
+            const user = getCurrentUser();
+            const fullName = user.fullName || 'Student';
+            const initials = getInitials(fullName);
+
+            const avatar = document.getElementById('userAvatar');
+            const dropdownAvatar = document.getElementById('dropdownAvatar');
+            const nameEl = document.getElementById('userName');
+            const emailEl = document.getElementById('userEmail');
+
+            if (avatar) avatar.textContent = initials;
+            if (dropdownAvatar) dropdownAvatar.textContent = initials;
+            if (nameEl) nameEl.textContent = fullName;
+            if (emailEl) emailEl.textContent = user.email || '';
+        }
+
+        function setupHeaderDropdowns() {
+            setupDropdownToggle('profileDropdown', 'profileMenu');
+            setupDropdownToggle('notificationIcon', 'notificationDropdown', loadStudentNotifications);
+            setupDropdownToggle('messageIcon', 'messageDropdown');
+
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.dropdown-menu') && !event.target.closest('.icon-container') && !event.target.closest('.profile-container')) {
+                    closeAllDropdowns();
+                }
+            });
+
+            const logoutBtn = document.querySelector('#profileMenu .logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userType');
+                    window.location.href = 'login-std.html';
+                });
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function() {
+            currentUser = getCurrentUser();
+            const token = getToken();
+            const currentUserId = currentUser._id || currentUser.id;
+
+            setupHeaderUser();
+            setupHeaderDropdowns();
+            loadStudentNotifications();
+            setInterval(loadStudentNotifications, 30000);
+
+            // Check if user is logged in - don't redirect, just show message
+            if (!currentUserId || !token) {
+                showNotification('Please login to view your applications', 'error');
+                showEmptyState('Please login to view your applications');
+                return;
+            }
+
+            await fetchApplications();
+        });
+
+        // Show empty state with custom message
+        function showEmptyState(message) {
+            document.getElementById('emptyState').style.display = 'block';
+            document.getElementById('applicationsList').style.display = 'none';
+            const emptyStateContent = document.querySelector('.empty-state-content p');
+            if (emptyStateContent) {
+                emptyStateContent.textContent = message || 'No applications yet';
+            }
+        }
+
+        // Fetch applications from backend
+        async function fetchApplications() {
+            try {
+                showLoading(true);
+                const currentUserId = currentUser._id || currentUser.id;
+                
+                const response = await fetch(`${API_BASE_URL}/applications/student/${currentUserId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    applications = data.data;
+                    updateStats(data.counts);
+                    renderApplications();
+                } else {
+                    showNotification(data.message || 'Failed to fetch applications', 'error');
+                }
+            } catch (error) {
+                console.error('Fetch applications error:', error);
+                showNotification('Failed to load applications. Please try again.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Update stats display
+        function updateStats(counts) {
+            document.getElementById('appliedCount').textContent = counts?.pending || 0;
+            document.getElementById('reviewCount').textContent = counts?.shortlisted || 0;
+            document.getElementById('acceptedCount').textContent = counts?.accepted || 0;
+            document.getElementById('rejectedCount').textContent = counts?.rejected || 0;
+
+            // Show empty state if no applications
+            if (!applications || applications.length === 0) {
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('applicationsList').style.display = 'none';
+            } else {
+                document.getElementById('emptyState').style.display = 'none';
+                document.getElementById('applicationsList').style.display = 'grid';
+            }
+        }
+
+        // Render applications list
+        function renderApplications() {
+            const container = document.getElementById('applicationsList');
+            container.innerHTML = '';
+
+            if (!applications || applications.length === 0) {
+                return;
+            }
+
+            applications.forEach(app => {
+                const internship = app.internshipId || {};
+                const org = app.organizationId || internship.userId || {};
+                
+                const card = document.createElement('div');
+                card.className = 'application-card';
+                
+                // Map status to step
+                const statusMap = {
+                    'pending': 1,
+                    'shortlisted': 2,
+                    'accepted': 3,
+                    'rejected': 3,
+                    'withdrawn': 0
+                };
+                
+                const currentStep = statusMap[app.status] || 1;
+                
+                // Determine timeline step classes
+                let step1Class = 'active';
+                let step2Class = currentStep >= 2 ? (app.status === 'shortlisted' ? 'active' : 'completed') : '';
+                let step3Class = '';
+                let step3Label = 'Final';
+                
+                if (currentStep === 3) {
+                    step3Class = app.status === 'accepted' ? 'completed' : 'rejected';
+                    step3Label = app.status === 'accepted' ? 'Accepted' : 'Rejected';
+                }
+
+                // Get company logo initials
+                const companyName = org.organizationName || org.fullName || 'Unknown';
+                const companyLogo = companyName.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+                
+                // Format date
+                const appliedDate = new Date(app.appliedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+
+                // Get display status
+                const displayStatus = app.status === 'pending' ? 'applied' : app.status;
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="company-brand">
+                            <div class="company-logo">${companyLogo}</div>
+                            <div class="company-info">
+                                <div class="company-name">${companyName}</div>
+                                <h3 class="post-title">${internship.title || 'Internship Position'}</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="status-indicator">
+                            <span class="status-badge status-${displayStatus}">${capitalize(displayStatus)}</span>
+                            <small style="color: var(--gray-medium); font-size: 0.75rem;">Applied: ${appliedDate}</small>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="application-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Location</h4>
+                                    <p>${internship.internshipLocation || 'Not specified'}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Duration</h4>
+                                    <p>${internship.internshipDuration || 'Not specified'}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <h4>Internship Type</h4>
+                                    <p><span class="internship-type">${internship.internshipType || 'Not specified'}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-timeline">
+                            <div class="timeline-title">Application Status</div>
+                            <div class="timeline-steps">
+                                <div class="timeline-step">
+                                    <div class="step-icon ${step1Class}">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="step-label">Applied</div>
+                                </div>
+                                
+                                <div class="timeline-step">
+                                    <div class="step-icon ${step2Class}">
+                                        <i class="fas ${currentStep >= 2 ? 'fa-check' : 'fa-clock'}"></i>
+                                    </div>
+                                    <div class="step-label">Shortlisted</div>
+                                </div>
+                                
+                                <div class="timeline-step">
+                                    <div class="step-icon ${step3Class}">
+                                        <i class="fas ${app.status === 'accepted' ? 'fa-check' : app.status === 'rejected' ? 'fa-times' : 'fa-hourglass-half'}"></i>
+                                    </div>
+                                    <div class="step-label">${step3Label}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <button class="action-btn secondary" onclick="viewDetails('${app._id}')">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                        ${app.status === 'pending' ? `
+                            <button class="action-btn" style="background: #f44336; color: white;" onclick="withdrawApplication('${app._id}')">
+                                <i class="fas fa-times"></i> Withdraw
+                            </button>
+                        ` : `
+                            <button class="action-btn primary" onclick="messageCompany('${app._id}')">
+                                <i class="fas fa-comment"></i> Message
+                            </button>
+                        `}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // View application details
+        async function viewDetails(applicationId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/applications/details/${applicationId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showApplicationDetailsModal(data.data);
+                } else {
+                    showNotification(data.message || 'Failed to fetch application details', 'error');
+                }
+            } catch (error) {
+                console.error('View details error:', error);
+                showNotification('Failed to load application details', 'error');
+            }
+        }
+
+        // Show application details modal
+        function showApplicationDetailsModal(app) {
+            const internship = app.internshipId || {};
+            const org = app.organizationId || internship.userId || {};
+            
+            const appliedDate = new Date(app.appliedAt).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const modal = document.createElement('div');
+            modal.className = 'application-detail-modal';
+            modal.innerHTML = `
+                <div class="modal-overlay" onclick="closeModal(this.parentElement)"></div>
+                <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+                    <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #eee;">
+                        <h2 style="margin: 0; font-size: 1.5rem; color: var(--dark-navy);">Application Details</h2>
+                        <button onclick="closeModal(this.closest('.application-detail-modal'))" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+                    </div>
+                    
+                    <div class="modal-body" style="padding: 24px;">
+                        <!-- Status Badge -->
+                        <div style="margin-bottom: 20px; text-align: center;">
+                            <span class="status-badge status-${app.status}" style="font-size: 1rem; padding: 8px 20px;">${capitalize(app.status)}</span>
+                        </div>
+                        
+                        <!-- Internship Info -->
+                        <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                            <h3 style="margin: 0 0 12px; color: var(--dark-navy);">${internship.title || 'Internship Position'}</h3>
+                            <p style="margin: 0 0 8px; color: var(--gray-medium);"><i class="fas fa-building" style="width: 20px;"></i> ${org.organizationName || org.fullName || 'Organization'}</p>
+                            <p style="margin: 0 0 8px; color: var(--gray-medium);"><i class="fas fa-map-marker-alt" style="width: 20px;"></i> ${internship.internshipLocation || 'Not specified'}</p>
+                            <p style="margin: 0 0 8px; color: var(--gray-medium);"><i class="fas fa-clock" style="width: 20px;"></i> ${internship.internshipDuration || 'Not specified'}</p>
+                            <p style="margin: 0; color: var(--gray-medium);"><i class="fas fa-money-bill-wave" style="width: 20px;"></i> ${internship.internshipStipend || 'Not specified'}</p>
+                        </div>
+                        
+                        <!-- Application Info -->
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="margin: 0 0 12px; color: var(--dark-navy);">Application Information</h4>
+                            <p style="margin: 0 0 8px; color: var(--gray-dark);"><strong>Applied on:</strong> ${appliedDate}</p>
+                            <p style="margin: 0 0 8px; color: var(--gray-dark);"><strong>Resume Type:</strong> ${app.resumeType === 'portfolio' ? 'Portfolio Preview' : 'Uploaded Resume'}</p>
+                        </div>
+                        
+                        <!-- Cover Message -->
+                        ${app.message ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 12px; color: var(--dark-navy);">Your Message</h4>
+                                <p style="margin: 0; color: var(--gray-dark); background: #f8f9fa; padding: 16px; border-radius: 8px; white-space: pre-wrap;">${app.message}</p>
+                            </div>
+                        ` : ''}
+                        
+                        <!-- Status History -->
+                        ${app.statusHistory && app.statusHistory.length > 0 ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="margin: 0 0 12px; color: var(--dark-navy);">Status History</h4>
+                                <div style="border-left: 2px solid var(--primary-red); padding-left: 16px;">
+                                    ${app.statusHistory.map(h => `
+                                        <div style="margin-bottom: 12px;">
+                                            <p style="margin: 0; font-weight: 600; color: var(--dark-navy);">${capitalize(h.status)}</p>
+                                            <p style="margin: 0; font-size: 0.85rem; color: var(--gray-medium);">${new Date(h.changedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                                            ${h.note ? `<p style="margin: 4px 0 0; font-size: 0.9rem; color: var(--gray-dark);">${h.note}</p>` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #eee; display: flex; gap: 12px; justify-content: flex-end;">
+                        ${app.status === 'pending' ? `
+                            <button onclick="withdrawApplication('${app._id}'); closeModal(this.closest('.application-detail-modal'));" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                <i class="fas fa-times"></i> Withdraw Application
+                            </button>
+                        ` : ''}
+                        <button onclick="closeModal(this.closest('.application-detail-modal'))" style="padding: 10px 20px; background: var(--gray-light); color: var(--gray-dark); border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Withdraw application
+        async function withdrawApplication(applicationId) {
+            if (!confirm('Are you sure you want to withdraw this application? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/applications/withdraw/${applicationId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ studentId: (currentUser._id || currentUser.id) })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Application withdrawn successfully', 'success');
+                    await fetchApplications();
+                } else {
+                    showNotification(data.message || 'Failed to withdraw application', 'error');
+                }
+            } catch (error) {
+                console.error('Withdraw error:', error);
+                showNotification('Failed to withdraw application', 'error');
+            }
+        }
+
+        // Message company
+        function messageCompany(applicationId) {
+            const app = applications.find(a => a._id === applicationId);
+            if (app) {
+                const org = app.organizationId || app.internshipId?.userId || {};
+                showNotification(`Messaging feature coming soon! Contact: ${org.email || 'N/A'}`, 'info');
+            }
+        }
+
+        // Close modal
+        function closeModal(modal) {
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Capitalize string
+        function capitalize(str) {
+            if (!str) return '';
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Show loading state
+        function showLoading(show) {
+            const container = document.getElementById('applicationsList');
+            if (show) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-red);"></i>
+                        <p style="margin-top: 16px; color: var(--gray-medium);">Loading your applications...</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            
+            const colors = {
+                success: '#2E7D32',
+                error: '#C62828',
+                warning: '#F57C00',
+                info: '#1976D2'
+            };
+            
+            notification.style.background = colors[type] || colors.info;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            .application-detail-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .application-detail-modal .modal-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+            }
+            .application-detail-modal .modal-content {
+                position: relative;
+                background: white;
+                border-radius: 16px;
+                width: 90%;
+                animation: modalFadeIn 0.3s ease;
+            }
+            @keyframes modalFadeIn {
+                from { transform: scale(0.9); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -65,6 +65,22 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
     }
+
+    if (userData.userType === 'organization' && userData.orgVerificationStatus !== 'verified') {
+        const restrictedOrgPaths = [
+            'post-internship',
+            'view-applications',
+            'browse-students',
+            'org-analytics',
+            'org-messages'
+        ];
+        const isRestricted = restrictedOrgPaths.some(segment => path.includes(segment));
+        if (isRestricted) {
+            alert('Please verify your organization to access this feature.');
+            window.location.href = '../organization/org-dashboard.html';
+            return;
+        }
+    }
     
     // ========== DISPLAY USER INFO (Optional) ==========
     // You can call a function here to update UI with user info

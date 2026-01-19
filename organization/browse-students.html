@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talent Pool - SkillLaunch Organization Dashboard</title>
+  <link rel="stylesheet" href="../css/master-styles.css">
+  <link rel="stylesheet" href="org-dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .page-container { max-width: 1280px; margin: 0 auto; padding: 20px; }
+    .page-header { display:flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .page-title { font-size: 28px; font-weight: 900; color:#111827; }
+    .page-subtitle { margin-top: 6px; color:#6b7280; }
+
+    .filters { display:flex; flex-wrap:wrap; gap: 10px; margin-top: 14px; margin-bottom: 16px; }
+    .filter-select, .filter-input { padding: 8px 12px; border:1px solid #e5e7eb; border-radius: 8px; background:#fff; font-size:14px; }
+    .filter-input { min-width: 240px; }
+    .btn { border:1px solid #e5e7eb; background:#f9fafb; padding: 8px 12px; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer; }
+    .btn.primary { background:#d32f2f; border-color:#d32f2f; color:#fff; }
+
+    .grid { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:24px; align-items:stretch; }
+
+    .talent-card { border-radius:16px; background:#fff; border:1px solid #e5e7eb; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:all .25s ease; display:flex; flex-direction:column; min-height:280px; overflow:hidden; }
+    .talent-card:hover { transform: translateY(-4px); box-shadow:0 10px 24px rgba(0,0,0,0.12); border-color:#d32f2f; }
+
+    .card-header { padding:16px; position:relative; border-bottom:1px solid #f1f3f4; display:flex; gap:12px; align-items:center; }
+    .avatar { width:48px; height:48px; border-radius:50%; background: linear-gradient(135deg, #d32f2f, #b71c1c); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; }
+    .name { font-weight:800; color:#111827; }
+    .role { font-size:13px; color:#4b5563; margin-top:2px; }
+    .match { position:absolute; right:16px; top:16px; background:#f0fdf4; color:#166534; border-radius:999px; padding:4px 10px; font-weight:800; font-size:12px; }
+
+    .card-body { padding:16px; flex:1; }
+    .headline { color:#1f2937; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:10px; }
+    .skills { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .pill { padding:4px 10px; background:#f1f3f4; border-radius:999px; font-size:12px; font-weight:700; color:#1a1a2e; }
+    .edu { font-size:13px; color:#4b5563; margin-top:12px; }
+
+    .portfolio { display:flex; gap:10px; margin-top:12px; }
+    .portfolio a { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:#f5f5f5; color:#374151; border:1px solid #e5e7eb; }
+
+    .card-footer { padding:12px 16px; border-top:1px solid #f1f3f4; display:flex; gap:10px; flex-wrap:wrap; }
+    .action { min-height:36px; padding:0 12px; border-radius:999px; display:inline-flex; align-items:center; gap:8px; background:#f5f5f5; color:#374151; font-weight:700; font-size:13px; cursor:pointer; }
+    .action:hover { background:#e5e7eb; }
+    .action.primary { background:#d32f2f; color:#fff; }
+    .action.outlined { background:#fff; border:1px solid #d32f2f; color:#d32f2f; }
+    .action.outlined.active { background:#d32f2f; color:#fff; }
+
+    /* Right-side panel */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); opacity:0; pointer-events:none; transition:opacity .25s; z-index:1000; }
+    .overlay.active { opacity:1; pointer-events:auto; }
+    .side-panel { position:fixed; top:0; right:-520px; width:520px; max-width:100%; height:100vh; background:#fff; box-shadow:-8px 0 24px rgba(0,0,0,0.15); transition:right .28s ease; z-index:1001; display:flex; flex-direction:column; }
+    .side-panel.open { right:0; }
+    .panel-header { padding:16px 20px; border-bottom:1px solid #f1f3f4; display:flex; justify-content:space-between; align-items:center; }
+    .panel-body { padding:18px 22px; overflow-y:auto; }
+    .panel-actions { padding:12px 20px; border-top:1px solid #f1f3f4; display:flex; gap:10px; }
+
+    @media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } .filters{ flex-direction:column; } .filter-select, .filter-input{ width:100%; } }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <a href="../index.html" class="header-logo">
+        <div class="logo-icon"><i class="fas fa-rocket"></i></div>
+        <div class="logo-text"><span class="logo-main">Skill</span><span class="logo-accent">Launch</span></div>
+      </a>
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-bar" placeholder="Search students, skills, portfolios...">
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
+      <div class="header-right">
+        <div class="icon-container" id="notificationIcon"><i class="fas fa-bell"></i><span class="notification-dot"></span><span class="notification-count">5</span></div>
+        <div class="icon-container" id="messageIcon"><i class="fas fa-comment"></i><span class="notification-dot"></span><span class="notification-count">3</span></div>
+        <div class="profile-container" id="profileDropdown"><div class="profile-avatar" id="userAvatar">TC</div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Nav Tabs -->
+  <nav class="quick-nav">
+    <div class="nav-container">
+      <a href="org-dashboard.html" class="nav-tab" data-tab="home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="post-internship.html" class="nav-tab" data-tab="post"><i class="fas fa-plus-circle"></i><span>Post Internship</span></a>
+      <a href="view-applications.html" class="nav-tab" data-tab="applications"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+      <a href="browse-students.html" class="nav-tab active" data-tab="browse"><i class="fas fa-users"></i><span>Talent Pool</span></a>
+      <a href="org-analytics.html" class="nav-tab" data-tab="analytics"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
+      <a href="org-messages.html" class="nav-tab" data-tab="messages"><i class="fas fa-comments"></i><span>Messages</span></a>
+      <a href="org-settings.html" class="nav-tab" data-tab="settings"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="dashboard-main">
+    <div class="page-container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Talent Pool</h1>
+          <p class="page-subtitle">Students recommended for your organization</p>
+        </div>
+      </div>
+
+      <div class="filters">
+        <select id="roleFilter" class="filter-select">
+          <option value="">All Roles</option>
+          <option>Frontend Developer</option>
+          <option>Backend Developer</option>
+          <option>Data Analyst</option>
+          <option>UI/UX Designer</option>
+          <option>Marketing</option>
+        </select>
+        <input id="skillSearch" class="filter-input" placeholder="Filter by skill e.g. React" />
+        <button id="clearFilters" class="btn">Clear filters</button>
+      </div>
+
+      <div id="talentGrid" class="grid"></div>
+    </div>
+  </main>
+
+  <!-- Right-side panel -->
+  <div id="tpOverlay" class="overlay"></div>
+  <div id="tpPanel" class="side-panel">
+    <div class="panel-header">
+      <div style="font-weight:800; font-size:16px; color:#1a1a2e">Profile</div>
+      <button id="tpClose" class="btn">Close</button>
+    </div>
+    <div id="tpBody" class="panel-body"></div>
+    <div class="panel-actions">
+      <button id="panelMessage" class="btn"><i class="fas fa-comment"></i> Message</button>
+      <button id="panelShortlist" class="btn primary"><i class="fas fa-star"></i> Shortlist</button>
+    </div>
+  </div>
+
+  <script>
+    const SAMPLE_TALENT = [
+      { id:1, name:'Alex Johnson', role:'Frontend Developer', match:92, headline:'Built 3 React apps and a design system', skills:['React','JavaScript','CSS','HTML','UI/UX'], education:'Computer Science, MIT (2026)', github:'#', website:'#', resume:'#' },
+      { id:2, name:'Maria Garcia', role:'Marketing', match:85, headline:'Content strategist with SEO experience', skills:['SEO','Content','Social Media','Analytics'], education:'Business, Stanford (2025)', github:'', website:'#', resume:'#' },
+      { id:3, name:'James Wilson', role:'UI/UX Designer', match:95, headline:'Figma power-user, rapid prototyping', skills:['Figma','Adobe XD','User Research','Prototyping'], education:'Design, RISD (2025)', github:'#', website:'#', resume:'#' },
+      { id:4, name:'Priya Patel', role:'Data Analyst', match:90, headline:'Tableau dashboards and Python pipelines', skills:['Python','SQL','Tableau','Pandas','+1'], education:'Data Science, UC Berkeley (2026)', github:'#', website:'#', resume:'#' },
+      { id:5, name:'Sam Lee', role:'Backend Developer', match:88, headline:'Node.js APIs with PostgreSQL', skills:['Node.js','PostgreSQL','Docker','AWS'], education:'CS, Georgia Tech (2025)', github:'#', website:'#', resume:'#' }
+    ];
+
+    let TALENT = SAMPLE_TALENT.slice();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTalent(TALENT);
+      setupFilters();
+      setupPanel();
+    });
+
+    function renderTalent(list){
+      const grid = document.getElementById('talentGrid');
+      grid.innerHTML = '';
+      list.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'talent-card';
+        card.setAttribute('data-id', t.id);
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="avatar">${getInitials(t.name)}</div>
+            <div>
+              <div class="name">${t.name}</div>
+              <div class="role">${t.role}</div>
+            </div>
+            <div class="match">${t.match}% Match</div>
+          </div>
+          <div class="card-body">
+            <div class="headline">${t.headline}</div>
+            <div class="skills">${renderSkills(t.skills)}</div>
+            <div class="edu">${t.education}</div>
+            <div class="portfolio">
+              ${t.github ? `<a href="${t.github}" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>`:''}
+              ${t.website ? `<a href="${t.website}" target="_blank" title="Website"><i class="fas fa-globe"></i></a>`:''}
+              ${t.resume ? `<a href="${t.resume}" target="_blank" title="Resume"><i class="fas fa-file"></i></a>`:''}
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="action js-view"><i class="fas fa-user"></i><span>View</span></button>
+            <button class="action js-message"><i class="fas fa-comment"></i><span>Message</span></button>
+            <button class="action outlined js-shortlist"><i class="fas fa-star"></i><span>Shortlist</span></button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      grid.addEventListener('click', (e) => {
+        const card = e.target.closest('.talent-card');
+        if (!card) return;
+        const id = Number(card.getAttribute('data-id'));
+        const data = TALENT.find(x => x.id === id);
+
+        if (e.target.closest('.js-view')) {
+          openPanel(data, card);
+        } else if (e.target.closest('.js-message')) {
+          alert('Open messaging UI');
+        } else if (e.target.closest('.js-shortlist')) {
+          toggleShortlist(e.target.closest('.js-shortlist'));
+        }
+      });
+    }
+
+    function renderSkills(skills){
+      const visible = skills.slice(0,4);
+      const extra = skills.length - 4;
+      let html = visible.map(s=>`<span class="pill">${s}</span>`).join('');
+      if (extra>0) html += `<span class="pill">+${extra}</span>`;
+      return html;
+    }
+
+    function getInitials(name){ return name.split(' ').map(n=>n[0]).join('').toUpperCase(); }
+
+    function toggleShortlist(btn){
+      btn.classList.toggle('active');
+      btn.classList.toggle('outlined');
+      btn.classList.toggle('primary');
+    }
+
+    function setupFilters(){
+      const roleSel = document.getElementById('roleFilter');
+      const skillInp = document.getElementById('skillSearch');
+      const clearBtn = document.getElementById('clearFilters');
+
+      const apply = () => {
+        const role = (roleSel.value||'').toLowerCase();
+        const skill = (skillInp.value||'').toLowerCase();
+        const filtered = SAMPLE_TALENT.filter(t =>
+          (!role || t.role.toLowerCase().includes(role)) &&
+          (!skill || t.skills.join(' ').toLowerCase().includes(skill))
+        );
+        TALENT = filtered;
+        renderTalent(TALENT);
+      };
+
+      roleSel.addEventListener('change', apply);
+      skillInp.addEventListener('input', apply);
+      clearBtn.addEventListener('click', ()=>{ roleSel.value=''; skillInp.value=''; apply(); });
+    }
+
+    function setupPanel(){
+      document.getElementById('tpOverlay').addEventListener('click', closePanel);
+      document.getElementById('tpClose').addEventListener('click', closePanel);
+      document.addEventListener('keydown', (e)=>{ if (e.key==='Escape') closePanel(); });
+    }
+
+    function openPanel(data, cardEl){
+      const overlay = document.getElementById('tpOverlay');
+      const panel = document.getElementById('tpPanel');
+      const body = document.getElementById('tpBody');
+      const shortlistBtn = document.getElementById('panelShortlist');
+
+      body.innerHTML = `
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <div class="avatar">${getInitials(data.name)}</div>
+          <div>
+            <div class="name" style="font-size:18px;">${data.name}</div>
+            <div class="role">${data.role}</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div class="headline">${data.headline}</div>
+          <div class="match" style="position:static; display:inline-block; margin-top:8px;">${data.match}% Match</div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-weight:800; margin-bottom:8px;">Top Skills</div>
+          <div class="skills">${renderSkills(data.skills)}</div>
+        </div>
+        <div class="edu">${data.education}</div>
+        <div class="portfolio" style="margin-top:14px;">
+          ${data.github ? `<a href="${data.github}" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>`:''}
+          ${data.website ? `<a href="${data.website}" target="_blank" title="Website"><i class="fas fa-globe"></i></a>`:''}
+          ${data.resume ? `<a href="${data.resume}" target="_blank" title="Resume"><i class="fas fa-file"></i></a>`:''}
+        </div>
+      `;
+
+      overlay.classList.add('active');
+      panel.classList.add('open');
+
+      // Mirror shortlist state with a quick toggle
+      shortlistBtn.onclick = () => {
+        const footerBtn = cardEl.querySelector('.js-shortlist');
+        toggleShortlist(footerBtn);
+      };
+      document.getElementById('panelMessage').onclick = () => alert('Open messaging UI');
+    }
+
+    function closePanel(){
+      document.getElementById('tpOverlay').classList.remove('active');
+      document.getElementById('tpPanel').classList.remove('open');
+    }
+  </script>
+</body>
+</html>

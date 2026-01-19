@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Backend Connection Test</title>
+</head>
+
+<body>
+    <h1>Testing Backend Connection</h1>
+    <button onclick="testBackend()">Test Backend</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function testBackend() {
+            const resultEl = document.getElementById('result');
+            resultEl.textContent = 'Testing...';
+
+            try {
+                // Test 1: Basic connection
+                const response1 = await fetch('http://localhost:5000/api/posts/feed?limit=5');
+                const data1 = await response1.json();
+
+                resultEl.textContent = JSON.stringify({
+                    status: response1.status,
+                    ok: response1.ok,
+                    data: data1
+                }, null, 2);
+
+                console.log('Backend test result:', data1);
+            } catch (error) {
+                resultEl.textContent = 'ERROR: ' + error.message + '\n\nMake sure:\n1. Backend is running: cd backend_p && node server.js\n2. Backend is on port 5000\n3. No CORS issues';
+                console.error('Backend test error:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>

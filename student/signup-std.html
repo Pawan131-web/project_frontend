@@ -327,16 +327,16 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (result.success) {
                 // ✅ SUCCESS
-                showMessage('success', 'Account created! Check email for verification code.', 'fa-envelope');
+                showMessage('success', 'Account created! Redirecting to login...', 'fa-check-circle');
                 
-                // Store email and redirect
-                localStorage.setItem('pendingVerificationEmail', email);
-                localStorage.setItem('signupEmail', email);
-                localStorage.setItem('signupUsername', username);
+                // Clear any existing session data
+                localStorage.removeItem('user');
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userType');
                 
-                // Redirect to verification page after 2 seconds
+                // Redirect to login page after 2 seconds
                 setTimeout(() => {
-                    window.location.href = '../pages/verify-email.html?email=' + encodeURIComponent(email);
+                    window.location.href = 'login-std.html?registered=true&email=' + encodeURIComponent(email);
                 }, 2000);
                 
             } else {

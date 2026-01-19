@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile | SkillLaunch</title>
+  <link rel="stylesheet" href="../../css/profile-page.css" />
+  <!-- Note: profile-page.css path is relative to project_frontend folder -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    /* Additional Profile Page Styles */
+    :root {
+      --pf-primary: #D32F2F;
+      --pf-primary-dark: #B71C1C;
+      --pf-sidebar-bg: #040b14;
+      --pf-sidebar-text: #a8a9b4;
+      --pf-sidebar-hover: #ffffff;
+      --pf-body-bg: #f6f7fb;
+      --pf-card-bg: #ffffff;
+      --pf-text: #0f172a;
+      --pf-muted: #64748b;
+      --pf-border: #e5e7eb;
+      --pf-radius: 16px;
+      --pf-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --pf-accent: #149ddd;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body.profile-page {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--pf-body-bg);
+      color: var(--pf-text);
+      min-height: 100vh;
+    }
+
+    /* ========== FIXED SIDEBAR ========== */
+    .pf-sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 300px;
+      background: var(--pf-sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .pf-sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 200;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--pf-primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: var(--pf-shadow);
+    }
+
+    /* Sidebar Profile Section */
+    .pf-sidebar-profile {
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .pf-avatar-wrap {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.2);
+      overflow: hidden;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pf-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pf-avatar-fallback {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .pf-sidebar-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .pf-sidebar-title {
+      font-size: 0.9rem;
+      color: var(--pf-sidebar-text);
+      margin-bottom: 16px;
+    }
+
+    /* Social Links */
+    .pf-social-links {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .pf-social-links a {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #212431;
+      color: var(--pf-sidebar-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+
+    .pf-social-links a:hover {
+      background: var(--pf-primary);
+      color: #fff;
+    }
+
+    /* Sidebar Navigation */
+    .pf-nav {
+      padding: 20px 15px;
+      flex: 1;
+    }
+
+    .pf-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 15px;
+      color: var(--pf-sidebar-text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 0;
+      transition: all 0.3s;
+      border-left: 2px solid transparent;
+    }
+
+    .pf-nav a i {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .pf-nav a:hover,
+    .pf-nav a.active {
+      color: #fff;
+      background: rgba(255,255,255,0.05);
+      border-left-color: var(--pf-primary);
+    }
+
+    .pf-nav a:hover i,
+    .pf-nav a.active i {
+      color: var(--pf-primary);
+    }
+
+    /* Sidebar Actions */
+    .pf-sidebar-actions {
+      padding: 20px 15px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .pf-sidebar-actions .pf-btn {
+      width: 100%;
+      margin-bottom: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .pf-btn-primary {
+      background: var(--pf-primary);
+      color: #fff;
+    }
+
+    .pf-btn-primary:hover {
+      background: var(--pf-primary-dark);
+    }
+
+    .pf-btn-outline {
+      background: transparent;
+      color: var(--pf-sidebar-text);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .pf-btn-outline:hover {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .pf-main {
+      margin-left: 300px;
+      min-height: 100vh;
+    }
+
+    /* Profile Header (LinkedIn-style) */
+    .pf-profile-header {
+      position: relative;
+      background: #fff;
+      margin-bottom: 24px;
+    }
+
+    .pf-cover-photo {
+      height: 200px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .pf-cover-photo::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+    }
+
+    .pf-header-content {
+      padding: 0 40px 24px;
+      position: relative;
+    }
+
+    .pf-header-avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      overflow: hidden;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -80px;
+      left: 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .pf-header-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pf-header-avatar .avatar-fallback {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .pf-header-info {
+      padding-top: 90px;
+      padding-left: 200px;
+    }
+
+    .pf-header-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--pf-text);
+      margin-bottom: 4px;
+    }
+
+    .pf-header-title {
+      font-size: 1.1rem;
+      color: var(--pf-muted);
+      margin-bottom: 12px;
+    }
+
+    .pf-header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.9rem;
+      color: var(--pf-muted);
+    }
+
+    .pf-header-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pf-header-meta i {
+      color: var(--pf-primary);
+    }
+
+    .pf-header-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pf-header-btn {
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+      text-decoration: none;
+      border: none;
+    }
+
+    .pf-header-btn.btn-primary {
+      background: var(--pf-primary);
+      color: #fff;
+    }
+
+    .pf-header-btn.btn-primary:hover {
+      background: var(--pf-primary-dark);
+    }
+
+    .pf-header-btn.btn-outline {
+      background: #fff;
+      color: var(--pf-text);
+      border: 1px solid var(--pf-border);
+    }
+
+    .pf-header-btn.btn-outline:hover {
+      background: #f8f9fa;
+    }
+
+    /* Content Sections */
+    .pf-content {
+      padding: 0 40px 40px;
+    }
+
+    .pf-section {
+      background: var(--pf-card-bg);
+      border-radius: var(--pf-radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--pf-shadow);
+    }
+
+    .pf-section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--pf-text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--pf-primary);
+    }
+
+    .pf-section-title i {
+      color: var(--pf-primary);
+    }
+
+    /* About Section */
+    .pf-about-content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 30px;
+    }
+
+    .pf-about-img {
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .pf-about-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pf-about-text h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--pf-text);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pf-about-quote {
+      font-style: italic;
+      color: var(--pf-muted);
+      margin-bottom: 20px;
+      padding-left: 16px;
+      border-left: 3px solid var(--pf-primary);
+    }
+
+    .pf-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .pf-info-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      padding: 8px 0;
+    }
+
+    .pf-info-item i {
+      color: var(--pf-primary);
+      width: 18px;
+    }
+
+    .pf-info-item strong {
+      color: var(--pf-text);
+    }
+
+    .pf-info-item span {
+      color: var(--pf-muted);
+    }
+
+    .pf-about-desc {
+      line-height: 1.8;
+      color: #444;
+    }
+
+    /* Skills Section */
+    .pf-skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .pf-skill-item {
+      margin-bottom: 16px;
+    }
+
+    .pf-skill-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .pf-skill-name {
+      font-weight: 600;
+      color: var(--pf-text);
+    }
+
+    .pf-skill-level {
+      font-size: 0.85rem;
+      color: var(--pf-muted);
+    }
+
+    .pf-skill-bar {
+      height: 10px;
+      background: #e5e7eb;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .pf-skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pf-primary), #ef5350);
+      border-radius: 5px;
+      transition: width 0.6s ease;
+    }
+
+    /* Timeline for Education & Experience */
+    .pf-resume-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .pf-resume-col h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--pf-text);
+    }
+
+    .pf-resume-col h3 i {
+      color: var(--pf-primary);
+    }
+
+    .pf-timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .pf-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 5px;
+      bottom: 5px;
+      width: 2px;
+      background: var(--pf-border);
+    }
+
+    .pf-timeline-item {
+      position: relative;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .pf-timeline-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .pf-timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -23px;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--pf-primary);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 3px rgba(211,47,47,0.2);
+    }
+
+    .pf-timeline-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--pf-text);
+      margin-bottom: 6px;
+    }
+
+    .pf-timeline-meta {
+      font-size: 0.9rem;
+      color: var(--pf-primary);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .pf-timeline-org {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--pf-muted);
+      margin-bottom: 10px;
+    }
+
+    .pf-timeline-desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* Projects Grid */
+    .pf-projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .pf-project-card {
+      background: var(--pf-body-bg);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .pf-project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    .pf-project-img {
+      height: 180px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .pf-project-body {
+      padding: 20px;
+    }
+
+    .pf-project-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--pf-text);
+      margin-bottom: 8px;
+    }
+
+    .pf-project-stack {
+      font-size: 0.85rem;
+      color: var(--pf-primary);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .pf-project-desc {
+      font-size: 0.9rem;
+      color: var(--pf-muted);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .pf-project-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .pf-project-links a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--pf-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pf-project-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Certifications */
+    .pf-certs-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .pf-cert-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px;
+      background: var(--pf-body-bg);
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+
+    .pf-cert-item:hover {
+      background: #f0f0f0;
+    }
+
+    .pf-cert-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--pf-primary), #ef5350);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .pf-cert-info {
+      flex: 1;
+    }
+
+    .pf-cert-name {
+      font-weight: 700;
+      color: var(--pf-text);
+      margin-bottom: 4px;
+    }
+
+    .pf-cert-meta {
+      font-size: 0.85rem;
+      color: var(--pf-muted);
+    }
+
+    .pf-cert-link {
+      font-size: 0.85rem;
+      color: var(--pf-primary);
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 6px;
+      display: inline-block;
+    }
+
+    /* Contact Section */
+    .pf-contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .pf-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--pf-body-bg);
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+
+    .pf-contact-item:hover {
+      background: #f0f0f0;
+    }
+
+    .pf-contact-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pf-primary), #ef5350);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .pf-contact-info h4 {
+      font-weight: 600;
+      color: var(--pf-muted);
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    .pf-contact-info p {
+      color: var(--pf-text);
+      font-weight: 500;
+    }
+
+    .pf-contact-info a {
+      color: var(--pf-primary);
+      text-decoration: none;
+    }
+
+    /* Empty State */
+    .pf-empty {
+      text-align: center;
+      padding: 60px 40px;
+      color: var(--pf-muted);
+    }
+
+    .pf-empty i {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      opacity: 0.3;
+      color: var(--pf-primary);
+    }
+
+    .pf-empty h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--pf-text);
+    }
+
+    .pf-empty p {
+      margin-bottom: 24px;
+    }
+
+    /* Footer */
+    .pf-footer {
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 20px;
+      border-top: 1px solid var(--pf-border);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1200px) {
+      .pf-about-content {
+        grid-template-columns: 1fr;
+      }
+      .pf-about-img {
+        max-width: 300px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .pf-resume-grid {
+        grid-template-columns: 1fr;
+      }
+      .pf-skills-grid {
+        grid-template-columns: 1fr;
+      }
+      .pf-header-info {
+        padding-left: 0;
+        padding-top: 100px;
+      }
+      .pf-header-avatar {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .pf-header-content {
+        text-align: center;
+      }
+      .pf-header-meta {
+        justify-content: center;
+      }
+      .pf-header-actions {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .pf-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+      }
+      .pf-sidebar.open {
+        transform: translateX(0);
+      }
+      .pf-sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .pf-main {
+        margin-left: 0;
+      }
+      .pf-cover-photo {
+        height: 150px;
+      }
+      .pf-header-avatar {
+        width: 120px;
+        height: 120px;
+        top: -60px;
+      }
+      .pf-header-avatar .avatar-fallback {
+        font-size: 2.5rem;
+      }
+      .pf-header-content {
+        padding: 0 20px 20px;
+      }
+      .pf-header-info {
+        padding-top: 70px;
+      }
+      .pf-content {
+        padding: 0 16px 30px;
+      }
+      .pf-section {
+        padding: 20px 16px;
+      }
+      .pf-info-grid {
+        grid-template-columns: 1fr;
+      }
+      .pf-projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========== PRINT/PDF STYLES ========== */
+    @media print {
+      .pf-sidebar, .pf-sidebar-toggle {
+        display: none !important;
+      }
+      .pf-main {
+        margin-left: 0;
+      }
+      .pf-header-actions, .pf-sidebar-actions {
+        display: none !important;
+      }
+      .pf-section {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #e5e7eb;
+      }
+      .pf-cover-photo {
+        height: 100px;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+
+    .pdf-mode .pf-sidebar { display: none !important; }
+    .pdf-mode .pf-main { margin-left: 0; }
+    .pdf-mode .pf-header-actions { display: none !important; }
+  </style>
+</head>
+<body class="profile-page">
+  <!-- Mobile Toggle -->
+  <button class="pf-sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+
+  <!-- ========== FIXED SIDEBAR ========== -->
+  <aside class="pf-sidebar" id="pfSidebar">
+    <div class="pf-sidebar-profile">
+      <div class="pf-avatar-wrap">
+        <img id="pfAvatarImg" alt="Profile photo" style="display:none;" />
+        <span id="pfAvatarFallback" class="pf-avatar-fallback">S</span>
+      </div>
+      <h1 class="pf-sidebar-name" id="pfSidebarName">Your Name</h1>
+      <p class="pf-sidebar-title" id="pfSidebarTitle">Professional Title</p>
+      <div class="pf-social-links" id="pfSocialLinks">
+        <a href="#" id="pfTwitter" title="Twitter" style="display:none;"><i class="fab fa-twitter"></i></a>
+        <a href="#" id="pfFacebook" title="Facebook" style="display:none;"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" id="pfInstagram" title="Instagram" style="display:none;"><i class="fab fa-instagram"></i></a>
+        <a href="#" id="pfLinkedin" title="LinkedIn" style="display:none;"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" id="pfGithub" title="GitHub" style="display:none;"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+
+    <nav class="pf-nav">
+      <a href="#home" class="active"><i class="fas fa-home"></i> Home</a>
+      <a href="#about"><i class="fas fa-user"></i> About</a>
+      <a href="#skills"><i class="fas fa-code"></i> Skills</a>
+      <a href="#education"><i class="fas fa-graduation-cap"></i> Education</a>
+      <a href="#experience"><i class="fas fa-briefcase"></i> Experience</a>
+      <a href="#projects"><i class="fas fa-folder-open"></i> Portfolio</a>
+      <a href="#certifications"><i class="fas fa-certificate"></i> Certifications</a>
+      <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+    </nav>
+
+    <div class="pf-sidebar-actions">
+      <button id="pfBtnEdit" class="pf-btn pf-btn-primary" style="display:none;"><i class="fas fa-pen"></i> Edit Profile</button>
+      <button id="pfBtnDownload" class="pf-btn pf-btn-outline"><i class="fas fa-download"></i> Download PDF</button>
+      <button id="pfBtnShare" class="pf-btn pf-btn-outline"><i class="fas fa-share-nodes"></i> Share Profile</button>
+      <a href="../std-dashboard.html" class="pf-btn pf-btn-outline"><i class="fas fa-arrow-left"></i> Dashboard</a>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="pf-main" id="pfMain">
+    <!-- Empty State -->
+    <div id="pfEmptyState" class="pf-empty" style="display:none;">
+      <i class="fas fa-user-circle"></i>
+      <h3>No Profile Data Found</h3>
+      <p>Build your portfolio to create your professional profile.</p>
+      <a href="../std-dashboard.html?tab=portfolio&mode=new" class="pf-header-btn btn-primary"><i class="fas fa-rocket"></i> Build Portfolio</a>
+    </div>
+
+    <!-- Profile Content -->
+    <div id="pfContent">
+      <!-- Profile Header (LinkedIn-style) -->
+      <section class="pf-profile-header" id="home">
+        <div class="pf-cover-photo" id="pfCoverPhoto"></div>
+        <div class="pf-header-content">
+          <div class="pf-header-avatar" id="pfHeaderAvatar">
+            <img id="pfHeaderImg" alt="Profile" style="display:none;" />
+            <span class="avatar-fallback" id="pfHeaderFallback">S</span>
+          </div>
+          <div class="pf-header-info">
+            <h1 class="pf-header-name" id="pfHeaderName">Your Name</h1>
+            <p class="pf-header-title" id="pfHeaderTitle">Professional Title</p>
+            <div class="pf-header-meta">
+              <span id="pfMetaLocation" style="display:none;"><i class="fas fa-map-marker-alt"></i> <span id="pfLocationText"></span></span>
+              <span id="pfMetaEmail" style="display:none;"><i class="fas fa-envelope"></i> <span id="pfEmailHeaderText"></span></span>
+              <span id="pfMetaAvailability" style="display:none;"><i class="fas fa-clock"></i> <span id="pfAvailabilityText"></span></span>
+            </div>
+            <div class="pf-header-actions">
+              <button class="pf-header-btn btn-primary" id="pfBtnConnect" style="display:none;"><i class="fas fa-user-plus"></i> Connect</button>
+              <button class="pf-header-btn btn-outline" id="pfBtnMessage" style="display:none;"><i class="fas fa-envelope"></i> Message</button>
+              <button class="pf-header-btn btn-outline" onclick="document.getElementById('pfBtnShare').click()"><i class="fas fa-share"></i> Share</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="pf-content">
+        <!-- About Section -->
+        <section class="pf-section" id="about">
+          <h2 class="pf-section-title"><i class="fas fa-user"></i> About</h2>
+          <div class="pf-about-content">
+            <div class="pf-about-img" id="pfAboutImg"></div>
+            <div class="pf-about-text">
+              <h3 id="pfAboutTitle"><span id="pfAboutEmoji"></span> <span id="pfAboutTitleText">Professional</span></h3>
+              <p class="pf-about-quote" id="pfAboutQuote"></p>
+              <div class="pf-info-grid">
+                <div class="pf-info-item" id="pfBirthdayRow" style="display:none;"><i class="fas fa-calendar"></i><strong>Birthday:</strong><span id="pfBirthday"></span></div>
+                <div class="pf-info-item" id="pfAgeRow" style="display:none;"><i class="fas fa-hourglass-half"></i><strong>Age:</strong><span id="pfAge"></span></div>
+                <div class="pf-info-item" id="pfWebsiteRow" style="display:none;"><i class="fas fa-globe"></i><strong>Website:</strong><span id="pfWebsite"></span></div>
+                <div class="pf-info-item" id="pfDegreeRow" style="display:none;"><i class="fas fa-graduation-cap"></i><strong>Degree:</strong><span id="pfDegree"></span></div>
+                <div class="pf-info-item" id="pfPhoneRow" style="display:none;"><i class="fas fa-phone"></i><strong>Phone:</strong><span id="pfPhone"></span></div>
+                <div class="pf-info-item" id="pfEmailRow" style="display:none;"><i class="fas fa-envelope"></i><strong>Email:</strong><span id="pfEmail"></span></div>
+                <div class="pf-info-item" id="pfCityRow" style="display:none;"><i class="fas fa-map-marker-alt"></i><strong>City:</strong><span id="pfCity"></span></div>
+                <div class="pf-info-item" id="pfFreelanceRow" style="display:none;"><i class="fas fa-check-circle"></i><strong>Freelance:</strong><span id="pfFreelance"></span></div>
+              </div>
+              <p class="pf-about-desc" id="pfAboutDesc">Add a professional summary to introduce yourself.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="pf-section" id="skills">
+          <h2 class="pf-section-title"><i class="fas fa-code"></i> Skills</h2>
+          <div class="pf-skills-grid" id="pfSkills"></div>
+        </section>
+
+        <!-- Education Section -->
+        <section class="pf-section" id="education">
+          <h2 class="pf-section-title"><i class="fas fa-graduation-cap"></i> Education</h2>
+          <div class="pf-timeline" id="pfEducation"></div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="pf-section" id="experience">
+          <h2 class="pf-section-title"><i class="fas fa-briefcase"></i> Experience</h2>
+          <div class="pf-timeline" id="pfExperience"></div>
+        </section>
+
+        <!-- Projects/Portfolio Section -->
+        <section class="pf-section" id="projects">
+          <h2 class="pf-section-title"><i class="fas fa-folder-open"></i> Portfolio</h2>
+          <div class="pf-projects-grid" id="pfProjects"></div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section class="pf-section" id="certifications">
+          <h2 class="pf-section-title"><i class="fas fa-certificate"></i> Certifications</h2>
+          <div class="pf-certs-list" id="pfCerts"></div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="pf-section" id="contact">
+          <h2 class="pf-section-title"><i class="fas fa-envelope"></i> Contact</h2>
+          <div class="pf-contact-grid" id="pfContact">
+            <div class="pf-contact-item" id="contactEmail" style="display:none;">
+              <div class="pf-contact-icon"><i class="fas fa-envelope"></i></div>
+              <div class="pf-contact-info">
+                <h4>Email</h4>
+                <p><a href="#" id="contactEmailLink"></a></p>
+              </div>
+            </div>
+            <div class="pf-contact-item" id="contactPhone" style="display:none;">
+              <div class="pf-contact-icon"><i class="fas fa-phone"></i></div>
+              <div class="pf-contact-info">
+                <h4>Phone</h4>
+                <p id="contactPhoneText"></p>
+              </div>
+            </div>
+            <div class="pf-contact-item" id="contactLocation" style="display:none;">
+              <div class="pf-contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="pf-contact-info">
+                <h4>Location</h4>
+                <p id="contactLocationText"></p>
+              </div>
+            </div>
+            <div class="pf-contact-item" id="contactLinkedin" style="display:none;">
+              <div class="pf-contact-icon"><i class="fab fa-linkedin-in"></i></div>
+              <div class="pf-contact-info">
+                <h4>LinkedIn</h4>
+                <p><a href="#" id="contactLinkedinLink" target="_blank">View Profile</a></p>
+              </div>
+            </div>
+            <div class="pf-contact-item" id="contactGithub" style="display:none;">
+              <div class="pf-contact-icon"><i class="fab fa-github"></i></div>
+              <div class="pf-contact-info">
+                <h4>GitHub</h4>
+                <p><a href="#" id="contactGithubLink" target="_blank">View Profile</a></p>
+              </div>
+            </div>
+            <div class="pf-contact-item" id="contactWebsite" style="display:none;">
+              <div class="pf-contact-icon"><i class="fas fa-globe"></i></div>
+              <div class="pf-contact-info">
+                <h4>Website</h4>
+                <p><a href="#" id="contactWebsiteLink" target="_blank">Visit Website</a></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pf-footer">
+          <p style="color: var(--pf-muted); font-size: 0.9rem; margin: 0;">
+            <i class="fas fa-rocket" style="color: var(--pf-primary);"></i>
+            Profile powered by <strong style="color: var(--pf-text);">SkillLaunch</strong>
+          </p>
+          <p style="color: var(--pf-muted); font-size: 0.8rem; margin-top: 8px;">
+            © 2025 All rights reserved
+          </p>
+        </footer>
+      </div>
+    </div>
+  </main>
+
+  <script src="profile-renderer.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      // Sidebar toggle for mobile
+      const toggle = document.getElementById('sidebarToggle');
+      const sidebar = document.getElementById('pfSidebar');
+      if(toggle && sidebar){
+        toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+      }
+
+      // Smooth scroll for nav links with active state
+      const navLinks = document.querySelectorAll('.pf-nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e){
+          const href = this.getAttribute('href');
+          if(href.startsWith('#')){
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if(target){
+              const offset = href === '#home' ? 0 : 20;
+              window.scrollTo({
+                top: target.offsetTop - offset,
+                behavior: 'smooth'
+              });
+            }
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+            if(sidebar) sidebar.classList.remove('open');
+          }
+        });
+      });
+
+      // Update active nav on scroll
+      const sections = document.querySelectorAll('section[id]');
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          if(window.scrollY >= sectionTop){
+            current = section.getAttribute('id');
+          }
+        });
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if(link.getAttribute('href') === '#' + current){
+            link.classList.add('active');
+          }
+        });
+      });
+
+      // Initialize profile renderer
+      if(window.ProfileRenderer && window.ProfileRenderer.init){
+        window.ProfileRenderer.init({ forceOwner: false });
+      }
+    });
+  </script>
+</body>
+</html>

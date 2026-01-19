@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillLaunch | Verify Organization</title>
+    <link rel="stylesheet" href="../css/master-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 40%, #ffe4e6 100%);
+        }
+
+        .login-header-bar {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .verify-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 16px;
+        }
+
+        .verify-wrapper {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .verify-wrapper {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .verify-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 32px 32px 28px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+
+        .verify-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #0A66C2, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .verify-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .verify-subtitle {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .verify-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #0f172a;
+        }
+
+        .required {
+            color: #dc2626;
+            margin-left: 2px;
+        }
+
+        .form-input {
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+            background: #f8fafc;
+        }
+
+        .form-input:focus {
+            border-color: #0A66C2;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+            background: #ffffff;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 72px;
+        }
+
+        .primary-btn {
+            margin-top: 8px;
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 9999px;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(135deg, #0A66C2, #3b82f6);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+        }
+
+        .primary-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 35px rgba(37, 99, 235, 0.45);
+        }
+
+        .primary-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .helper-text {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .message-container {
+            margin-bottom: 14px;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .message-container.success-message {
+            background: #ecfdf3;
+            border: 1px solid #22c55e33;
+            color: #15803d;
+        }
+
+        .message-container.error-message {
+            background: #fef2f2;
+            border: 1px solid #ef444433;
+            color: #b91c1c;
+        }
+
+        #messageContent {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .message-icon {
+            font-size: 16px;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        .link-sm {
+            font-size: 13px;
+            color: #0A66C2;
+            text-decoration: none;
+        }
+
+        .link-sm:hover {
+            text-decoration: underline;
+        }
+
+        .login-footer {
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <header class="login-header-bar">
+        <div class="header-container">
+            <a href="../index.html" class="header-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-main">Skill</span>
+                    <span class="logo-accent">Launch</span>
+                </div>
+            </a>
+            <div class="header-info">
+                <span class="text-sm text-gray-600">Organization Verification</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="verify-main">
+        <div class="verify-wrapper">
+            <section class="verify-card">
+                <div class="verify-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h1 class="verify-title">Verify Your Organization</h1>
+                <p class="verify-subtitle">Provide your business details so we can keep the platform safe for students.</p>
+
+                <div id="messageContainer" class="message-container" style="display:none;">
+                    <div id="messageContent">
+                        <i class="fas fa-info-circle message-icon"></i>
+                        <span id="messageText"></span>
+                    </div>
+                </div>
+
+                <form id="orgVerifyForm" class="verify-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="registrationNumber" class="form-label">Organization Registration Number<span class="required">*</span></label>
+                        <input type="text" id="registrationNumber" class="form-input" placeholder="e.g. Company PAN / Registration ID" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="documentType" class="form-label">Document Type<span class="required">*</span></label>
+                        <select id="documentType" class="form-input" required>
+                            <option value="">Select document type...</option>
+                            <option value="business_registration">Business Registration Certificate</option>
+                            <option value="pan_card">Company PAN Card</option>
+                            <option value="incorporation">Certificate of Incorporation</option>
+                            <option value="tax_certificate">Tax Registration Certificate</option>
+                            <option value="other">Other Official Document</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload Verification Documents<span class="required">*</span></label>
+                        <div id="uploadArea" style="border: 2px dashed #cbd5e1; border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.3s; background: #f8fafc;">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 32px; color: #64748b; margin-bottom: 12px;"></i>
+                            <p style="color: #475569; font-size: 14px; margin-bottom: 8px;">Drag & drop files here or <span style="color: #0A66C2; font-weight: 600;">browse</span></p>
+                            <p style="color: #94a3b8; font-size: 12px;">Supports: PDF, JPG, PNG (Max 5MB each, up to 3 files)</p>
+                            <input type="file" id="documentFiles" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;">
+                        </div>
+                        <div id="filePreview" style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="documentUrl" class="form-label">Company Website (optional)</label>
+                        <input type="url" id="documentUrl" class="form-input" placeholder="https://yourcompany.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="note" class="form-label">Additional Notes (optional)</label>
+                        <textarea id="note" class="form-input" rows="3" placeholder="Any extra information for the admin team"></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="primary-btn">
+                        <span class="btn-text">Submit for Review</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+
+                    <p class="helper-text">After submission, an admin will review your details. You can still view your dashboard, but some features will stay locked until verification is complete.</p>
+                </form>
+
+                <div class="mt-4 text-center">
+                    <a href="org-dashboard.html" class="link-sm">Skip for now and go to Dashboard</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="login-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../pages/terms.html">Terms</a>
+                    <a href="../pages/privacy.html">Privacy</a>
+                    <a href="../pages/help.html">Help</a>
+                </div>
+                <p class="copyright">© 2025 SkillLaunch. Empowering student careers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('orgVerifyForm');
+        const registrationInput = document.getElementById('registrationNumber');
+        const documentTypeInput = document.getElementById('documentType');
+        const documentUrlInput = document.getElementById('documentUrl');
+        const noteInput = document.getElementById('note');
+        const submitBtn = document.getElementById('submitBtn');
+        const messageContainer = document.getElementById('messageContainer');
+        const messageText = document.getElementById('messageText');
+        const messageIcon = document.querySelector('#messageContent .message-icon');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('documentFiles');
+        const filePreview = document.getElementById('filePreview');
+        
+        let uploadedFiles = [];
+
+        // File upload handling
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#0A66C2';
+            uploadArea.style.background = '#eff6ff';
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#cbd5e1';
+            uploadArea.style.background = '#f8fafc';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#cbd5e1';
+            uploadArea.style.background = '#f8fafc';
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+        
+        function handleFiles(files) {
+            for (let file of files) {
+                if (uploadedFiles.length >= 3) {
+                    showMessage('error', 'Maximum 3 files allowed', 'fa-exclamation-triangle');
+                    break;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    showMessage('error', `${file.name} is too large (max 5MB)`, 'fa-exclamation-triangle');
+                    continue;
+                }
+                if (!['application/pdf', 'image/jpeg', 'image/png'].includes(file.type)) {
+                    showMessage('error', `${file.name} is not a supported format`, 'fa-exclamation-triangle');
+                    continue;
+                }
+                uploadedFiles.push(file);
+            }
+            renderFilePreview();
+        }
+        
+        function renderFilePreview() {
+            filePreview.innerHTML = uploadedFiles.map((file, index) => `
+                <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #f1f5f9; border-radius: 8px; font-size: 13px;">
+                    <i class="fas ${file.type === 'application/pdf' ? 'fa-file-pdf text-red-500' : 'fa-file-image text-blue-500'}"></i>
+                    <span style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</span>
+                    <span style="color: #94a3b8; font-size: 11px;">(${(file.size / 1024).toFixed(1)}KB)</span>
+                    <button type="button" onclick="removeFile(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        window.removeFile = function(index) {
+            uploadedFiles.splice(index, 1);
+            renderFilePreview();
+        };
+
+        function showMessage(type, text, iconClass) {
+            messageContainer.className = 'message-container ' + type + '-message';
+            messageText.textContent = text;
+
+            if (iconClass) {
+                messageIcon.className = 'fas message-icon ' + iconClass;
+            } else {
+                if (type === 'success') messageIcon.className = 'fas message-icon fa-check-circle';
+                else if (type === 'error') messageIcon.className = 'fas message-icon fa-exclamation-circle';
+                else messageIcon.className = 'fas message-icon fa-info-circle';
+            }
+
+            messageContainer.style.display = 'block';
+        }
+
+        function hideMessage() {
+            messageContainer.style.display = 'none';
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const registrationNumber = registrationInput.value.trim();
+            const documentType = documentTypeInput.value;
+            const documentUrl = documentUrlInput.value.trim();
+            const note = noteInput.value.trim();
+
+            if (!registrationNumber) {
+                showMessage('error', 'Please enter your organization registration number.', 'fa-exclamation-triangle');
+                return;
+            }
+            
+            if (!documentType) {
+                showMessage('error', 'Please select a document type.', 'fa-exclamation-triangle');
+                return;
+            }
+            
+            if (uploadedFiles.length === 0) {
+                showMessage('error', 'Please upload at least one verification document.', 'fa-exclamation-triangle');
+                return;
+            }
+
+            const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+            const email = storedUser.email || localStorage.getItem('pendingVerificationEmail') || localStorage.getItem('signupEmail');
+
+            if (!email) {
+                showMessage('error', 'Could not find your email. Please log in again.', 'fa-user-times');
+                return;
+            }
+
+            hideMessage();
+            const originalText = submitBtn.querySelector('.btn-text').textContent;
+            submitBtn.querySelector('.btn-text').textContent = 'Uploading...';
+            submitBtn.disabled = true;
+
+            // Convert files to base64 for storage
+            const fileDataPromises = uploadedFiles.map(file => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve({
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        data: reader.result
+                    });
+                    reader.readAsDataURL(file);
+                });
+            });
+            
+            const fileData = await Promise.all(fileDataPromises);
+
+            const documents = [{
+                documentType,
+                documentUrl,
+                note,
+                files: fileData
+            }];
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/org/verification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        registrationNumber,
+                        documents
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage('success', 'Verification submitted! Our team will review your details soon.', 'fa-check-circle');
+
+                    if (storedUser && typeof storedUser === 'object') {
+                        storedUser.orgVerificationStatus = result.data.orgVerificationStatus;
+                        storedUser.orgRegistrationNumber = result.data.orgRegistrationNumber;
+                        localStorage.setItem('user', JSON.stringify(storedUser));
+                    }
+
+                    setTimeout(() => {
+                        window.location.href = 'org-dashboard.html';
+                    }, 2000);
+                } else {
+                    showMessage('error', result.message || 'Failed to submit verification. Please try again.', 'fa-exclamation-circle');
+                    submitBtn.querySelector('.btn-text').textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Org verification error:', error);
+                showMessage('error', 'Network error. Please check if backend is running.', 'fa-wifi');
+                submitBtn.querySelector('.btn-text').textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        [registrationInput, documentTypeInput, documentUrlInput, noteInput].forEach(input => {
+            input.addEventListener('input', hideMessage);
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics - SkillLaunch Organization Dashboard</title>
+  <link rel="stylesheet" href="../css/master-styles.css" />
+  <link rel="stylesheet" href="org-dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    .container { max-width: 1280px; margin: 0 auto; padding: 20px; }
+    .page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 12px; }
+    .title { font-size: 28px; font-weight: 900; color: #111827; }
+    .subtitle { color: #6b7280; margin-top: 6px; }
+    .head-right { display: flex; align-items: center; gap: 10px; }
+    .select { padding: 8px 12px; border: 1px solid #e5e7eb; background: #fff; border-radius: 8px; font-size: 14px; }
+    .icon-btn { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #e5e7eb; background: #fff; border-radius: 8px; color: #374151; }
+
+    /* KPI cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 18px 0 22px; }
+    .kpi { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,.05); display: flex; gap: 14px; align-items: center; }
+    .kpi-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .kpi .num { font-size: 24px; font-weight: 900; color: #111827; }
+    .kpi .label { color: #6b7280; font-size: 12px; }
+    .kpi .delta { font-size: 12px; font-weight: 800; }
+    .acc { background: rgba(52, 211, 153, .12); color: #059669; border: 1px solid rgba(5,150,105,.25); }
+    .rej { background: rgba(244, 63, 94, .12); color: #b91c1c; border: 1px solid rgba(185,28,28,.25); }
+    .neu { background: rgba(17, 24, 39, .06); color: #374151; border: 1px solid rgba(55,65,81,.2); }
+
+    /* Chart */
+    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+    .section { margin-top: 12px; }
+    .section h3 { font-size: 16px; font-weight: 800; color: #111827; margin: 0 0 10px; }
+    .chart-toolbar { display: flex; gap: 8px; align-items: center; }
+    .chip { border: 1px solid #e5e7eb; background: #f3f4f6; color: #374151; padding: 6px 12px; border-radius: 999px; font-weight: 700; font-size: 12px; cursor: pointer; }
+    .chip.active { background: #d32f2f; color: #fff; border-color: #d32f2f; }
+
+    /* Internship performance */
+    .perf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .perf-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+    .perf-title { font-weight: 800; color: #111827; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .perf-rows { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .perf-item { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px; text-align: center; }
+    .perf-item .n { font-weight: 900; color: #111827; }
+    .perf-item .l { font-size: 12px; color: #6b7280; }
+
+    /* Engagement */
+    .eng-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .eng-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,.05); display:flex; align-items:center; gap:12px; }
+
+    @media (max-width: 1024px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .perf-grid, .eng-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { .kpi-grid { grid-template-columns: 1fr; } .perf-grid, .eng-grid { grid-template-columns: 1fr; } .chart-toolbar { flex-wrap: wrap; } }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <a href="../index.html" class="header-logo">
+        <div class="logo-icon"><i class="fas fa-rocket"></i></div>
+        <div class="logo-text"><span class="logo-main">Skill</span><span class="logo-accent">Launch</span></div>
+      </a>
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-bar" placeholder="Search students, skills, portfolios..." />
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
+      <div class="header-right">
+        <div class="icon-container" id="notificationIcon"><i class="fas fa-bell"></i><span class="notification-dot"></span><span class="notification-count">5</span></div>
+        <div class="icon-container" id="messageIcon"><i class="fas fa-comment"></i><span class="notification-dot"></span><span class="notification-count">3</span></div>
+        <div class="profile-container" id="profileDropdown"><div class="profile-avatar" id="userAvatar">TC</div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Nav Tabs -->
+  <nav class="quick-nav">
+    <div class="nav-container">
+      <a href="org-dashboard.html" class="nav-tab" data-tab="home"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="post-internship.html" class="nav-tab" data-tab="post"><i class="fas fa-plus-circle"></i><span>Post Internship</span></a>
+      <a href="view-applications.html" class="nav-tab" data-tab="applications"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+      <a href="browse-students.html" class="nav-tab" data-tab="browse"><i class="fas fa-users"></i><span>Talent Pool</span></a>
+      <a href="org-analytics.html" class="nav-tab active" data-tab="analytics"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
+      <a href="org-messages.html" class="nav-tab" data-tab="messages"><i class="fas fa-comments"></i><span>Messages</span></a>
+      <a href="org-settings.html" class="nav-tab" data-tab="settings"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="dashboard-main">
+    <div class="container">
+      <div class="page-head">
+        <div>
+          <div class="title">Analytics</div>
+          <div class="subtitle">Monthly hiring activity overview</div>
+        </div>
+        <div class="head-right">
+          <select id="monthSelect" class="select"></select>
+          <button class="icon-btn" title="Export (coming soon)"><i class="fas fa-download"></i></button>
+        </div>
+      </div>
+
+      <!-- KPI Summary -->
+      <section class="kpi-grid">
+        <div class="kpi" id="kpiApplications">
+          <div class="kpi-icon neu"><i class="fas fa-inbox"></i></div>
+          <div>
+            <div class="num">0</div>
+            <div class="label">Total Applications</div>
+            <div class="delta" id="deltaApplications">0%</div>
+          </div>
+        </div>
+        <div class="kpi" id="kpiAccepted">
+          <div class="kpi-icon acc"><i class="fas fa-check"></i></div>
+          <div>
+            <div class="num">0</div>
+            <div class="label">Accepted</div>
+            <div class="delta" id="deltaAccepted">0%</div>
+          </div>
+        </div>
+        <div class="kpi" id="kpiShortlisted">
+          <div class="kpi-icon neu"><i class="fas fa-star"></i></div>
+          <div>
+            <div class="num">0</div>
+            <div class="label">Shortlisted</div>
+            <div class="delta" id="deltaShortlisted">0%</div>
+          </div>
+        </div>
+        <div class="kpi" id="kpiRejected">
+          <div class="kpi-icon rej"><i class="fas fa-times"></i></div>
+          <div>
+            <div class="num">0</div>
+            <div class="label">Rejected</div>
+            <div class="delta" id="deltaRejected">0%</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Applications Over Time -->
+      <section class="section card">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;">
+          <h3>Applications Over Time</h3>
+          <div class="chart-toolbar">
+            <button class="chip active" data-series="all">All</button>
+            <button class="chip" data-series="accepted">Accepted</button>
+            <button class="chip" data-series="shortlisted">Shortlisted</button>
+            <button class="chip" data-series="rejected">Rejected</button>
+          </div>
+        </div>
+        <canvas id="appsChart" height="120"></canvas>
+      </section>
+
+      <!-- Internship Performance -->
+      <section class="section">
+        <h3>Internship Performance</h3>
+        <div id="perfGrid" class="perf-grid"></div>
+      </section>
+
+      <!-- Engagement (optional) -->
+      <section class="section">
+        <h3>Engagement</h3>
+        <div class="eng-grid">
+          <div class="eng-card"><div class="kpi-icon neu" style="width:36px;height:36px;"><i class="fas fa-eye"></i></div><div><div class="num" id="viewsNum" style="font-size:18px;">0</div><div class="label">Profile views</div></div></div>
+          <div class="eng-card"><div class="kpi-icon neu" style="width:36px;height:36px;"><i class="fas fa-comment-dots"></i></div><div><div class="num" id="msgsNum" style="font-size:18px;">0</div><div class="label">Messages sent</div></div></div>
+          <div class="eng-card"><div class="kpi-icon neu" style="width:36px;height:36px;"><i class="fas fa-clock"></i></div><div><div class="num" id="respNum" style="font-size:18px;">—</div><div class="label">Avg response time</div></div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    // --- Sample data (replace with API later) ---
+    const MONTHS = [
+      { key: '2025-12', label: 'December 2025' },
+      { key: '2026-01', label: 'January 2026' }
+    ];
+
+    const APPLICATION_LOGS = {
+      '2026-01': [
+        // {day,status,internship}
+        { d: 1, s: 'new', i: 'Full Stack Developer Intern' },
+        { d: 2, s: 'shortlisted', i: 'Full Stack Developer Intern' },
+        { d: 2, s: 'rejected', i: 'Financial Analyst Intern' },
+        { d: 3, s: 'accepted', i: 'UI/UX Design Intern' },
+        { d: 4, s: 'new', i: 'Data Analyst Intern' },
+        { d: 5, s: 'shortlisted', i: 'Full Stack Developer Intern' },
+        { d: 6, s: 'accepted', i: 'Data Analyst Intern' },
+        { d: 7, s: 'new', i: 'Marketing Intern' },
+        { d: 8, s: 'rejected', i: 'Marketing Intern' },
+        { d: 10, s: 'new', i: 'Full Stack Developer Intern' },
+        { d: 11, s: 'shortlisted', i: 'UI/UX Design Intern' },
+        { d: 12, s: 'accepted', i: 'Full Stack Developer Intern' },
+        { d: 13, s: 'new', i: 'Financial Analyst Intern' },
+        { d: 14, s: 'shortlisted', i: 'Financial Analyst Intern' },
+        { d: 15, s: 'accepted', i: 'Financial Analyst Intern' },
+        { d: 16, s: 'rejected', i: 'UI/UX Design Intern' },
+        { d: 18, s: 'new', i: 'UI/UX Design Intern' },
+        { d: 20, s: 'shortlisted', i: 'Data Analyst Intern' },
+        { d: 21, s: 'accepted', i: 'Marketing Intern' },
+        { d: 23, s: 'new', i: 'Full Stack Developer Intern' },
+        { d: 25, s: 'rejected', i: 'Full Stack Developer Intern' },
+        { d: 26, s: 'accepted', i: 'UI/UX Design Intern' },
+        { d: 28, s: 'shortlisted', i: 'Marketing Intern' },
+        { d: 29, s: 'new', i: 'Data Analyst Intern' }
+      ],
+      '2025-12': [
+        { d: 2, s: 'new', i: 'Full Stack Developer Intern' },
+        { d: 5, s: 'shortlisted', i: 'Data Analyst Intern' },
+        { d: 7, s: 'rejected', i: 'Marketing Intern' },
+        { d: 11, s: 'accepted', i: 'UI/UX Design Intern' },
+        { d: 19, s: 'accepted', i: 'Full Stack Developer Intern' }
+      ]
+    };
+
+    const ENGAGEMENT = {
+      '2026-01': { views: 1264, messages: 87, avgResponse: '3h 24m' },
+      '2025-12': { views: 1052, messages: 64, avgResponse: '3h 45m' }
+    };
+
+    // --- UI State ---
+    let currentMonth = '2026-01';
+    let currentSeries = 'all';
+    let chartInstance = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initMonthSelect();
+      updateAll();
+      setupChartToolbar();
+    });
+
+    function initMonthSelect(){
+      const sel = document.getElementById('monthSelect');
+      MONTHS.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.key; opt.textContent = m.label; sel.appendChild(opt);
+      });
+      sel.value = currentMonth;
+      sel.addEventListener('change', () => { currentMonth = sel.value; updateAll(); });
+    }
+
+    function updateAll(){
+      const logs = APPLICATION_LOGS[currentMonth] || [];
+      const prevKey = getPrevMonthKey(currentMonth);
+      const prev = APPLICATION_LOGS[prevKey] || [];
+
+      // KPIs
+      const totals = countByStatus(logs);
+      const prevTotals = countByStatus(prev);
+      setKPI('Applications', totals.all, deltaPercent(prevTotals.all, totals.all));
+      setKPI('Accepted', totals.accepted, deltaPercent(prevTotals.accepted, totals.accepted));
+      setKPI('Shortlisted', totals.shortlisted, deltaPercent(prevTotals.shortlisted, totals.shortlisted));
+      setKPI('Rejected', totals.rejected, deltaPercent(prevTotals.rejected, totals.rejected));
+
+      // Chart
+      renderChart(logs);
+
+      // Performance by internship
+      renderPerformance(logs);
+
+      // Engagement
+      const eng = ENGAGEMENT[currentMonth] || { views:0, messages:0, avgResponse:'—' };
+      document.getElementById('viewsNum').textContent = eng.views;
+      document.getElementById('msgsNum').textContent = eng.messages;
+      document.getElementById('respNum').textContent = eng.avgResponse;
+    }
+
+    function getPrevMonthKey(key){
+      const [y,m] = key.split('-').map(Number);
+      const date = new Date(y, m-2, 1); // previous month
+      const ky = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`;
+      return ky;
+    }
+
+    function setKPI(name, value, delta){
+      const map = {
+        'Applications': 'kpiApplications',
+        'Accepted': 'kpiAccepted',
+        'Shortlisted': 'kpiShortlisted',
+        'Rejected': 'kpiRejected'
+      };
+      const id = map[name];
+      const el = document.getElementById(id);
+      el.querySelector('.num').textContent = value;
+      const deltaEl = document.getElementById('delta'+name);
+      const arrow = delta > 0 ? '↑' : (delta < 0 ? '↓' : '→');
+      const color = delta > 0 ? '#059669' : (delta < 0 ? '#b91c1c' : '#374151');
+      deltaEl.style.color = color;
+      deltaEl.textContent = `${arrow} ${Math.abs(delta)}% vs last month`;
+    }
+
+    function countByStatus(logs){
+      const obj = { all: logs.length, accepted:0, shortlisted:0, rejected:0 };
+      logs.forEach(l => { if (obj[l.s] !== undefined) obj[l.s]++; });
+      return obj;
+    }
+
+    function deltaPercent(prev, curr){
+      if (!prev && curr) return 100;
+      if (!prev && !curr) return 0;
+      return Math.round(((curr - prev) / Math.max(prev,1)) * 100);
+    }
+
+    function setupChartToolbar(){
+      document.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          currentSeries = chip.getAttribute('data-series');
+          renderChart(APPLICATION_LOGS[currentMonth] || []);
+        });
+      });
+    }
+
+    function renderChart(logs){
+      const labels = Array.from({length: 31}, (_,i)=> i+1);
+      const seriesData = { all: Array(31).fill(0), accepted: Array(31).fill(0), shortlisted: Array(31).fill(0), rejected: Array(31).fill(0) };
+      logs.forEach(l => { seriesData.all[l.d-1]++; if (seriesData[l.s]) seriesData[l.s][l.d-1]++; });
+
+      const colorMap = {
+        all: 'rgba(31, 41, 55, 0.5)',
+        accepted: 'rgba(5, 150, 105, 0.6)',
+        shortlisted: 'rgba(211, 47, 47, 0.25)',
+        rejected: 'rgba(185, 28, 28, 0.6)'
+      };
+
+      const dataset = {
+        label: capitalize(currentSeries),
+        data: seriesData[currentSeries],
+        borderColor: currentSeries==='shortlisted' ? '#d32f2f' : colorMap[currentSeries],
+        backgroundColor: currentSeries==='shortlisted' ? 'rgba(211, 47, 47, 0.12)' : colorMap[currentSeries],
+        fill: true,
+        tension: 0.3,
+      };
+
+      const ctx = document.getElementById('appsChart').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets: [dataset] },
+        options: {
+          responsive: true,
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(0,0,0,0.05)' } }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    function renderPerformance(logs){
+      // Aggregate by internship
+      const map = new Map();
+      logs.forEach(l => {
+        const item = map.get(l.i) || { title: l.i, total: 0, accepted: 0 };
+        item.total += 1; if (l.s === 'accepted') item.accepted += 1; map.set(l.i, item);
+      });
+      const data = Array.from(map.values()).sort((a,b)=> b.total - a.total);
+      const grid = document.getElementById('perfGrid');
+      grid.innerHTML = '';
+      if (data.length === 0){ grid.innerHTML = '<div class="card">No data for selected month.</div>'; return; }
+      data.forEach(row => {
+        const conv = row.total ? Math.round((row.accepted/row.total)*100) : 0;
+        const card = document.createElement('div');
+        card.className = 'perf-card';
+        card.innerHTML = `
+          <div class="perf-title">${row.title}</div>
+          <div class="perf-rows">
+            <div class="perf-item"><div class="n">${row.total}</div><div class="l">Total</div></div>
+            <div class="perf-item"><div class="n">${row.accepted}</div><div class="l">Accepted</div></div>
+            <div class="perf-item"><div class="n">${conv}%</div><div class="l">Conversion</div></div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+  </script>
+</body>
+</html>

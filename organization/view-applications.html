@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications - SkillLaunch Organization Dashboard</title>
+    <link rel="stylesheet" href="../css/master-styles.css">
+    <link rel="stylesheet" href="org-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .applications-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .applications-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .applications-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: #111827;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 14px;
+        }
+        
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+            align-items: stretch;
+        }
+        
+        .application-card {
+            border-radius: 16px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.25s ease;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            min-height: 280px;
+        }
+        
+        .application-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+            border-color: #d32f2f;
+        }
+        
+        .card-header {
+            padding: 16px;
+            position: relative;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .student-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .student-info {
+            margin-top: 12px;
+        }
+        
+        .student-name {
+            font-weight: 800;
+            font-size: 16px;
+            color: #1a1a2e;
+        }
+        
+        .student-education {
+            font-size: 14px;
+            color: #4b5563;
+            margin-top: 4px;
+        }
+        
+        .status-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .status-new { background: #e0f2fe; color: #0369a1; }
+        .status-shortlisted { background: #dcfce7; color: #166534; }
+        .status-rejected { background: #fee2e2; color: #b91c1c; }
+        .status-accepted { background: #ffedd5; color: #d32f2f; }
+        
+        .card-body {
+            padding: 16px;
+            flex-grow: 1;
+        }
+        
+        .internship-title {
+            font-weight: 800;
+            font-size: 16px;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+        
+        .match-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #f0fdf4;
+            color: #166534;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        
+        .applied-date {
+            font-size: 13px;
+            color: #4b5563;
+            margin-bottom: 12px;
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .skill-pill {
+            padding: 4px 10px;
+            background: #f1f3f4;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        
+        .extra-skills {
+            background: #e5e7eb;
+        }
+        
+        .card-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #f1f3f4;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            min-height: 36px;
+            padding: 0 12px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #f5f5f5;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        
+        .action-button:hover {
+            background: #e5e7eb;
+        }
+        
+        .action-button.primary {
+            background: #d32f2f;
+            color: white;
+        }
+        
+        .action-button.primary:hover {
+            background: #b71c1c;
+        }
+        
+        /* Remove dependency on hover tooltips by default */
+        .action-button::after { display: none; }
+        
+        /* Centered detail modal */
+        .panel-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 1000;
+        }
+        .panel-overlay.active { opacity: 1; pointer-events: auto; }
+        .application-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, calc(-50% + 20px)) scale(0.98);
+            width: 720px;
+            max-width: calc(100% - 32px);
+            max-height: calc(100vh - 80px);
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+            transition: transform 0.25s ease, opacity 0.25s ease;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+        }
+        .application-modal.open { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        .application-modal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: #d32f2f;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+        .detail-panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f1f3f4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .detail-panel-body {
+            padding: 18px 22px;
+            overflow-y: auto;
+        }
+        .detail-actions {
+            padding: 14px 20px;
+            border-top: 1px solid #f1f3f4;
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .btn.primary { background: #d32f2f; color: #fff; border-color: #d32f2f; }
+        .btn.ghost { background: #ffffff; }
+        /* Filter chips */
+        .filter-chips { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0 22px; }
+        .app-chip { background:#f3f4f6; border:1px solid #e5e7eb; color:#374151; padding:8px 12px; border-radius:22px; font-size:13px; font-weight:700; cursor:pointer; }
+        .app-chip.active { background:#d32f2f; color:#fff; border-color:#d32f2f; }
+        
+        @media (max-width: 1024px) {
+            .applications-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 768px) {
+            .applications-grid { grid-template-columns: 1fr; }
+            .filters { flex-direction: column; width: 100%; }
+            .filter-select { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== 1. TOP NAVIGATION BAR ===== -->
+    <header class="dashboard-header">
+        <div class="header-container">
+            <a href="../index.html" class="header-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-main">Skill</span><span class="logo-accent">Launch</span>
+                </div>
+            </a>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" placeholder="Search students, skills, portfolios...">
+                <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+            <div class="header-right">
+                <div class="icon-container" id="notificationIcon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                    <span class="notification-count">5</span>
+                </div>
+                <div class="icon-container" id="messageIcon">
+                    <i class="fas fa-comment"></i>
+                    <span class="notification-dot"></span>
+                    <span class="notification-count">3</span>
+                </div>
+                <div class="profile-container" id="profileDropdown">
+                    <div class="profile-avatar" id="userAvatar">TC</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== 2. QUICK NAVIGATION TABS ===== -->
+    <nav class="quick-nav">
+        <div class="nav-container">
+            <a href="org-dashboard.html" class="nav-tab" data-tab="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-tab" data-tab="post">
+                <i class="fas fa-plus-circle"></i>
+                <span>Post Internship</span>
+            </a>
+            <a href="view-applications.html" class="nav-tab active" data-tab="applications">
+                <i class="fas fa-file-alt"></i>
+                <span>Applications</span>
+            </a>
+            <a href="browse-students.html" class="nav-tab" data-tab="browse">
+                <i class="fas fa-users"></i>
+                <span>Talent Pool</span>
+            </a>
+            <a href="org-analytics.html" class="nav-tab" data-tab="analytics">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="org-messages.html" class="nav-tab" data-tab="messages">
+                <i class="fas fa-comments"></i>
+                <span>Messages</span>
+            </a>
+            <a href="org-settings.html" class="nav-tab" data-tab="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ===== 3. APPLICATIONS GRID SECTION ===== -->
+    <main class="dashboard-main">
+        <div class="applications-container">
+            <div class="applications-header">
+                <h1 class="applications-title">Applications</h1>
+                <div class="filters">
+                    <select id="sortSelect" class="filter-select">
+                        <option>Sort by: Newest</option>
+                        <option>Sort by: Oldest</option>
+                        <option>Sort by: Match Score</option>
+                    </select>
+                </div>
+            </div>
+            <p style="margin: -8px 0 20px; color: #6b7280;">Review and manage internship applications</p>
+            <div class="filter-chips" id="statusChips">
+                <button class="app-chip active" data-status="all">All <span id="countAll">0</span></button>
+                <button class="app-chip" data-status="pending">Pending <span id="countPending">0</span></button>
+                <button class="app-chip" data-status="shortlisted">Shortlisted <span id="countShortlisted">0</span></button>
+                <button class="app-chip" data-status="accepted">Accepted <span id="countAccepted">0</span></button>
+                <button class="app-chip" data-status="rejected">Rejected <span id="countRejected">0</span></button>
+            </div>
+
+            <div class="applications-grid" id="applicationsGrid">
+                <!-- Application cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== 4. APPLICATION DETAIL PANEL ===== -->
+    <div id="panelOverlay" class="panel-overlay"></div>
+    <div id="applicationDetailPanel" class="application-modal">
+        <div class="detail-panel-header">
+            <div style="font-weight:800; font-size:16px; color:#1a1a2e">Application Details</div>
+            <button id="closeDetailPanel" class="btn ghost"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="detailPanelBody" class="detail-panel-body"></div>
+        <div class="detail-actions">
+            <button class="btn" id="detailMessageBtn"><i class="fas fa-comment"></i> Message</button>
+            <button class="btn primary" id="detailAcceptBtn"><i class="fas fa-check"></i> Accept</button>
+            <button class="btn" id="detailRejectBtn"><i class="fas fa-times"></i> Reject</button>
+        </div>
+    </div>
+
+    <script src="org-dashboard.js"></script>
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        let APPLICATIONS = [];
+        let COUNTS = {};
+        let CURRENT_STATUS = 'all';
+        let currentUser = null;
+
+        function getAuthHeaders() {
+            const token = localStorage.getItem('token');
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+            return headers;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+            if (!currentUser._id && !currentUser.id) {
+                showNotification('Please login to view applications', 'error');
+                setTimeout(() => window.location.href = 'login-org.html', 2000);
+                return;
+            }
+            loadApplications();
+            setupApplicationInteractions();
+        });
+
+        function showNotification(message, type = 'info') {
+            const existing = document.querySelector('.notification-toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'notification-toast';
+            toast.style.cssText = `
+                position: fixed; top: 20px; right: 20px; padding: 16px 24px;
+                background: ${type === 'error' ? '#fee2e2' : type === 'success' ? '#dcfce7' : '#e0f2fe'};
+                color: ${type === 'error' ? '#b91c1c' : type === 'success' ? '#166534' : '#0369a1'};
+                border-radius: 12px; font-weight: 600; z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15); animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        async function loadApplications() {
+            const grid = document.getElementById('applicationsGrid');
+            grid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 32px; color: #d32f2f;"></i>
+                    <p style="margin-top: 12px; color: #6b7280;">Loading applications...</p>
+                </div>
+            `;
+
+            try {
+                const orgId = currentUser._id || currentUser.id;
+                if (!orgId) {
+                    throw new Error('Please login again to view applications');
+                }
+                const response = await fetch(`${API_BASE}/applications/organization/${orgId}`, {
+                    headers: getAuthHeaders()
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    APPLICATIONS = result.data || [];
+                    COUNTS = result.counts || {};
+                    updateCounts();
+                    renderApplications(APPLICATIONS);
+                } else {
+                    throw new Error(result.message || 'Failed to load applications');
+                }
+            } catch (error) {
+                console.error('Load applications error:', error);
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #d32f2f;"></i>
+                        <h3 style="margin: 16px 0 8px;">Failed to Load Applications</h3>
+                        <p style="color: #6b7280;">${error.message}</p>
+                        <button onclick="loadApplications()" style="margin-top: 16px; padding: 10px 20px; background: #d32f2f; color: white; border: none; border-radius: 8px; cursor: pointer;">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        function updateCounts() {
+            document.getElementById('countAll').textContent = COUNTS.total || 0;
+            document.getElementById('countPending').textContent = COUNTS.pending || 0;
+            document.getElementById('countShortlisted').textContent = COUNTS.shortlisted || 0;
+            document.getElementById('countAccepted').textContent = COUNTS.accepted || 0;
+            document.getElementById('countRejected').textContent = COUNTS.rejected || 0;
+        }
+
+        function renderApplications(applications) {
+            const grid = document.getElementById('applicationsGrid');
+            
+            if (!applications || applications.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                        <i class="fas fa-inbox" style="font-size: 48px; color: #d1d5db;"></i>
+                        <h3 style="margin: 16px 0 8px; color: #374151;">No Applications Yet</h3>
+                        <p style="color: #6b7280;">Applications will appear here when students apply to your internships.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+            applications.forEach(app => {
+                const card = createApplicationCard(app);
+                grid.appendChild(card);
+            });
+        }
+
+        function createApplicationCard(app) {
+            const card = document.createElement('div');
+            card.className = 'application-card';
+            card.setAttribute('data-id', app._id);
+
+            const student = app.studentId || {};
+            const internship = app.internshipId || {};
+            const studentName = student.fullName || 'Unknown Student';
+            const initials = getInitials(studentName);
+            const profilePic = student.profilePicture || '';
+            const statusClass = app.status === 'pending' ? 'status-new' : `status-${app.status}`;
+            const resumeTypeBadge = app.resumeType === 'portfolio' 
+                ? '<span style="background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:700;">Portfolio</span>'
+                : '<span style="background:#fef3c7; color:#b45309; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:700;">Uploaded Resume</span>';
+
+            const avatarHTML = profilePic 
+                ? `<img src="${profilePic}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`
+                : initials;
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="student-avatar" style="overflow:hidden;">${avatarHTML}</div>
+                    <div class="student-info">
+                        <div class="student-name">${studentName}</div>
+                        <div class="student-education">${student.email || ''}</div>
+                    </div>
+                    <div class="status-badge ${statusClass}">
+                        ${app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="internship-title">${internship.title || 'Internship'}</div>
+                    <div style="margin-bottom:8px;">${resumeTypeBadge}</div>
+                    <div class="applied-date">Applied ${formatDate(app.appliedAt)}</div>
+                    ${app.message ? `<div style="margin-top:8px; font-size:13px; color:#4b5563; background:#f9fafb; padding:8px; border-radius:8px; max-height:60px; overflow:hidden;">"${app.message.substring(0, 100)}${app.message.length > 100 ? '...' : ''}"</div>` : ''}
+                </div>
+                <div class="card-footer">
+                    <div class="action-button js-view-detail"><i class="fas fa-eye"></i><span>View</span></div>
+                    ${app.status === 'pending' ? `
+                        <div class="action-button js-shortlist" style="background:#dcfce7; color:#166534;"><i class="fas fa-star"></i><span>Shortlist</span></div>
+                        <div class="action-button primary js-accept"><i class="fas fa-check"></i><span>Accept</span></div>
+                        <div class="action-button js-reject" style="background:#fee2e2; color:#b91c1c;"><i class="fas fa-times"></i><span>Reject</span></div>
+                    ` : app.status === 'shortlisted' ? `
+                        <div class="action-button primary js-accept"><i class="fas fa-check"></i><span>Accept</span></div>
+                        <div class="action-button js-reject" style="background:#fee2e2; color:#b91c1c;"><i class="fas fa-times"></i><span>Reject</span></div>
+                    ` : ''}
+                </div>
+            `;
+            return card;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'Unknown date';
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function getInitials(name) {
+            if (!name) return 'U';
+            return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        }
+
+        function setupApplicationInteractions() {
+            const grid = document.getElementById('applicationsGrid');
+            grid.addEventListener('click', async function(e) {
+                const card = e.target.closest('.application-card');
+                if (!card) return;
+                const id = card.getAttribute('data-id');
+                const app = APPLICATIONS.find(a => a._id === id);
+                if (!app) return;
+
+                if (e.target.closest('.js-view-detail')) {
+                    openApplicationDetail(app, card);
+                } else if (e.target.closest('.js-shortlist')) {
+                    await updateApplicationStatus(id, 'shortlisted', card);
+                } else if (e.target.closest('.js-accept')) {
+                    await updateApplicationStatus(id, 'accepted', card);
+                } else if (e.target.closest('.js-reject')) {
+                    await updateApplicationStatus(id, 'rejected', card);
+                }
+            });
+
+            document.getElementById('panelOverlay').addEventListener('click', closeApplicationDetail);
+            document.getElementById('closeDetailPanel').addEventListener('click', closeApplicationDetail);
+            document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeApplicationDetail(); });
+
+            // Status chips filtering
+            document.querySelectorAll('#statusChips .app-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('#statusChips .app-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    CURRENT_STATUS = chip.getAttribute('data-status');
+                    const filtered = filterByStatus(APPLICATIONS, CURRENT_STATUS);
+                    renderApplications(filtered);
+                });
+            });
+
+            // Sort select
+            document.getElementById('sortSelect').addEventListener('change', (e) => {
+                const filtered = filterByStatus(APPLICATIONS, CURRENT_STATUS);
+                renderApplications(sortApps(filtered, e.target.value));
+            });
+        }
+
+        async function updateApplicationStatus(applicationId, status, cardEl) {
+            const orgId = currentUser._id || currentUser.id;
+
+            let note;
+            if (status === 'rejected') {
+                const input = prompt('Rejection message (will be visible to the student):');
+                if (input === null) return;
+                note = (input || '').trim();
+            }
+
+            const btn = cardEl.querySelector(`.js-${status === 'shortlisted' ? 'shortlist' : status}`);
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                btn.style.pointerEvents = 'none';
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/applications/status/${applicationId}`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ status, organizationId: orgId, note })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    // Update local data
+                    const appIndex = APPLICATIONS.findIndex(a => a._id === applicationId);
+                    if (appIndex !== -1) {
+                        const oldStatus = APPLICATIONS[appIndex].status;
+                        APPLICATIONS[appIndex].status = status;
+                        
+                        // Update counts
+                        if (COUNTS[oldStatus]) COUNTS[oldStatus]--;
+                        if (!COUNTS[status]) COUNTS[status] = 0;
+                        COUNTS[status]++;
+                        updateCounts();
+                    }
+                    
+                    // Re-render filtered view
+                    const filtered = filterByStatus(APPLICATIONS, CURRENT_STATUS);
+                    renderApplications(filtered);
+                    
+                    showNotification(`Application ${status} successfully!`, 'success');
+                } else {
+                    throw new Error(result.message || 'Failed to update status');
+                }
+            } catch (error) {
+                console.error('Update status error:', error);
+                showNotification(error.message || 'Failed to update application status', 'error');
+                if (btn) {
+                    btn.innerHTML = `<i class="fas fa-${status === 'shortlisted' ? 'star' : status === 'accepted' ? 'check' : 'times'}"></i><span>${status.charAt(0).toUpperCase() + status.slice(1)}</span>`;
+                    btn.style.pointerEvents = 'auto';
+                }
+            }
+        }
+
+        function filterByStatus(apps, status) {
+            if (status === 'all') return apps.slice();
+            return apps.filter(a => a.status === status);
+        }
+
+        function sortApps(apps, sortValue) {
+            const copy = apps.slice();
+            if (sortValue && sortValue.includes('Oldest')) {
+                copy.sort((a, b) => new Date(a.appliedAt) - new Date(b.appliedAt));
+            } else {
+                copy.sort((a, b) => new Date(b.appliedAt) - new Date(a.appliedAt));
+            }
+            return copy;
+        }
+
+        function openApplicationDetail(app, cardEl) {
+            const overlay = document.getElementById('panelOverlay');
+            const panel = document.getElementById('applicationDetailPanel');
+            const body = document.getElementById('detailPanelBody');
+
+            const student = app.studentId || {};
+            const internship = app.internshipId || {};
+            const studentName = student.fullName || 'Unknown Student';
+            const initials = getInitials(studentName);
+            const profilePic = student.profilePicture || '';
+
+            const avatarHTML = profilePic 
+                ? `<img src="${profilePic}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`
+                : initials;
+
+            const resumeButton = app.resumeType === 'portfolio' 
+                ? `<button class="btn" onclick="viewPortfolio('${app.portfolioId?._id || app.portfolioId || ''}')"><i class="fas fa-folder-open"></i> View Portfolio</button>`
+                : `<button class="btn" onclick="downloadResume('${app._id}')"><i class="fas fa-download"></i> Download Resume</button>`;
+
+            body.innerHTML = `
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                    <div class="student-avatar" style="width:56px; height:56px; font-size:20px; overflow:hidden;">${avatarHTML}</div>
+                    <div>
+                        <div class="student-name" style="font-size:18px;">${studentName}</div>
+                        <div class="student-education">${student.email || ''}</div>
+                    </div>
+                </div>
+                <div style="margin-bottom:16px; padding:12px; background:#f9fafb; border-radius:10px;">
+                    <div class="internship-title" style="margin-bottom:4px;">${internship.title || 'Internship'}</div>
+                    <div style="font-size:13px; color:#6b7280;">
+                        ${internship.internshipLocation || ''} ${internship.internshipDuration ? '• ' + internship.internshipDuration : ''}
+                    </div>
+                    <div class="applied-date" style="margin-top:8px;">Applied ${formatDate(app.appliedAt)}</div>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <div style="font-weight:800; margin-bottom:8px;">Resume Type</div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        ${app.resumeType === 'portfolio' 
+                            ? '<span style="background:#e0f2fe; color:#0369a1; padding:6px 12px; border-radius:8px; font-weight:700;"><i class="fas fa-id-card"></i> SkillLaunch Portfolio</span>'
+                            : '<span style="background:#fef3c7; color:#b45309; padding:6px 12px; border-radius:8px; font-weight:700;"><i class="fas fa-file-pdf"></i> Uploaded Resume</span>'
+                        }
+                    </div>
+                </div>
+                <div style="margin-bottom:16px;">
+                    ${resumeButton}
+                </div>
+                <div style="margin-bottom:16px;">
+                    <div style="font-weight:800; margin-bottom:8px;">Motivation / Cover Note</div>
+                    <div style="font-size:14px; color:#374151; background:#f9fafb; border:1px solid #e5e7eb; padding:12px; border-radius:10px; line-height:1.6;">
+                        ${app.message || 'No motivation note provided.'}
+                    </div>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <div style="font-weight:800; margin-bottom:8px;">Current Status</div>
+                    <div class="status-badge ${app.status === 'pending' ? 'status-new' : 'status-' + app.status}" style="position:static; display:inline-block;">
+                        ${app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                    </div>
+                </div>
+            `;
+
+            overlay.classList.add('active');
+            panel.classList.add('open');
+
+            // Set up action buttons
+            const acceptBtn = document.getElementById('detailAcceptBtn');
+            const rejectBtn = document.getElementById('detailRejectBtn');
+
+            if (app.status === 'pending' || app.status === 'shortlisted') {
+                acceptBtn.style.display = 'inline-flex';
+                rejectBtn.style.display = 'inline-flex';
+                acceptBtn.onclick = async () => {
+                    await updateApplicationStatus(app._id, 'accepted', cardEl);
+                    closeApplicationDetail();
+                };
+                rejectBtn.onclick = async () => {
+                    await updateApplicationStatus(app._id, 'rejected', cardEl);
+                    closeApplicationDetail();
+                };
+            } else {
+                acceptBtn.style.display = 'none';
+                rejectBtn.style.display = 'none';
+            }
+        }
+
+        function viewPortfolio(portfolioId) {
+            if (!portfolioId) {
+                showNotification('Portfolio not available', 'error');
+                return;
+            }
+            // Open portfolio preview in new tab
+            window.open(`../student/portfolio/portfolio-preview.html?id=${portfolioId}`, '_blank');
+        }
+
+        function downloadResume(applicationId) {
+            const app = (APPLICATIONS || []).find(a => a._id === applicationId);
+            if (!app) {
+                showNotification('Application not found', 'error');
+                return;
+            }
+
+            const uploaded = app.uploadedResume || {};
+            const rawPath = uploaded.path || uploaded.filename || '';
+            if (!rawPath) {
+                showNotification('Uploaded resume not available', 'error');
+                return;
+            }
+
+            const normalized = String(rawPath).replace(/\\/g, '/');
+            const idx = normalized.toLowerCase().lastIndexOf('/uploads/');
+            const publicPath = idx >= 0
+                ? normalized.substring(idx)
+                : normalized.startsWith('uploads/') ? `/${normalized}` : '';
+
+            if (!publicPath) {
+                showNotification('Unable to generate resume download link', 'error');
+                return;
+            }
+
+            const url = `http://localhost:5000${encodeURI(publicPath)}`;
+            window.open(url, '_blank');
+        }
+
+        function closeApplicationDetail() {
+            document.getElementById('panelOverlay').classList.remove('active');
+            document.getElementById('applicationDetailPanel').classList.remove('open');
+        }
+    </script>
+</body>
+</html>
